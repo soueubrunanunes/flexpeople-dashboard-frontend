@@ -23,7 +23,9 @@
 body { font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif; background:var(--bg); color:var(--text); font-size:14px; }
 
 /* APP SHELL / SIDEBAR */
+#scaleOuter { position:relative; width:100%; overflow-x:hidden; }
 .app-shell { display:flex; min-height:100vh; align-items:stretch; }
+.app-shell.scale-locked { position:absolute; top:0; left:0; transform-origin:top left; }
 .sidebar { width:68px; flex-shrink:0; background:#0d0620; border-right:1px solid var(--border); padding:22px 10px; display:flex; flex-direction:column; gap:3px; position:fixed; left:0; top:0; height:100vh; overflow-x:hidden; overflow-y:auto; z-index:500; transition:width .2s ease; }
 .sidebar:hover { width:222px; box-shadow:10px 0 32px -10px rgba(0,0,0,.6); }
 .sidebar-logo { display:flex; align-items:center; gap:10px; padding:4px 10px 22px; }
@@ -237,6 +239,7 @@ td { padding:8px; border-top:1px solid var(--border); }
     </form>
 </div>
 
+<div id="scaleOuter">
 <div class="app-shell" id="appShell" style="display:none;">
 <div class="sidebar">
     <div class="sidebar-logo"><div class="dot-badge">🧬</div><div class="txt">Flex People</div></div>
@@ -514,6 +517,7 @@ td { padding:8px; border-top:1px solid var(--border); }
     </div>
 </div>
 
+</div>
 </div>
 </div>
 
@@ -2251,16 +2255,60 @@ async function apiFetch(path, opts={}){
     return res;
 }
 
+// Trava o layout num tamanho de "design" fixo (1600px) e aplica um zoom (CSS transform)
+// pra caber na tela real, em vez de deixar os cards se reorganizarem sozinhos.
+// Isso garante que o dashboard fique com a MESMA aparência relativa em qualquer
+// computador, resolução ou projetor — só muda o tamanho geral, nunca a disposição.
+// Abaixo de MOBILE_BREAKPOINT (mesmo valor do @media já existente no CSS), a trava
+// é desligada e o layout responsivo original (empilhado) volta a valer, pro celular.
+const SCALE_DESIGN_WIDTH = 1600;
+const SCALE_MOBILE_BREAKPOINT = 900;
+let _currentScale = 1;
+function applyScaleLock(){
+    const stage = document.getElementById('appShell');
+    const outer = document.getElementById('scaleOuter');
+    if (!stage || !outer) return;
+    if (stage.style.display === 'none'){ outer.style.height=''; return; }
+    if (window.innerWidth < SCALE_MOBILE_BREAKPOINT){
+        stage.classList.remove('scale-locked');
+        stage.style.width=''; stage.style.transform='';
+        outer.style.height='';
+        _currentScale = 1;
+        return;
+    }
+    stage.classList.add('scale-locked');
+    stage.style.width = SCALE_DESIGN_WIDTH+'px';
+    _currentScale = window.innerWidth / SCALE_DESIGN_WIDTH;
+    stage.style.transform = 'scale('+_currentScale+')';
+    outer.style.height = (stage.scrollHeight * _currentScale)+'px';
+}
+window.addEventListener('resize', applyScaleLock);
+window.addEventListener('load', applyScaleLock);
+if (window.ResizeObserver){
+    document.addEventListener('DOMContentLoaded', function(){
+        const stage = document.getElementById('appShell');
+        if (!stage) return;
+        new ResizeObserver(function(){
+            const outer = document.getElementById('scaleOuter');
+            if (outer && stage.style.display!=='none' && window.innerWidth>=SCALE_MOBILE_BREAKPOINT){
+                outer.style.height = (stage.scrollHeight * _currentScale)+'px';
+            }
+        }).observe(stage);
+    });
+}
+
 function showLoginScreen(errorMsg){
     document.getElementById('loginOverlay').style.display='flex';
     document.getElementById('appShell').style.display='none';
     const el=document.getElementById('loginError');
     if (errorMsg){ el.textContent=errorMsg; el.style.display='block'; }
     else { el.style.display='none'; }
+    applyScaleLock();
 }
 function showDashboard(){
     document.getElementById('loginOverlay').style.display='none';
     document.getElementById('appShell').style.display='flex';
+    applyScaleLock();
 }
 function applyRoleUI(role){
     const isMaster = role==='master';
