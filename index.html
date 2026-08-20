@@ -387,7 +387,13 @@ td { padding:8px; border-top:1px solid var(--border); }
         <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;align-items:start;">
             <div class="card">
                 <div class="card-head"><div><div class="card-title">Funil de Contratação</div><div class="card-subtitle">Pipeline de talentos</div></div>
-                <select class="card-select"><option>Este trimestre</option></select></div>
+                <select class="card-select" id="funilPeriodoSelect">
+                    <option value="">Todos os meses</option>
+                    <option value="1">Jan</option><option value="2">Fev</option><option value="3">Mar</option>
+                    <option value="4">Abr</option><option value="5">Mai</option><option value="6">Jun</option>
+                    <option value="7">Jul</option><option value="8">Ago</option><option value="9">Set</option>
+                    <option value="10">Out</option><option value="11">Nov</option><option value="12">Dez</option>
+                </select></div>
                 <div id="funilContratacaoNote" style="font-size:10.5px;color:var(--text3);margin-bottom:10px;"></div>
                 <div style="display:flex;align-items:center;gap:18px;flex:1;">
                     <div class="chart-box" style="flex:0 0 220px;height:261px;min-height:261px;"><canvas id="chartFunilContratacao"></canvas></div>
@@ -772,8 +778,17 @@ function showTip(html,x,y){ tooltipEl.innerHTML=html; tooltipEl.style.left=(x+14
 function hideTip(){ tooltipEl.style.display='none'; }
 function setupCanvas(canvas){
     const dpr=window.devicePixelRatio||1;
+    // canvas.getBoundingClientRect() devolve o tamanho JÁ visual, depois do zoom automático de
+    // tela (scale-lock) aplicado no #appShell — mas o canvas precisa desenhar na resolução do seu
+    // tamanho ORIGINAL (antes do zoom), senão o desenho fica borrado (some para nítido só quando a
+    // tela tem exatamente a largura "de design" do dashboard, 1600px). Por isso desfazemos o zoom
+    // aqui antes de calcular a resolução do desenho.
+    // Usa window._currentScale (em vez de uma variável comum) de propósito: essa função pode ser
+    // chamada bem cedo, antes do resto do script terminar de carregar, e ler uma propriedade do
+    // window nunca quebra (só devolve "undefined"), diferente de uma variável ainda não declarada.
+    const scale = window._currentScale || 1;
     const rect=canvas.getBoundingClientRect();
-    const w=Math.max(rect.width,60), h=Math.max(rect.height,60);
+    const w=Math.max(rect.width/scale,60), h=Math.max(rect.height/scale,60);
     canvas.width=w*dpr; canvas.height=h*dpr;
     const ctx=canvas.getContext('2d');
     ctx.setTransform(dpr,0,0,dpr,0,0);
@@ -1193,13 +1208,14 @@ document.getElementById('uploadEntrevistas').addEventListener('change', async fu
     }
 });
 
-function renderFunilInto(canvasId, listId, noteId){
+function renderFunilInto(canvasId, listId, noteId, dataList){
     let stages;
     const noteEl = document.getElementById(noteId);
-    if (entrevistasData.length){
+    const source = dataList || entrevistasData;
+    if (source.length){
         const rank = {CANDIDATO:0, ENTREVISTA:1, PROPOSTA:2, CONTRATADO:3};
         const counts=[0,0,0,0];
-        entrevistasData.forEach(r=>{
+        source.forEach(r=>{
             const lvl = rank[r.etapa];
             if (lvl===undefined) return;
             for (let i=0;i<=lvl;i++) counts[i]++;
@@ -1211,10 +1227,10 @@ function renderFunilInto(canvasId, listId, noteId){
             {label:'Contratações', value:counts[3]},
         ];
         if (noteEl){
-            noteEl.textContent = `✅ ${entrevistasData.length} registros carregados da base de entrevistas`;
+            noteEl.textContent = `✅ ${source.length} registros carregados da base de entrevistas`;
             noteEl.style.color = 'var(--green)';
         }
-    } else {
+    } else if (!entrevistasData.length) {
         stages=[
             {label:'Candidatos', value:320},
             {label:'Entrevistas', value:92},
@@ -1223,6 +1239,18 @@ function renderFunilInto(canvasId, listId, noteId){
         ];
         if (noteEl){
             noteEl.textContent = '⚠️ Dados ilustrativos — carregue a base de entrevistas para calcular com números reais';
+            noteEl.style.color = 'var(--text3)';
+        }
+    } else {
+        // Há base de entrevistas carregada, mas nenhum registro caiu no mês escolhido no filtro.
+        stages=[
+            {label:'Candidatos', value:0},
+            {label:'Entrevistas', value:0},
+            {label:'Propostas', value:0},
+            {label:'Contratações', value:0},
+        ];
+        if (noteEl){
+            noteEl.textContent = '⚠️ Nenhum registro da base de entrevistas nesse mês.';
             noteEl.style.color = 'var(--text3)';
         }
     }
@@ -1236,11 +1264,17 @@ function renderFunilInto(canvasId, listId, noteId){
 }
 
 function renderFunilContratacao(){
-    renderFunilInto('chartFunilContratacao','funilContratacaoList','funilContratacaoNote');
+    // O seletor de mês do card "Funil de Contratação" (Visão Geral) filtra pela DATA_ENTREVISTA
+    // de cada registro da base de entrevistas. "Todos os meses" (valor vazio) mantém tudo, como antes.
+    const selEl = document.getElementById('funilPeriodoSelect');
+    const mesSel = selEl ? selEl.value : '';
+    const dataGeral = mesSel ? entrevistasData.filter(r => r.data && (r.data.getMonth()+1)===parseInt(mesSel)) : entrevistasData;
+    renderFunilInto('chartFunilContratacao','funilContratacaoList','funilContratacaoNote', dataGeral);
     if (document.getElementById('chartFunilContratacaoMetas')){
         renderFunilInto('chartFunilContratacaoMetas','funilContratacaoListMetas','funilContratacaoNoteMetas');
     }
 }
+document.getElementById('funilPeriodoSelect') && document.getElementById('funilPeriodoSelect').addEventListener('change', renderFunilContratacao);
 
 function initFilters(){
     const years=new Set();
@@ -1853,7 +1887,7 @@ function renderRiscosView(entradasArr, ativos, desligadosArr){
             // de tela aplicado pelo scale-lock), mas "style.height" é lido ANTES desse zoom —
             // por isso precisa desfazer a escala aqui, senão o card fica maior que devia
             // (as vezes achatado, as vezes sobrando espaço) dependendo do tamanho da tela.
-            const leftH = leftCol.getBoundingClientRect().height / (typeof _currentScale!=='undefined' && _currentScale ? _currentScale : 1);
+            const leftH = leftCol.getBoundingClientRect().height / (window._currentScale || 1);
             motCard.style.height = leftH + 'px';
             const motivos2={};
             desligadosArr.forEach(r=>{ const k=r.motivo||'Sem registro'; motivos2[k]=(motivos2[k]||0)+1; });
@@ -2282,7 +2316,7 @@ async function apiFetch(path, opts={}){
 // é desligada e o layout responsivo original (empilhado) volta a valer, pro celular.
 const SCALE_DESIGN_WIDTH = 1600;
 const SCALE_MOBILE_BREAKPOINT = 900;
-let _currentScale = 1;
+window._currentScale = 1;
 function applyScaleLock(){
     const stage = document.getElementById('appShell');
     const outer = document.getElementById('scaleOuter');
@@ -2292,14 +2326,14 @@ function applyScaleLock(){
         stage.classList.remove('scale-locked');
         stage.style.width=''; stage.style.transform='';
         outer.style.height='';
-        _currentScale = 1;
+        window._currentScale = 1;
         return;
     }
     stage.classList.add('scale-locked');
     stage.style.width = SCALE_DESIGN_WIDTH+'px';
-    _currentScale = window.innerWidth / SCALE_DESIGN_WIDTH;
-    stage.style.transform = 'scale('+_currentScale+')';
-    outer.style.height = (stage.scrollHeight * _currentScale)+'px';
+    window._currentScale = window.innerWidth / SCALE_DESIGN_WIDTH;
+    stage.style.transform = 'scale('+window._currentScale+')';
+    outer.style.height = (stage.scrollHeight * window._currentScale)+'px';
 }
 window.addEventListener('resize', applyScaleLock);
 window.addEventListener('load', applyScaleLock);
@@ -2310,7 +2344,7 @@ if (window.ResizeObserver){
         new ResizeObserver(function(){
             const outer = document.getElementById('scaleOuter');
             if (outer && stage.style.display!=='none' && window.innerWidth>=SCALE_MOBILE_BREAKPOINT){
-                outer.style.height = (stage.scrollHeight * _currentScale)+'px';
+                outer.style.height = (stage.scrollHeight * window._currentScale)+'px';
             }
         }).observe(stage);
     });
