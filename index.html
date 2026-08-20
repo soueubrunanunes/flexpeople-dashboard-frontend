@@ -1106,8 +1106,32 @@ let insightsGenerated = false;
 const MONTHS=['Jan','Fev','Mar','Abr','Mai','Jun','Jul','Ago','Set','Out','Nov','Dez'];
 
 function showMessage(t,type){ const el=document.getElementById('message'); el.textContent=t; el.className='message'+(type?' '+type:''); }
-function excelSerialToDate(s){ return new Date(Math.floor(s-25569)*86400*1000); }
-function parseDate(v){ if(!v&&v!==0) return null; if(v instanceof Date) return v; if(typeof v==='number'){const d=excelSerialToDate(v); return isNaN(d)?null:d;} if(typeof v==='string'){const d=new Date(v); return isNaN(d)?null:d;} return null; }
+// Monta a data já no fuso LOCAL do navegador. Antes isso vinha de "new Date(epochUTC)" puro, que
+// representa meia-noite em UTC — em fusos negativos (Brasil, -03:00) isso "empurra" a data pro dia
+// anterior quando lida com getMonth()/getDate() (que leem em horário local), e se a data original
+// era dia 1º de algum mês, ela virava o mês anterior inteiro. Isso fazia registros de "01/08" (por
+// exemplo) sumirem do filtro de Agosto mesmo estando certos na planilha.
+function excelSerialToDate(s){
+    const utc = new Date(Math.round((s-25569)*86400*1000));
+    return new Date(utc.getUTCFullYear(), utc.getUTCMonth(), utc.getUTCDate());
+}
+function parseDate(v){
+    if(!v&&v!==0) return null;
+    if(v instanceof Date) return v;
+    if(typeof v==='number'){ const d=excelSerialToDate(v); return isNaN(d)?null:d; }
+    if(typeof v==='string'){
+        const s=v.trim();
+        // "AAAA-MM-DD" sem hora — o Date() nativo trata isso como meia-noite UTC, sujeito ao
+        // mesmo problema de fuso horário descrito acima. Monta local em vez de deixar o nativo decidir.
+        const iso = s.match(/^(\d{4})-(\d{2})-(\d{2})$/);
+        if (iso){ const d=new Date(Number(iso[1]), Number(iso[2])-1, Number(iso[3])); return isNaN(d)?null:d; }
+        // "DD/MM/AAAA" ou "DD-MM-AAAA" (formato comum de planilha brasileira)
+        const br = s.match(/^(\d{1,2})[\/\-](\d{1,2})[\/\-](\d{4})$/);
+        if (br){ const d=new Date(Number(br[3]), Number(br[2])-1, Number(br[1])); return isNaN(d)?null:d; }
+        const d=new Date(s); return isNaN(d)?null:d;
+    }
+    return null;
+}
 function getAge(b){ if(!b) return null; const t=new Date(); let a=t.getFullYear()-b.getFullYear(); const m=t.getMonth()-b.getMonth(); if(m<0||(m===0&&t.getDate()<b.getDate())) a--; return a; }
 function monthsBetween(start,end){ if(!start) return 0; const e=end||new Date(); return (e.getFullYear()-start.getFullYear())*12+(e.getMonth()-start.getMonth()); }
 // Converte um tempo médio em meses (ex: 14.1) para "1 ano e 2 meses" em vez de "1.2 anos",
