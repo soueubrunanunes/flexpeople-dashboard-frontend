@@ -1268,6 +1268,10 @@ function renderFunilContratacao(){
     // de cada registro da base de entrevistas. "Todos os meses" (valor vazio) mantém tudo, como antes.
     const selEl = document.getElementById('funilPeriodoSelect');
     const mesSel = selEl ? selEl.value : '';
+    // Cada linha da base de entrevistas precisa ter a DATA_ENTREVISTA preenchida — inclusive quem
+    // ficou só em "Candidato" (essa data representa o mês do contato, não necessariamente uma
+    // entrevista de fato). Sem isso, não tem como saber a qual mês aquele candidato pertence, e ele
+    // fica de fora do filtro por mês (o que é o comportamento certo: sem data, sem mês).
     const dataGeral = mesSel ? entrevistasData.filter(r => r.data && (r.data.getMonth()+1)===parseInt(mesSel)) : entrevistasData;
     renderFunilInto('chartFunilContratacao','funilContratacaoList','funilContratacaoNote', dataGeral);
     if (document.getElementById('chartFunilContratacaoMetas')){
