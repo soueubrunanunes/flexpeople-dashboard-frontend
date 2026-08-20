@@ -2309,6 +2309,14 @@ async function apiFetch(path, opts={}){
         showLoginScreen('Sessão expirada. Faça login novamente.');
         throw new Error('Sessão expirada.');
     }
+    if (!res.ok){
+        // Antes isso passava batido (só 401 virava erro) e uma falha ao SALVAR no servidor
+        // ficava muda: os dados ficavam certos na tela, mas não persistiam, e o próximo
+        // F5/login trazia de volta a última versão que tinha sido salva com sucesso.
+        let msg = 'Erro '+res.status+' no servidor.';
+        try { const j = await res.clone().json(); if (j && j.error) msg = j.error; } catch(e){}
+        throw new Error(msg);
+    }
     return res;
 }
 
