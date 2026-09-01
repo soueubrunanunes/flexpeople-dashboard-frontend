@@ -284,6 +284,7 @@ td { padding:8px; border-top:1px solid var(--border); }
             <div class="kpi-top"><div class="kpi-icon" style="background:rgba(96,165,250,.18);color:var(--blue)">👥</div><div class="kpi-label">Colaboradores Ativos</div></div>
             <div class="kpi-value" id="kpiHeadcount">-</div>
             <div class="kpi-delta" id="kpiHeadcountDelta"></div>
+            <div class="kpi-delta" id="kpiHeadcountFalta"></div>
             <div class="kpi-spark"><canvas id="sparkHeadcount"></canvas></div>
         </div>
         <div class="kpi-card">
@@ -1101,6 +1102,7 @@ function FunnelChart(canvasId, stages){
 /* ============ LÓGICA DO DASHBOARD ============ */
 let globalData = [];
 let entrevistasData = [];
+const HEADCOUNT_META = 60; // 4 supervisores x 15 pessoas cada — usado no card de KPI e na Meta de Headcount
 let metasContratacaoData = [];
 let insightsGenerated = false;
 const MONTHS=['Jan','Fev','Mar','Abr','Mai','Jun','Jul','Ago','Set','Out','Nov','Dez'];
@@ -1625,7 +1627,7 @@ function renderMetasView(entradasArr, ativos, desligadosArr){
     const turnoverAtual = calcTurnover(ativos, desligadosArr).turnover;
     const turnoverMeta = 15;
     const headcountAtual = ativos.length;
-    const headcountMeta = 60; // 4 supervisores x 15 pessoas cada
+    const headcountMeta = HEADCOUNT_META;
 
     const today=new Date();
     const cohort90 = globalData.filter(r=>r.dtInicio && r.dtInicio<=new Date(today.getTime()-90*86400000));
@@ -1961,6 +1963,8 @@ function renderKPIs(entradasArr, ativos, desligadosArr){
     document.getElementById('kpiTurnover').textContent = turnover.toFixed(1)+'%';
 
     setDelta('kpiHeadcountDelta', `Total ativo no escopo filtrado`, true, true);
+    const faltamMeta = HEADCOUNT_META - headcount;
+    setDelta('kpiHeadcountFalta', faltamMeta > 0 ? `Faltam ${faltamMeta} para a meta de ${HEADCOUNT_META}` : `Meta de ${HEADCOUNT_META} atingida`, true, true);
     setDelta('kpiIdadeDelta', `Baseado em ${ativos.length} ativos`, true, true);
     setDelta('kpiTempoDelta', `Baseado em ${ativos.length} ativos`, true, true);
     setDelta('kpiEntradasDelta', `Entradas no período filtrado`, true, true);
