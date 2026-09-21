@@ -1300,11 +1300,19 @@ function renderFunilContratacao(){
     // fica de fora do filtro por mês (o que é o comportamento certo: sem data, sem mês).
     const dataGeral = mesSel ? entrevistasData.filter(r => r.data && (r.data.getMonth()+1)===parseInt(mesSel)) : entrevistasData;
     renderFunilInto('chartFunilContratacao','funilContratacaoList','funilContratacaoNote', dataGeral);
-    if (document.getElementById('chartFunilContratacaoMetas')){
-        renderFunilInto('chartFunilContratacaoMetas','funilContratacaoListMetas','funilContratacaoNoteMetas');
-    }
+    renderFunilContratacaoMetas();
 }
 document.getElementById('funilPeriodoSelect') && document.getElementById('funilPeriodoSelect').addEventListener('change', renderFunilContratacao);
+
+// Funil de Contratação da aba "Metas" — usa o filtro de Mês/Ano do topo dessa página (o mesmo que
+// filtra os outros cards de Metas), não o seletor "funilPeriodoSelect" da Visão Geral. Antes esse
+// gráfico não reagia a esse filtro (sempre mostrava a base inteira); agora respeita o mesmo período.
+function renderFunilContratacaoMetas(){
+    if (!document.getElementById('chartFunilContratacaoMetas')) return;
+    const bounds = getPeriodBounds();
+    const dataMetas = bounds ? entrevistasData.filter(r => r.data && r.data>=bounds.start && r.data<=bounds.end) : entrevistasData;
+    renderFunilInto('chartFunilContratacaoMetas','funilContratacaoListMetas','funilContratacaoNoteMetas', dataMetas);
+}
 
 function initFilters(){
     const years=new Set();
@@ -1455,6 +1463,7 @@ function renderAll(){
 
     renderEquipesView(entradas, ativos, inativos);
     renderMetasView(entradas, ativos, inativos);
+    renderFunilContratacaoMetas();
     renderDiversidadeView(ativos);
     renderRiscosView(entradas, ativos, inativos);
 }
@@ -1496,7 +1505,7 @@ function showView(name){
         if (name==='equipes') renderEquipesView(entradas, ativos, inativos);
         if (name==='metas'){
             renderMetasView(entradas, ativos, inativos);
-            if (document.getElementById('chartFunilContratacaoMetas')) renderFunilInto('chartFunilContratacaoMetas','funilContratacaoListMetas','funilContratacaoNoteMetas');
+            renderFunilContratacaoMetas();
         }
         if (name==='diversidade') renderDiversidadeView(ativos);
         if (name==='riscos') renderRiscosView(entradas, ativos, inativos);
