@@ -62,6 +62,7 @@ body { font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif; backg
 
 @media (max-width:900px) {
     .sup-grid { grid-template-columns:1fr; }
+    .row.div-top { grid-template-columns:1fr; }
     .app-shell { flex-direction:column; }
     .sidebar { width:100%; height:auto; position:relative; flex-direction:row; overflow-x:auto; padding:12px; }
     .sidebar:hover { width:100%; box-shadow:none; }
@@ -132,6 +133,7 @@ body { font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif; backg
 .row-3 { grid-template-columns:1.2fr 1fr 1.1fr; }
 .row-4 { grid-template-columns:0.9fr 1fr 1.3fr 1fr; }
 .row-3b { grid-template-columns:1fr 1fr 1fr; }
+.row.div-top { grid-template-columns:1fr 1fr 1.5fr; } /* Diversidade: Gênero · Raça/Cor · Faixas Etárias (a última mais larga p/ manter o gráfico de bolinhas legível) */
 .row-3c { grid-template-columns:0.9fr 1fr 1fr; }
 
 .card { background:linear-gradient(160deg,var(--card) 0%,var(--card2) 100%); border:1px solid var(--border); border-radius:18px; padding:18px; display:flex; flex-direction:column; }
@@ -224,6 +226,9 @@ td { padding:8px; border-top:1px solid var(--border); }
 .legend-side-item { display:flex; align-items:flex-start; gap:9px; }
 .legend-side-label { font-size:15px; font-weight:700; color:#fff; margin-bottom:3px; }
 .legend-side-val { font-size:14px; font-weight:700; }
+.legend-compact .legend-side { gap:7px; }
+.legend-compact .legend-side-label { font-size:13px; margin-bottom:0; }
+.legend-compact .legend-side-val { font-size:12.5px; }
 
 @media (max-width:1400px) {
     .kpi-column, .kpi-evolution-card { flex-basis:100%; }
@@ -472,11 +477,17 @@ td { padding:8px; border-top:1px solid var(--border); }
 
 <!-- VIEW: Diversidade -->
 <div class="container view" id="view-diversidade">
-    <div class="row row-3b" style="grid-template-columns:1fr 1fr;align-items:start;">
+    <div class="row row-3b div-top" style="align-items:stretch;">
         <div class="card">
             <div class="card-head"><div><div class="card-title">Diversidade de Gênero</div><div class="card-subtitle">Headcount ativo no escopo filtrado</div></div></div>
             <div style="display:flex;align-items:center;gap:16px;">
                 <div class="chart-box" style="flex:0 0 230px;height:230px;min-height:230px;"><canvas id="chartGeneroDiv"></canvas></div>
+            </div>
+        </div>
+        <div class="card">
+            <div class="card-head"><div><div class="card-title">Raça / Cor</div><div class="card-subtitle">Autodeclaração dos ativos</div></div></div>
+            <div class="legend-compact" style="display:flex;align-items:center;gap:16px;">
+                <div class="chart-box" style="flex:0 0 230px;height:230px;min-height:230px;"><canvas id="chartRacaDiv"></canvas></div>
             </div>
         </div>
         <div class="card">
@@ -599,6 +610,19 @@ function applyLucide(root){
 new MutationObserver(()=>applyLucide()).observe(document.documentElement,{childList:true,subtree:true});
 document.addEventListener('DOMContentLoaded',()=>applyLucide());
 applyLucide();
+// Coluna RAÇA (ou RACA / RAÇA/COR / COR): normaliza para uma das categorias fixas, ignorando acento e maiúscula.
+// Vazio ou qualquer valor fora da lista vira "NÃO INFORMADO".
+function parseRaca(row){
+    const strip = v => String(v==null?'':v).normalize('NFD').replace(/[\u0300-\u036f]/g,'').trim().toUpperCase();
+    const key = Object.keys(row).find(k=>{ const h=strip(k); return h==='RACA' || h==='RACA/COR' || h==='RACA / COR' || h==='COR'; });
+    const v = key ? strip(row[key]) : '';
+    if (v.startsWith('BRANC')) return 'BRANCA';
+    if (v.startsWith('PRET'))  return 'PRETA';
+    if (v.startsWith('PARD'))  return 'PARDA';
+    if (v.startsWith('AMAREL')) return 'AMARELA';
+    if (v.startsWith('INDIG')) return 'INDÍGENA';
+    return 'NÃO INFORMADO';
+}
 function colLetters(ref){const m=/^([A-Z]+)/.exec(ref);return m?m[1]:'';}
 // Cabeçalhos esperados (usados para localizar automaticamente a linha de cabeçalho
 // e a planilha correta, mesmo que o arquivo tenha linhas de título extras ou várias abas)
@@ -1182,7 +1206,8 @@ document.getElementById('uploadFile').addEventListener('change', async function(
             nome: (row['NOME']||'').toString().trim(), genero: norm(row['GÊNERO']), dtNasc: parseDate(row['DT_NASC']),
             canal: norm(row['CANAL']), status: norm(row['STATUS']), dtInicio: parseDate(row['DT_INÍCIO']),
             dtSaida: parseDate(row['DT_SAÍDA']), tipoSaida: norm(row['TIPO_SAÍDA']), motivo: (row['MOTIVO']||'').toString().trim(),
-            supervisor: (row['SUPERVISOR']||'').toString().trim(), curso: norm(row['CURSO']), statusCurso: norm(row['SUPERIOR'])
+            supervisor: (row['SUPERVISOR']||'').toString().trim(), curso: norm(row['CURSO']), statusCurso: norm(row['SUPERIOR']),
+            raca: parseRaca(row)
         })).filter(r=>r.nome);
         if (!globalData.length){ showMessage('⚠️ Nenhum registro válido encontrado. Verifique os nomes das colunas.','error'); return; }
         const nAtivo = globalData.filter(r=>r.status==='ATIVO').length;
@@ -1743,6 +1768,18 @@ function renderDiversidadeView(ativos){
     const labels=['Feminino','Masculino'], data=[fem,masc], colors=['#ec4899','#60a5fa'];
     if (outros>0){ labels.push('Não informado'); data.push(outros); colors.push('#6b6885'); }
     DoughnutChart('chartGeneroDiv', labels, data, colors, {legend:'side', centerLabel:'ativos'});
+
+    // Raça / Cor — mesma rosca do Gênero; só aparecem as categorias que têm gente, da maior pra menor ("Não informado" sempre por último).
+    const RACA_DEF=[
+        {key:'PARDA',label:'Parda',color:'#a855f7'},{key:'BRANCA',label:'Branca',color:'#22d3ee'},
+        {key:'PRETA',label:'Preta',color:'#4ade80'},{key:'AMARELA',label:'Amarela',color:'#fbbf24'},
+        {key:'INDÍGENA',label:'Indígena',color:'#fb923c'}
+    ];
+    const racaItems = RACA_DEF.map(d=>({...d, n:ativos.filter(r=>r.raca===d.key).length}))
+        .filter(d=>d.n>0).sort((a,b)=>b.n-a.n);
+    const racaNI = ativos.length - racaItems.reduce((a,d)=>a+d.n,0);
+    if (racaNI>0) racaItems.push({label:'Não informado',color:'#6b6885',n:racaNI});
+    DoughnutChart('chartRacaDiv', racaItems.map(d=>d.label), racaItems.map(d=>d.n), racaItems.map(d=>d.color), {legend:'side', centerLabel:'ativos'});
 
     const buckets=[{label:'<25',min:0,max:24,color:'#22d3ee'},{label:'25-34',min:25,max:34,color:'#60a5fa'},{label:'35-44',min:35,max:44,color:'#8b5cf6'},{label:'45-54',min:45,max:54,color:'#a855f7'},{label:'55+',min:55,max:200,color:'#ec4899'}];
     const idadePontos = ativos.map(r=>({age:getAge(r.dtNasc), nome:r.nome})).filter(p=>p.age!=null).map(p=>{
