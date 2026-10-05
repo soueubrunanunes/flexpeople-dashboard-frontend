@@ -617,7 +617,7 @@ function parseRaca(row){
     const key = Object.keys(row).find(k=>{ const h=strip(k); return h==='RACA' || h==='RACA/COR' || h==='RACA / COR' || h==='COR'; });
     const v = key ? strip(row[key]) : '';
     if (v.startsWith('BRANC')) return 'BRANCA';
-    if (v.startsWith('PRET'))  return 'PRETA';
+    if (v.startsWith('PRET') || v.startsWith('NEGR')) return 'NEGRA'; // aceita PRETA/PRETO/NEGRA/NEGRO
     if (v.startsWith('PARD'))  return 'PARDA';
     if (v.startsWith('AMAREL')) return 'AMARELA';
     if (v.startsWith('INDIG')) return 'INDÍGENA';
@@ -1772,7 +1772,7 @@ function renderDiversidadeView(ativos){
     // Raça / Cor — mesma rosca do Gênero; só aparecem as categorias que têm gente, da maior pra menor ("Não informado" sempre por último).
     const RACA_DEF=[
         {key:'PARDA',label:'Parda',color:'#a855f7'},{key:'BRANCA',label:'Branca',color:'#22d3ee'},
-        {key:'PRETA',label:'Preta',color:'#4ade80'},{key:'AMARELA',label:'Amarela',color:'#fbbf24'},
+        {key:'NEGRA',label:'Negra',color:'#4ade80'},{key:'AMARELA',label:'Amarela',color:'#fbbf24'},
         {key:'INDÍGENA',label:'Indígena',color:'#fb923c'}
     ];
     const racaItems = RACA_DEF.map(d=>({...d, n:ativos.filter(r=>r.raca===d.key).length}))
