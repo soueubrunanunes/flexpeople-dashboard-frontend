@@ -226,6 +226,19 @@ td { padding:8px; border-top:1px solid var(--border); }
 .legend-side-item { display:flex; align-items:flex-start; gap:9px; }
 .legend-side-label { font-size:15px; font-weight:700; color:#fff; margin-bottom:3px; }
 .legend-side-val { font-size:14px; font-weight:700; }
+.cg-bar { display:flex; align-items:center; gap:12px; margin:9px 0; font-size:13px; }
+.cg-bar .n { width:230px; color:var(--text2); white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+.cg-bar .tr { flex:1; height:12px; background:rgba(255,255,255,.06); border-radius:6px; overflow:hidden; }
+.cg-bar .tr span { display:block; height:100%; border-radius:6px; }
+.cg-bar .v { width:92px; text-align:right; font-weight:600; }
+.cg-table { width:100%; border-collapse:collapse; font-size:13px; }
+.cg-table th { text-align:left; color:var(--text3); font-weight:600; font-size:11.5px; text-transform:uppercase; letter-spacing:.4px; padding:8px 10px; border-bottom:1px solid var(--border); }
+.cg-table td { padding:10px; border-bottom:1px solid rgba(255,255,255,.05); color:var(--text2); }
+.cg-table td.cg-cargo { color:#fff; font-weight:600; }
+.cg-table tr.cg-row { cursor:pointer; }
+.cg-table tr.cg-row:hover td { background:rgba(255,255,255,.03); }
+.cg-names { display:flex; flex-wrap:wrap; gap:6px; padding:6px 0 4px; }
+.cg-names span { background:var(--card2); border:1px solid var(--border); border-radius:14px; padding:4px 10px; font-size:12px; color:#fff; }
 .legend-compact .legend-side { gap:7px; }
 .legend-compact .legend-side-label { font-size:13px; margin-bottom:0; }
 .legend-compact .legend-side-val { font-size:12.5px; }
@@ -258,6 +271,9 @@ td { padding:8px; border-top:1px solid var(--border); }
     <div class="nav-item" data-view="equipes"><span class="nav-ico"><i data-lucide="users"></i></span><span class="nav-label">Equipes</span></div>
     <div class="nav-item" data-view="metas"><span class="nav-ico"><i data-lucide="target"></i></span><span class="nav-label">Metas</span></div>
     <div class="nav-item" data-view="diversidade"><span class="nav-ico"><i data-lucide="palette"></i></span><span class="nav-label">Diversidade</span></div>
+    <div class="nav-item" data-view="cargos"><span class="nav-ico"><i data-lucide="briefcase"></i></span><span class="nav-label">Cargos</span></div>
+    <!-- Performance congelada por enquanto: para liberar, apague o style="display:none;" da linha abaixo -->
+    <div class="nav-item" data-view="performance" style="display:none;"><span class="nav-ico"><i data-lucide="chart-line"></i></span><span class="nav-label">Performance</span></div>
     <div class="nav-item" data-view="riscos"><span class="nav-ico"><i data-lucide="triangle-alert"></i></span><span class="nav-label">Riscos</span></div>
 </div>
 <div class="main-content">
@@ -270,6 +286,7 @@ td { padding:8px; border-top:1px solid var(--border); }
     <div class="header-right">
         <label class="upload-pill" id="uploadFilePill"><i data-lucide="upload"></i> Carregar Excel<input type="file" id="uploadFile" accept=".xlsx,.xls" /></label>
         <label class="upload-pill" id="uploadEntrevistasPill"><i data-lucide="folder-open"></i> Base de Entrevistas<input type="file" id="uploadEntrevistas" accept=".xlsx,.xls" /></label>
+        <label class="upload-pill" id="uploadCargosPill" style="display:none;"><i data-lucide="briefcase"></i> Base de Cargos<input type="file" id="uploadCargos" accept=".xlsx,.xls" /></label>
         <div class="pill" id="roleBadge"><span class="dot"></span>—</div>
         <button class="logout-btn" id="logoutBtn" type="button">Sair</button>
     </div>
@@ -509,6 +526,25 @@ td { padding:8px; border-top:1px solid var(--border); }
     </div>
 </div>
 
+<!-- VIEW: Cargos -->
+<div class="container view" id="view-cargos">
+    <div class="kpi-row" id="cargosKpis"></div>
+    <div class="card" style="margin-bottom:14px;">
+        <div class="card-head"><div><div class="card-title">Pessoas por Cargo</div><div class="card-subtitle" id="cargosBarsSub">Quadro completo da empresa</div></div></div>
+        <div id="cargosBars"></div>
+    </div>
+    <div class="card">
+        <div class="card-head"><div><div class="card-title">Detalhe por Cargo</div><div class="card-subtitle">Clique em um cargo para ver quem está nele</div></div></div>
+        <div id="cargosTable"></div>
+    </div>
+</div>
+
+
+<!-- VIEW: Performance -->
+<div class="container view" id="view-performance">
+    <div class="placeholder-card">Em construção — aguardando as definições de Performance.</div>
+</div>
+
 <!-- VIEW: Riscos -->
 <div class="container view" id="view-riscos">
     <div class="kpi-row" id="riscosCards" style="margin-bottom:14px;"></div>
@@ -595,7 +631,7 @@ function isLegacyXls(buf){
 }
 const LEGACY_XLS_MSG = 'Esse arquivo está salvo no formato antigo do Excel (.xls). Abra ele no Excel (ou Google Planilhas/LibreOffice) e salve novamente escolhendo o formato ".xlsx" (Arquivo → Salvar como → "Pasta de Trabalho do Excel"), depois carregue de novo aqui.';
 /* ============ ÍCONES (Lucide, embutidos — sem depender de internet) ============ */
-const LUCIDE_PATHS = {"house": "<path d=\"M15 21v-8a1 1 0 0 0-1-1h-4a1 1 0 0 0-1 1v8\"/><path d=\"M3 10a2 2 0 0 1 .709-1.528l7-5.999a2 2 0 0 1 2.582 0l7 5.999A2 2 0 0 1 21 10v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z\"/>", "users": "<path d=\"M16 3.128a4 4 0 0 1 0 7.744\"/><path d=\"M22 21v-2a4 4 0 0 0-3-3.87\"/><path d=\"M2 21v-2a4 4 0 0 1 4-4h6a4 4 0 0 1 4 4v2\"/><circle cx=\"9\" cy=\"7\" r=\"4\"/>", "target": "<circle cx=\"12\" cy=\"12\" r=\"10\"/><circle cx=\"12\" cy=\"12\" r=\"6\"/><circle cx=\"12\" cy=\"12\" r=\"2\"/>", "palette": "<path d=\"M12 22a1 1 0 0 1 0-20 10 9 0 0 1 10 9 5 5 0 0 1-5 5h-2.25a1.75 1.75 0 0 0-1.4 2.8l.3.4a1.75 1.75 0 0 1-1.4 2.8z\"/><circle cx=\"13.5\" cy=\"6.5\" r=\".5\" fill=\"currentColor\"/><circle cx=\"17.5\" cy=\"10.5\" r=\".5\" fill=\"currentColor\"/><circle cx=\"6.5\" cy=\"12.5\" r=\".5\" fill=\"currentColor\"/><circle cx=\"8.5\" cy=\"7.5\" r=\".5\" fill=\"currentColor\"/>", "triangle-alert": "<path d=\"m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3\"/><path d=\"M12 9v4\"/><path d=\"M12 17h.01\"/>", "door-open": "<path d=\"M13 4h3a2 2 0 0 1 2 2v14\"/><path d=\"M2 20h3\"/><path d=\"M13 20h9\"/><path d=\"M10 12v.01\"/><path d=\"M13 4.562v16.157a1 1 0 0 1-1.242.97L5 20V5.562a2 2 0 0 1 1.515-1.94l4-1A2 2 0 0 1 13 4.561Z\"/>", "log-in": "<path d=\"M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4\"/><path d=\"m10 17 5-5-5-5\"/><path d=\"M15 12H3\"/>", "trending-down": "<path d=\"M16 17h6v-6\"/><path d=\"m22 17-8.5-8.5-5 5L2 7\"/>", "upload": "<path d=\"M12 3v12\"/><path d=\"m17 8-5-5-5 5\"/><path d=\"M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4\"/>", "folder-open": "<path d=\"m6 14 1.45-2.9A2 2 0 0 1 9.24 10H20a2 2 0 0 1 1.94 2.5l-1.54 6a2 2 0 0 1-1.95 1.5H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h3.9a2 2 0 0 1 1.69.9l.81 1.2a2 2 0 0 0 1.67.9H18a2 2 0 0 1 2 2v2\"/>", "cake": "<path d=\"M20 21v-8a2 2 0 0 0-2-2H6a2 2 0 0 0-2 2v8\"/><path d=\"M4 16s.5-1 2-1 2.5 2 4 2 2.5-2 4-2 2.5 2 4 2 2-1 2-1\"/><path d=\"M2 21h20\"/><path d=\"M7 8v3\"/><path d=\"M12 8v3\"/><path d=\"M17 8v3\"/><path d=\"M7 4h.01\"/><path d=\"M12 4h.01\"/><path d=\"M17 4h.01\"/>", "timer": "<line x1=\"10\" x2=\"14\" y1=\"2\" y2=\"2\"/><line x1=\"12\" x2=\"15\" y1=\"14\" y2=\"11\"/><circle cx=\"12\" cy=\"14\" r=\"8\"/>", "hourglass": "<path d=\"M5 22h14\"/><path d=\"M5 2h14\"/><path d=\"M17 22v-4.172a2 2 0 0 0-.586-1.414L12 12l-4.414 4.414A2 2 0 0 0 7 17.828V22\"/><path d=\"M7 2v4.172a2 2 0 0 0 .586 1.414L12 12l4.414-4.414A2 2 0 0 0 17 6.172V2\"/>", "user-round-minus": "<path d=\"M2 21a8 8 0 0 1 13.292-6\"/><circle cx=\"10\" cy=\"8\" r=\"5\"/><path d=\"M22 19h-6\"/>", "user-x": "<path d=\"M2 21a8 8 0 0 1 11.873-7\"/><circle cx=\"10\" cy=\"8\" r=\"5\"/><path d=\"m17 17 5 5\"/><path d=\"m22 17-5 5\"/>", "sprout": "<path d=\"M14 9.536V7a4 4 0 0 1 4-4h1.5a.5.5 0 0 1 .5.5V5a4 4 0 0 1-4 4 4 4 0 0 0-4 4c0 2 1 3 1 5a5 5 0 0 1-1 3\"/><path d=\"M4 9a5 5 0 0 1 8 4 5 5 0 0 1-8-4\"/><path d=\"M5 21h14\"/>", "book-open": "<path d=\"M12 7v14\"/><path d=\"M3 18a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1h5a4 4 0 0 1 4 4 4 4 0 0 1 4-4h5a1 1 0 0 1 1 1v13a1 1 0 0 1-1 1h-6a3 3 0 0 0-3 3 3 3 0 0 0-3-3z\"/>", "graduation-cap": "<path d=\"M21.42 10.922a1 1 0 0 0-.019-1.838L12.83 5.18a2 2 0 0 0-1.66 0L2.6 9.08a1 1 0 0 0 0 1.832l8.57 3.908a2 2 0 0 0 1.66 0z\"/><path d=\"M22 10v6\"/><path d=\"M6 12.5V16a6 3 0 0 0 12 0v-3.5\"/>", "pause": "<rect x=\"14\" y=\"3\" width=\"5\" height=\"18\" rx=\"1\"/><rect x=\"5\" y=\"3\" width=\"5\" height=\"18\" rx=\"1\"/>"};
+const LUCIDE_PATHS = {"briefcase": "<path d=\"M16 20V4a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16\"/><rect width=\"20\" height=\"14\" x=\"2\" y=\"6\" rx=\"2\"/>", "chart-line": "<path d=\"M3 3v16a2 2 0 0 0 2 2h16\"/><path d=\"m19 9-5 5-4-4-3 3\"/>", "house": "<path d=\"M15 21v-8a1 1 0 0 0-1-1h-4a1 1 0 0 0-1 1v8\"/><path d=\"M3 10a2 2 0 0 1 .709-1.528l7-5.999a2 2 0 0 1 2.582 0l7 5.999A2 2 0 0 1 21 10v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z\"/>", "users": "<path d=\"M16 3.128a4 4 0 0 1 0 7.744\"/><path d=\"M22 21v-2a4 4 0 0 0-3-3.87\"/><path d=\"M2 21v-2a4 4 0 0 1 4-4h6a4 4 0 0 1 4 4v2\"/><circle cx=\"9\" cy=\"7\" r=\"4\"/>", "target": "<circle cx=\"12\" cy=\"12\" r=\"10\"/><circle cx=\"12\" cy=\"12\" r=\"6\"/><circle cx=\"12\" cy=\"12\" r=\"2\"/>", "palette": "<path d=\"M12 22a1 1 0 0 1 0-20 10 9 0 0 1 10 9 5 5 0 0 1-5 5h-2.25a1.75 1.75 0 0 0-1.4 2.8l.3.4a1.75 1.75 0 0 1-1.4 2.8z\"/><circle cx=\"13.5\" cy=\"6.5\" r=\".5\" fill=\"currentColor\"/><circle cx=\"17.5\" cy=\"10.5\" r=\".5\" fill=\"currentColor\"/><circle cx=\"6.5\" cy=\"12.5\" r=\".5\" fill=\"currentColor\"/><circle cx=\"8.5\" cy=\"7.5\" r=\".5\" fill=\"currentColor\"/>", "triangle-alert": "<path d=\"m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3\"/><path d=\"M12 9v4\"/><path d=\"M12 17h.01\"/>", "door-open": "<path d=\"M13 4h3a2 2 0 0 1 2 2v14\"/><path d=\"M2 20h3\"/><path d=\"M13 20h9\"/><path d=\"M10 12v.01\"/><path d=\"M13 4.562v16.157a1 1 0 0 1-1.242.97L5 20V5.562a2 2 0 0 1 1.515-1.94l4-1A2 2 0 0 1 13 4.561Z\"/>", "log-in": "<path d=\"M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4\"/><path d=\"m10 17 5-5-5-5\"/><path d=\"M15 12H3\"/>", "trending-down": "<path d=\"M16 17h6v-6\"/><path d=\"m22 17-8.5-8.5-5 5L2 7\"/>", "upload": "<path d=\"M12 3v12\"/><path d=\"m17 8-5-5-5 5\"/><path d=\"M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4\"/>", "folder-open": "<path d=\"m6 14 1.45-2.9A2 2 0 0 1 9.24 10H20a2 2 0 0 1 1.94 2.5l-1.54 6a2 2 0 0 1-1.95 1.5H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h3.9a2 2 0 0 1 1.69.9l.81 1.2a2 2 0 0 0 1.67.9H18a2 2 0 0 1 2 2v2\"/>", "cake": "<path d=\"M20 21v-8a2 2 0 0 0-2-2H6a2 2 0 0 0-2 2v8\"/><path d=\"M4 16s.5-1 2-1 2.5 2 4 2 2.5-2 4-2 2.5 2 4 2 2-1 2-1\"/><path d=\"M2 21h20\"/><path d=\"M7 8v3\"/><path d=\"M12 8v3\"/><path d=\"M17 8v3\"/><path d=\"M7 4h.01\"/><path d=\"M12 4h.01\"/><path d=\"M17 4h.01\"/>", "timer": "<line x1=\"10\" x2=\"14\" y1=\"2\" y2=\"2\"/><line x1=\"12\" x2=\"15\" y1=\"14\" y2=\"11\"/><circle cx=\"12\" cy=\"14\" r=\"8\"/>", "hourglass": "<path d=\"M5 22h14\"/><path d=\"M5 2h14\"/><path d=\"M17 22v-4.172a2 2 0 0 0-.586-1.414L12 12l-4.414 4.414A2 2 0 0 0 7 17.828V22\"/><path d=\"M7 2v4.172a2 2 0 0 0 .586 1.414L12 12l4.414-4.414A2 2 0 0 0 17 6.172V2\"/>", "user-round-minus": "<path d=\"M2 21a8 8 0 0 1 13.292-6\"/><circle cx=\"10\" cy=\"8\" r=\"5\"/><path d=\"M22 19h-6\"/>", "user-x": "<path d=\"M2 21a8 8 0 0 1 11.873-7\"/><circle cx=\"10\" cy=\"8\" r=\"5\"/><path d=\"m17 17 5 5\"/><path d=\"m22 17-5 5\"/>", "sprout": "<path d=\"M14 9.536V7a4 4 0 0 1 4-4h1.5a.5.5 0 0 1 .5.5V5a4 4 0 0 1-4 4 4 4 0 0 0-4 4c0 2 1 3 1 5a5 5 0 0 1-1 3\"/><path d=\"M4 9a5 5 0 0 1 8 4 5 5 0 0 1-8-4\"/><path d=\"M5 21h14\"/>", "book-open": "<path d=\"M12 7v14\"/><path d=\"M3 18a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1h5a4 4 0 0 1 4 4 4 4 0 0 1 4-4h5a1 1 0 0 1 1 1v13a1 1 0 0 1-1 1h-6a3 3 0 0 0-3 3 3 3 0 0 0-3-3z\"/>", "graduation-cap": "<path d=\"M21.42 10.922a1 1 0 0 0-.019-1.838L12.83 5.18a2 2 0 0 0-1.66 0L2.6 9.08a1 1 0 0 0 0 1.832l8.57 3.908a2 2 0 0 0 1.66 0z\"/><path d=\"M22 10v6\"/><path d=\"M6 12.5V16a6 3 0 0 0 12 0v-3.5\"/>", "pause": "<rect x=\"14\" y=\"3\" width=\"5\" height=\"18\" rx=\"1\"/><rect x=\"5\" y=\"3\" width=\"5\" height=\"18\" rx=\"1\"/>"};
 function lucide(name){
     const p = LUCIDE_PATHS[name]; if(!p) return '';
     return `<svg class="lucide" viewBox="0 0 24 24" width="1em" height="1em" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${p}</svg>`;
@@ -1513,6 +1549,7 @@ function renderAll(){
     renderFunilContratacaoMetas();
     renderDiversidadeView(ativos);
     renderRiscosView(entradas, ativos, inativos);
+    renderCargosView();
 }
 
 /* ============ MENU LATERAL / TROCA DE VIEWS ============ */
@@ -1526,11 +1563,18 @@ function showView(name){
         equipes:['Equipes','Headcount e turnover por equipe'],
         metas:['Metas','Acompanhamento de metas de Pessoas'],
         diversidade:['Diversidade','Gênero, formação e idades do time'],
+        cargos:['Cargos','Distribuição e composição por cargo'],
+        performance:['Performance','Acompanhamento de desempenho do time'],
         riscos:['Riscos','Pontos de atenção em turnover e desligamentos']
     };
     const t=titles[name]||titles.geral;
     document.getElementById('pageTitle').textContent=t[0];
     document.getElementById('pageSubtitle').textContent=t[1];
+
+    // Filtros de Mês/Ano/Área não se aplicam a Cargos e Performance; o botão da Base de Cargos só aparece (pro master) na aba Cargos.
+    const fr = document.querySelector('.filters-row'); if (fr) fr.style.display = (name==='cargos'||name==='performance') ? 'none' : '';
+    const cp = document.getElementById('uploadCargosPill'); if (cp) cp.style.display = (name==='cargos' && getAuthRole()==='master') ? '' : 'none';
+    if (name==='cargos') renderCargosView();
 
     // Os gráficos de canvas só medem o tamanho certo quando o container está visível,
     // então recalculamos a view que acabou de aparecer (evita canvas "esmagado").
@@ -2485,6 +2529,98 @@ function showDashboard(){
     document.getElementById('appShell').style.display='flex';
     applyScaleLock();
 }
+/* ============ CARGOS (planilha da empresa toda) ============ */
+let cargosData = [];
+function normKey(v){ return String(v==null?'':v).normalize('NFD').replace(/[\u0300-\u036f]/g,'').replace(/[^A-Za-z0-9 ]/g,' ').replace(/\s+/g,' ').trim().toUpperCase(); }
+document.getElementById('uploadCargos').addEventListener('change', async function(e){
+    const file=e.target.files[0]; if(!file) return;
+    try {
+        const buf = await file.arrayBuffer();
+        if (isLegacyXls(buf)) throw new Error(LEGACY_XLS_MSG);
+        const json = await parseXlsxFile(buf);
+        const keys = json.length ? Object.keys(json[0]) : [];
+        const find = pred => keys.find(k=>pred(normKey(k)));
+        const colNome = find(k=>k.includes('NOME'));
+        const colCargo = find(k=>k==='CARGO' || k.startsWith('CARGO'));
+        const colCbo = find(k=>k.includes('CBO'));
+        const colAdm = find(k=>k.includes('ADMISS'));
+        const colNasc = find(k=>k.includes('NASC'));
+        const colCod = find(k=>k==='COD' || k.startsWith('COD '));
+        if (!colNome || !colCargo){
+            alert('Não encontrei as colunas "Nome do Empregado" e "Cargo" na planilha. Confira os nomes dos cabeçalhos.');
+            return;
+        }
+        // CPF (e qualquer outra coluna, como salário) é ignorado de propósito: não é lido, guardado nem enviado ao servidor.
+        cargosData = json.map(row=>({
+            cod: colCod ? String(row[colCod]||'').trim() : '',
+            nome: String(row[colNome]||'').trim(),
+            cargo: String(row[colCargo]||'').trim(),
+            cbo: colCbo ? String(row[colCbo]||'').trim() : '',
+            admissao: colAdm ? parseDate(row[colAdm]) : null,
+            nascimento: colNasc ? parseDate(row[colNasc]) : null
+        })).filter(r=>r.nome && r.cargo);
+        if (!cargosData.length){ alert('Nenhum registro válido encontrado (precisa ter nome e cargo).'); return; }
+        renderCargosView();
+        syncToBackend();
+        showMessage(`✅ ${cargosData.length} pessoas e ${new Set(cargosData.map(r=>normKey(r.cargo))).size} cargos carregados`, '');
+    } catch(err){
+        console.error(err);
+        alert('Erro ao processar a planilha de cargos: '+err.message);
+    }
+    e.target.value='';
+});
+
+function renderCargosView(){
+    const kpiEl = document.getElementById('cargosKpis'); if(!kpiEl) return;
+    const barsEl = document.getElementById('cargosBars'), tblEl = document.getElementById('cargosTable');
+    if (!cargosData.length){
+        kpiEl.innerHTML='';
+        const msg = getAuthRole()==='master' ? 'Nenhuma base carregada ainda. Use o botão "Base de Cargos" no topo para subir a planilha da empresa toda.' : 'Nenhuma base de cargos carregada ainda.';
+        barsEl.innerHTML = `<div class="placeholder-card">${msg}</div>`; tblEl.innerHTML='';
+        return;
+    }
+    const hoje = new Date();
+    const grupos = {};
+    cargosData.forEach(r=>{
+        const k = normKey(r.cargo);
+        (grupos[k] = grupos[k] || {cargo:r.cargo, pessoas:[], cbos:new Set()}).pessoas.push(r);
+        if (r.cbo) grupos[k].cbos.add(r.cbo);
+    });
+    const lista = Object.values(grupos).sort((a,b)=>b.pessoas.length-a.pessoas.length || a.cargo.localeCompare(b.cargo,'pt-BR'));
+    const media = arr => arr.length ? arr.reduce((a,b)=>a+b,0)/arr.length : null;
+    const tempos = r => r.admissao ? monthsBetween(r.admissao, hoje) : null;
+    const idades = r => r.nascimento ? getAge(r.nascimento) : null;
+    const tempoGeral = media(cargosData.map(tempos).filter(v=>v!=null));
+    const idadeGeral = media(cargosData.map(idades).filter(v=>v!=null));
+
+    kpiEl.innerHTML =
+        kpiTile('<i data-lucide="users"></i>','96,165,250','Pessoas na empresa', cargosData.length, 'Todos os cargos, inclusive fora de vendas') +
+        kpiTile('<i data-lucide="briefcase"></i>','168,85,247','Cargos distintos', lista.length, `Maior: ${lista[0].cargo} (${lista[0].pessoas.length})`) +
+        kpiTile('<i data-lucide="timer"></i>','74,222,128','Tempo médio de empresa', tempoGeral!=null ? formatTempoCasa(tempoGeral) : '-', 'Desde a admissão') +
+        kpiTile('<i data-lucide="cake"></i>','251,191,36','Idade média', idadeGeral!=null ? Math.round(idadeGeral)+' anos' : '-', 'Com base na data de nascimento');
+
+    const COLORS=['#a855f7','#22d3ee','#4ade80','#fbbf24','#fb923c','#ec4899','#60a5fa','#d946ef'];
+    const max = lista[0].pessoas.length;
+    document.getElementById('cargosBarsSub').textContent = `${cargosData.length} pessoas em ${lista.length} cargos`;
+    barsEl.innerHTML = lista.map((g,i)=>{
+        const pct = (g.pessoas.length/cargosData.length*100).toFixed(0);
+        return `<div class="cg-bar"><span class="n" title="${g.cargo}">${g.cargo}</span><div class="tr"><span style="width:${g.pessoas.length/max*100}%;background:${COLORS[i%COLORS.length]}"></span></div><span class="v">${g.pessoas.length} · ${pct}%</span></div>`;
+    }).join('');
+
+    const fmtT = v => v!=null ? formatTempoCasa(v) : '-';
+    tblEl.innerHTML = `<table class="cg-table"><thead><tr><th>Cargo</th><th>CBO</th><th>Pessoas</th><th>Tempo médio</th><th>Idade média</th></tr></thead><tbody>` +
+        lista.map((g,i)=>{
+            const t = media(g.pessoas.map(tempos).filter(v=>v!=null)), id = media(g.pessoas.map(idades).filter(v=>v!=null));
+            const nomes = g.pessoas.map(p=>p.nome).sort((a,b)=>a.localeCompare(b,'pt-BR')).map(n=>`<span>${n}</span>`).join('');
+            return `<tr class="cg-row" data-i="${i}"><td class="cg-cargo">${g.cargo}</td><td>${Array.from(g.cbos).join(', ')||'-'}</td><td>${g.pessoas.length}</td><td>${fmtT(t)}</td><td>${id!=null?Math.round(id)+' anos':'-'}</td></tr>`+
+                   `<tr class="cg-names-row" id="cgNames${i}" style="display:none;"><td colspan="5"><div class="cg-names">${nomes}</div></td></tr>`;
+        }).join('') + `</tbody></table>`;
+    tblEl.querySelectorAll('tr.cg-row').forEach(tr=>tr.addEventListener('click',()=>{
+        const row = document.getElementById('cgNames'+tr.dataset.i);
+        row.style.display = row.style.display==='none' ? '' : 'none';
+    }));
+}
+
 function applyRoleUI(role){
     const isMaster = role==='master';
     document.getElementById('uploadFilePill').style.display = isMaster? '' : 'none';
@@ -2500,6 +2636,7 @@ function serializeState(){
         globalData: globalData.map(r=>({...r, dtNasc:iso(r.dtNasc), dtInicio:iso(r.dtInicio), dtSaida:iso(r.dtSaida)})),
         entrevistasData: entrevistasData.map(r=>({...r, data:iso(r.data)})),
         metasContratacaoData: metasContratacaoData.map(r=>({...r, data:iso(r.data)})),
+        cargosData: cargosData.map(r=>({...r, admissao:iso(r.admissao), nascimento:iso(r.nascimento)})),
     };
 }
 function reviveState(payload){
@@ -2507,6 +2644,7 @@ function reviveState(payload){
     globalData = (payload.globalData||[]).map(r=>({...r, dtNasc:dt(r.dtNasc), dtInicio:dt(r.dtInicio), dtSaida:dt(r.dtSaida)}));
     entrevistasData = (payload.entrevistasData||[]).map(r=>({...r, data:dt(r.data)}));
     metasContratacaoData = (payload.metasContratacaoData||[]).map(r=>({...r, data:dt(r.data)}));
+    cargosData = (payload.cargosData||[]).map(r=>({...r, admissao:dt(r.admissao), nascimento:dt(r.nascimento)}));
 }
 
 // Chamado (só se master) depois de qualquer upload processado, pra guardar o resultado
