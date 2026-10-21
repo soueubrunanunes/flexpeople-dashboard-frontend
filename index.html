@@ -239,6 +239,54 @@ td { padding:8px; border-top:1px solid var(--border); }
 .cg-table tr.cg-row:hover td { background:rgba(255,255,255,.03); }
 .cg-names { display:flex; flex-wrap:wrap; gap:6px; padding:6px 0 4px; }
 .cg-names span { background:var(--card2); border:1px solid var(--border); border-radius:14px; padding:4px 10px; font-size:12px; color:#fff; }
+/* Cargos: cards coloridos + rosca + tempo de casa */
+#cargosKpis .kpi-card { border-color:rgba(168,85,247,.4); }
+#cargosKpis .kpi-card:nth-child(1) { background:linear-gradient(150deg,rgba(96,165,250,.28),#150c2e 80%); }
+#cargosKpis .kpi-card:nth-child(2) { background:linear-gradient(150deg,rgba(168,85,247,.30),#150c2e 80%); }
+#cargosKpis .kpi-card:nth-child(3) { background:linear-gradient(150deg,rgba(74,222,128,.24),#150c2e 80%); }
+#cargosKpis .kpi-card:nth-child(4) { background:linear-gradient(150deg,rgba(251,191,36,.24),#150c2e 80%); }
+.cg-toolbar { display:flex; justify-content:space-between; align-items:center; gap:14px; margin-bottom:16px; flex-wrap:wrap; }
+.cg-chips { display:flex; gap:8px; flex-wrap:wrap; }
+.cg-chip { background:var(--card2); border:1px solid var(--border); border-radius:20px; padding:7px 15px; font-size:12px; font-weight:600; color:var(--text2); cursor:pointer; font-family:inherit; }
+.cg-chip:hover { color:#fff; }
+.cg-chip.on { background:linear-gradient(135deg,#7c3aed,#a855f7); color:#fff; border-color:transparent; }
+.cg-search { background:var(--card2); border:1px solid var(--border); border-radius:12px; padding:9px 14px; font-size:12px; color:#fff; width:290px; font-family:inherit; }
+.cg-search::placeholder { color:var(--text3); }
+.cg-mix { display:grid; grid-template-columns:minmax(0,1fr) 390px; gap:16px; align-items:start; margin-bottom:16px; }
+.cg-cards { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:14px; }
+.cg-card { --c:#a855f7; --cr:168,85,247; --p:0; position:relative; overflow:hidden; cursor:pointer; border-radius:18px; padding:16px; background:linear-gradient(150deg,rgba(var(--cr),.30) 0%,rgba(var(--cr),0) 75%),var(--card); border:1px solid rgba(var(--cr),.55); box-shadow:0 0 26px rgba(var(--cr),.2); transition:transform .15s ease; }
+.cg-card:hover { transform:translateY(-2px); }
+.cg-card:before { content:""; position:absolute; right:-30px; top:-30px; width:150px; height:150px; border-radius:50%; background:var(--c); opacity:.4; filter:blur(30px); pointer-events:none; }
+.cg-top { position:relative; display:flex; justify-content:space-between; align-items:flex-start; gap:10px; margin-bottom:12px; }
+.cg-nm { font-size:13px; font-weight:600; line-height:1.25; max-width:200px; }
+.cg-ring { width:54px; height:54px; border-radius:50%; flex-shrink:0; background:conic-gradient(var(--c) calc(var(--p)*1%),#2a1d52 0); display:flex; align-items:center; justify-content:center; box-shadow:0 0 16px rgba(var(--cr),.5); }
+.cg-ring span { width:42px; height:42px; border-radius:50%; background:linear-gradient(rgba(var(--cr),.16),rgba(var(--cr),.16)),#120a26; display:flex; align-items:center; justify-content:center; font-size:12px; font-weight:700; }
+.cg-num { position:relative; font-size:34px; font-weight:700; line-height:1; text-shadow:0 0 22px rgba(var(--cr),.7); }
+.cg-num small { font-size:12px; color:var(--text2); font-weight:500; margin-left:5px; text-shadow:none; }
+.cg-meta { position:relative; display:flex; gap:8px; margin-top:12px; font-size:11px; flex-wrap:wrap; }
+.cg-meta span { background:rgba(var(--cr),.22); border-radius:8px; padding:4px 8px; color:#fff; }
+.cg-card.tail { grid-column:span 2; cursor:default; border-style:dashed; background:linear-gradient(150deg,rgba(var(--cr),.22) 0%,rgba(var(--cr),0) 75%),var(--card); }
+.cg-card.tail .cg-ring { box-shadow:none; }
+.cg-card.tail:hover { transform:none; }
+.cg-card.tail:before { opacity:.15; }
+.cg-tail { position:relative; display:flex; flex-wrap:wrap; gap:7px; }
+.cg-tail span { background:rgba(74,222,128,.12); border:1px solid rgba(74,222,128,.35); border-radius:9px; padding:5px 10px; font-size:11.5px; color:#e6fbe9; cursor:pointer; }
+.cg-tail span:hover { background:rgba(74,222,128,.22); }
+.cg-sub { color:var(--text2); font-weight:400; font-size:11.5px; margin-top:2px; display:block; }
+.cg-side { display:flex; flex-direction:column; gap:16px; }
+.cg-panel { border-color:rgba(168,85,247,.45); box-shadow:0 0 26px rgba(168,85,247,.12); }
+.cg-donut { display:flex; gap:18px; align-items:center; }
+.cg-leg { flex:1; min-width:0; }
+.cg-leg div { display:flex; align-items:center; gap:8px; font-size:12.5px; color:#d9d6ea; margin-bottom:9px; }
+.cg-leg em { width:10px; height:10px; border-radius:3px; display:inline-block; flex-shrink:0; }
+.cg-leg .lb { overflow:hidden; text-overflow:ellipsis; white-space:nowrap; min-width:0; }
+.cg-leg b { margin-left:auto; padding-left:10px; color:#fff; }
+.cg-tt { display:grid; grid-template-columns:minmax(0,1fr) 70px auto; gap:10px; align-items:center; font-size:12px; margin-bottom:10px; color:#d9d6ea; }
+.cg-tt .lb { overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+.cg-tt .t { height:8px; border-radius:5px; background:#2a1d52; overflow:hidden; }
+.cg-tt .t i { display:block; height:100%; border-radius:5px; }
+.cg-tt b { color:#fff; font-weight:600; white-space:nowrap; text-align:right; }
+.cg-table tr.cg-row.flash td { background:rgba(168,85,247,.22); }
 .legend-compact .legend-side { gap:7px; }
 .legend-compact .legend-side-label { font-size:13px; margin-bottom:0; }
 .legend-compact .legend-side-val { font-size:12.5px; }
@@ -529,9 +577,13 @@ td { padding:8px; border-top:1px solid var(--border); }
 <!-- VIEW: Cargos -->
 <div class="container view" id="view-cargos">
     <div class="kpi-row" id="cargosKpis"></div>
-    <div class="card" style="margin-bottom:14px;">
-        <div class="card-head"><div><div class="card-title">Pessoas por Cargo</div><div class="card-subtitle" id="cargosBarsSub">Quadro completo da empresa</div></div></div>
-        <div id="cargosBars"></div>
+    <div class="cg-toolbar" id="cargosToolbar">
+        <div class="cg-chips" id="cargosChips"></div>
+        <input class="cg-search" id="cargosSearch" type="search" placeholder="Buscar cargo, CBO ou pessoa…" autocomplete="off">
+    </div>
+    <div class="cg-mix" id="cargosMix">
+        <div class="cg-cards" id="cargosCards"></div>
+        <div class="cg-side" id="cargosSide"></div>
     </div>
     <div class="card">
         <div class="card-head"><div><div class="card-title">Detalhe por Cargo</div><div class="card-subtitle">Clique em um cargo para ver quem está nele</div></div></div>
@@ -2570,49 +2622,149 @@ document.getElementById('uploadCargos').addEventListener('change', async functio
     e.target.value='';
 });
 
+// ---- Cargos: helpers de agrupamento, cores e nomes ----
+const CG_PALETTE = [['#22d3ee','34,211,238'],['#a855f7','168,85,247'],['#fb923c','251,146,60'],['#60a5fa','96,165,250'],['#ec4899','236,72,153'],['#fbbf24','251,191,36'],['#d946ef','217,70,239'],['#2dd4bf','45,212,191']];
+const CG_TAIL = ['#4ade80','74,222,128'];
+const CG_AREAS = ['Comercial e Vendas','Atendimento','Administrativo e Apoio'];
+let cargosFilter = 'Todos', cargosSearch = '', cargosTailOpen = false;
+const cgEsc = v => String(v==null?'':v).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+// Planilha costuma vir em MAIÚSCULAS; aqui vira "Assistente de Atendimento I" só pra leitura.
+// Se o nome já tiver minúsculas, é mantido como veio. Siglas conhecidas e numerais romanos ficam em maiúsculas.
+function prettyCargo(s){
+    s = String(s||'').trim();
+    if (s !== s.toUpperCase()) return s;
+    const low = ['DE','DA','DO','DAS','DOS','E','EM','PARA'];
+    const keep = ['TI','RH','DP','SAC','BI','SST','PCP','CLT','CRM','ERP','SDR','CS','QA','UX','UI'];
+    const roman = /^(I{1,3}|IV|VI{0,3}|IX|X)$/;
+    return s.split(/(\s+)/).map((w,i)=>{
+        if (!w || /^\s+$/.test(w)) return w;
+        const bare = w.replace(/[^A-ZÀ-Ú]/g,'');
+        if (w === '(A)') return '(a)';
+        if (roman.test(w) || keep.includes(bare)) return w;
+        if (i>0 && low.includes(bare)) return w.toLowerCase();
+        return w.toLowerCase().replace(/^([^A-Za-zÀ-ÿ]*)([A-Za-zÀ-ÿ])/, (m,a,b)=>a+b.toUpperCase());
+    }).join('');
+}
+// "Consultor de Vendas II" -> família "Consultor de Vendas" (mesma cor nos três níveis)
+function cargoFamilia(s){ return String(s||'').replace(/\s+(?:I{1,3}|IV|VI{0,3}|IX|X)\s*$/i,'').trim(); }
+// Regra simples por palavra no nome do cargo; se surgir um cargo que caia na área errada, é só ajustar aqui.
+function cargoArea(s){
+    const k = normKey(s);
+    if (/ATENDIMENTO/.test(k)) return 'Atendimento';
+    if (/VENDA|COMERCIAL/.test(k)) return 'Comercial e Vendas';
+    return 'Administrativo e Apoio';
+}
+
 function renderCargosView(){
     const kpiEl = document.getElementById('cargosKpis'); if(!kpiEl) return;
-    const barsEl = document.getElementById('cargosBars'), tblEl = document.getElementById('cargosTable');
+    const cardsEl = document.getElementById('cargosCards'), sideEl = document.getElementById('cargosSide'), tblEl = document.getElementById('cargosTable');
+    const mixEl = document.getElementById('cargosMix'), toolEl = document.getElementById('cargosToolbar'), chipsEl = document.getElementById('cargosChips');
     if (!cargosData.length){
-        kpiEl.innerHTML='';
+        kpiEl.innerHTML=''; sideEl.innerHTML=''; tblEl.innerHTML='';
+        toolEl.style.display='none'; mixEl.style.display='block';
         const msg = getAuthRole()==='master' ? 'Nenhuma base carregada ainda. Use o botão "Base de Cargos" no topo para subir a planilha da empresa toda.' : 'Nenhuma base de cargos carregada ainda.';
-        barsEl.innerHTML = `<div class="placeholder-card">${msg}</div>`; tblEl.innerHTML='';
+        cardsEl.innerHTML = `<div class="placeholder-card" style="grid-column:1/-1;">${msg}</div>`;
         return;
     }
-    const hoje = new Date();
-    const grupos = {};
-    cargosData.forEach(r=>{
-        const k = normKey(r.cargo);
-        (grupos[k] = grupos[k] || {cargo:r.cargo, pessoas:[], cbos:new Set()}).pessoas.push(r);
-        if (r.cbo) grupos[k].cbos.add(r.cbo);
-    });
-    const lista = Object.values(grupos).sort((a,b)=>b.pessoas.length-a.pessoas.length || a.cargo.localeCompare(b.cargo,'pt-BR'));
+    toolEl.style.display=''; mixEl.style.display='';
+    const hoje = new Date(), total = cargosData.length;
     const media = arr => arr.length ? arr.reduce((a,b)=>a+b,0)/arr.length : null;
     const tempos = r => r.admissao ? monthsBetween(r.admissao, hoje) : null;
     const idades = r => r.nascimento ? getAge(r.nascimento) : null;
-    const tempoGeral = media(cargosData.map(tempos).filter(v=>v!=null));
-    const idadeGeral = media(cargosData.map(idades).filter(v=>v!=null));
+    const fmtT = v => v!=null ? formatTempoCasa(v) : '-';
+
+    // 1) agrupa por cargo (a lista completa, sem filtro, define "principais" e as cores)
+    const grupos = {};
+    cargosData.forEach(r=>{
+        const k = normKey(r.cargo);
+        (grupos[k] = grupos[k] || {key:k, cargo:r.cargo, pessoas:[], cbos:new Set()}).pessoas.push(r);
+        if (r.cbo) grupos[k].cbos.add(r.cbo);
+    });
+    const listaAll = Object.values(grupos).sort((a,b)=>b.pessoas.length-a.pessoas.length || a.cargo.localeCompare(b.cargo,'pt-BR'));
+    const temMulti = listaAll.some(g=>g.pessoas.length>=2);
+    const famCor = {}; let nFam = 0;
+    listaAll.forEach((g,i)=>{
+        g.principal = temMulti ? (g.pessoas.length>=2 && i<11) : i<8;
+        g.familia = cargoFamilia(g.cargo);
+        g.area = cargoArea(g.cargo);
+        if (g.principal){
+            const fk = normKey(g.familia);
+            if (!(fk in famCor)) famCor[fk] = CG_PALETTE[nFam++ % CG_PALETTE.length];
+            g.cor = famCor[fk];
+        }
+    });
 
     kpiEl.innerHTML =
-        kpiTile('<i data-lucide="users"></i>','96,165,250','Pessoas na empresa', cargosData.length, 'Todos os cargos, inclusive fora de vendas') +
-        kpiTile('<i data-lucide="briefcase"></i>','168,85,247','Cargos distintos', lista.length, `Maior: ${lista[0].cargo} (${lista[0].pessoas.length})`) +
-        kpiTile('<i data-lucide="timer"></i>','74,222,128','Tempo médio de empresa', tempoGeral!=null ? formatTempoCasa(tempoGeral) : '-', 'Desde a admissão') +
-        kpiTile('<i data-lucide="cake"></i>','251,191,36','Idade média', idadeGeral!=null ? Math.round(idadeGeral)+' anos' : '-', 'Com base na data de nascimento');
+        kpiTile('<i data-lucide="users"></i>','96,165,250','Pessoas na empresa', total, 'Todos os cargos, inclusive fora de vendas') +
+        kpiTile('<i data-lucide="briefcase"></i>','168,85,247','Cargos distintos', listaAll.length, `Maior: ${prettyCargo(listaAll[0].cargo)} (${listaAll[0].pessoas.length})`) +
+        kpiTile('<i data-lucide="timer"></i>','74,222,128','Tempo médio de empresa', fmtT(media(cargosData.map(tempos).filter(v=>v!=null))), 'Desde a admissão') +
+        kpiTile('<i data-lucide="cake"></i>','251,191,36','Idade média', (()=>{const m=media(cargosData.map(idades).filter(v=>v!=null)); return m!=null?Math.round(m)+' anos':'-';})(), 'Com base na data de nascimento');
 
-    const COLORS=['#a855f7','#22d3ee','#4ade80','#fbbf24','#fb923c','#ec4899','#60a5fa','#d946ef'];
-    const max = lista[0].pessoas.length;
-    document.getElementById('cargosBarsSub').textContent = `${cargosData.length} pessoas em ${lista.length} cargos`;
-    barsEl.innerHTML = lista.map((g,i)=>{
-        const pct = (g.pessoas.length/cargosData.length*100).toFixed(0);
-        return `<div class="cg-bar"><span class="n" title="${g.cargo}">${g.cargo}</span><div class="tr"><span style="width:${g.pessoas.length/max*100}%;background:${COLORS[i%COLORS.length]}"></span></div><span class="v">${g.pessoas.length} · ${pct}%</span></div>`;
+    // 2) chips de área (só as que existem na base)
+    const areas = ['Todos'].concat(CG_AREAS.filter(a=>listaAll.some(g=>g.area===a)));
+    if (!areas.includes(cargosFilter)) cargosFilter = 'Todos';
+    chipsEl.innerHTML = areas.map(a=>`<button type="button" class="cg-chip${a===cargosFilter?' on':''}" data-area="${cgEsc(a)}">${cgEsc(a)}</button>`).join('');
+
+    // 3) aplica filtro de área + busca
+    const q = normKey(cargosSearch);
+    const lista = listaAll.filter(g =>
+        (cargosFilter==='Todos' || g.area===cargosFilter) &&
+        (!q || normKey(g.cargo).includes(q) || Array.from(g.cbos).some(c=>normKey(c).includes(q)) || g.pessoas.some(p=>normKey(p.nome).includes(q))));
+    if (!lista.length){
+        cardsEl.innerHTML = `<div class="placeholder-card" style="grid-column:1/-1;">Nenhum cargo encontrado para esse filtro.</div>`;
+        sideEl.innerHTML=''; tblEl.innerHTML=''; return;
+    }
+    const principais = lista.filter(g=>g.principal), demais = lista.filter(g=>!g.principal);
+    const pessoasDemais = demais.reduce((a,g)=>a+g.pessoas.length,0), pessoasSel = lista.reduce((a,g)=>a+g.pessoas.length,0);
+
+    // 4) cards
+    let html = principais.map(g=>{
+        const n = g.pessoas.length, pct = Math.round(n/total*100);
+        const t = media(g.pessoas.map(tempos).filter(v=>v!=null)), id = media(g.pessoas.map(idades).filter(v=>v!=null));
+        return `<div class="cg-card" data-k="${cgEsc(g.key)}" style="--c:${g.cor[0]};--cr:${g.cor[1]};--p:${pct}" title="Clique para ver quem está neste cargo">` +
+            `<div class="cg-top"><div class="cg-nm">${cgEsc(prettyCargo(g.cargo))}</div><div class="cg-ring" title="${pct}% da empresa"><span>${pct}%</span></div></div>` +
+            `<div class="cg-num">${n}<small>${n===1?'pessoa':'pessoas'}</small></div>` +
+            `<div class="cg-meta"><span>${fmtT(t)}</span><span>${id!=null?Math.round(id)+' anos':'-'}</span></div></div>`;
     }).join('');
+    if (demais.length){
+        const pctD = Math.round(pessoasDemais/total*100), LIM = 10;
+        const mostrar = cargosTailOpen ? demais : demais.slice(0,LIM);
+        const chips = mostrar.map(g=>`<span data-k="${cgEsc(g.key)}" title="${g.pessoas.length} ${g.pessoas.length===1?'pessoa':'pessoas'}">${cgEsc(prettyCargo(g.cargo))}</span>`).join('') +
+            (demais.length>LIM ? `<span data-more="1">${cargosTailOpen?'mostrar menos':'+ '+(demais.length-LIM)}</span>` : '');
+        html += `<div class="cg-card tail" style="--c:${CG_TAIL[0]};--cr:${CG_TAIL[1]};--p:${pctD}">` +
+            `<div class="cg-top"><div class="cg-nm">Demais cargos<span class="cg-sub">${demais.length} ${demais.length===1?'cargo':'cargos'} · ${pessoasDemais} ${pessoasDemais===1?'pessoa':'pessoas'} · ${pctD}% da empresa</span></div><div class="cg-ring"><span>${pctD}%</span></div></div>` +
+            `<div class="cg-tail">${chips}</div></div>`;
+    }
+    cardsEl.innerHTML = html;
 
-    const fmtT = v => v!=null ? formatTempoCasa(v) : '-';
+    // 5) lateral: rosca por família + tempo de casa por cargo
+    const fams = {};
+    principais.forEach(g=>{ const fk=normKey(g.familia); (fams[fk]=fams[fk]||{nome:g.familia,n:0,cor:g.cor[0]}).n += g.pessoas.length; });
+    const fatias = Object.values(fams).sort((a,b)=>b.n-a.n);
+    if (pessoasDemais) fatias.push({nome:'Demais cargos', n:pessoasDemais, cor:'#3b3260'});
+    let acc = 0;
+    const circ = fatias.map(f=>{
+        const p = f.n/pessoasSel*100, el = `<circle cx="21" cy="21" r="15.9155" fill="none" stroke="${f.cor}" stroke-width="5" stroke-dasharray="${p.toFixed(3)} ${(100-p).toFixed(3)}" stroke-dashoffset="${(25-acc).toFixed(3)}"/>`;
+        acc += p; return el;
+    }).join('');
+    const donut = `<svg width="132" height="132" viewBox="0 0 42 42" style="flex-shrink:0;"><circle cx="21" cy="21" r="15.9155" fill="none" stroke="#2a1d52" stroke-width="5"/>${circ}` +
+        `<text x="21" y="21.5" text-anchor="middle" fill="#fff" font-size="7" font-weight="700">${pessoasSel}</text><text x="21" y="26" text-anchor="middle" fill="#9491ad" font-size="2.6">pessoas</text></svg>`;
+    const leg = fatias.map(f=>`<div><em style="background:${f.cor}"></em><span class="lb" title="${cgEsc(prettyCargo(f.nome))}">${cgEsc(prettyCargo(f.nome))}</span><b>${f.n}</b></div>`).join('');
+
+    const comTempo = principais.map(g=>({g, t:media(g.pessoas.map(tempos).filter(v=>v!=null))})).filter(x=>x.t!=null).sort((a,b)=>b.t-a.t).slice(0,8);
+    const maxT = comTempo.length ? Math.max(comTempo[0].t,1) : 1;
+    const ttHtml = comTempo.length ? comTempo.map(x=>`<div class="cg-tt"><span class="lb" title="${cgEsc(prettyCargo(x.g.cargo))}">${cgEsc(prettyCargo(x.g.cargo))}</span><div class="t"><i style="width:${Math.max(3,x.t/maxT*100).toFixed(1)}%;background:linear-gradient(90deg,rgba(${x.g.cor[1]},.55),${x.g.cor[0]})"></i></div><b>${fmtT(x.t)}</b></div>`).join('')
+        : `<div style="color:var(--text3);font-size:12.5px;">Sem datas de admissão suficientes.</div>`;
+    sideEl.innerHTML =
+        `<div class="card cg-panel"><div class="card-head"><div><div class="card-title">Distribuição por cargo</div><div class="card-subtitle">${pessoasSel} ${pessoasSel===1?'pessoa':'pessoas'} em ${lista.length} ${lista.length===1?'cargo':'cargos'}</div></div></div><div class="cg-donut">${donut}<div class="cg-leg">${leg}</div></div></div>` +
+        `<div class="card cg-panel"><div class="card-head"><div><div class="card-title">Tempo de casa por cargo</div><div class="card-subtitle">Média desde a admissão</div></div></div>${ttHtml}</div>`;
+
+    // 6) tabela de detalhe (mesma lista filtrada; clique abre os nomes)
     tblEl.innerHTML = `<table class="cg-table"><thead><tr><th>Cargo</th><th>CBO</th><th>Pessoas</th><th>Tempo médio</th><th>Idade média</th></tr></thead><tbody>` +
         lista.map((g,i)=>{
             const t = media(g.pessoas.map(tempos).filter(v=>v!=null)), id = media(g.pessoas.map(idades).filter(v=>v!=null));
-            const nomes = g.pessoas.map(p=>p.nome).sort((a,b)=>a.localeCompare(b,'pt-BR')).map(n=>`<span>${n}</span>`).join('');
-            return `<tr class="cg-row" data-i="${i}"><td class="cg-cargo">${g.cargo}</td><td>${Array.from(g.cbos).join(', ')||'-'}</td><td>${g.pessoas.length}</td><td>${fmtT(t)}</td><td>${id!=null?Math.round(id)+' anos':'-'}</td></tr>`+
+            const nomes = g.pessoas.map(p=>p.nome).sort((a,b)=>a.localeCompare(b,'pt-BR')).map(n=>`<span>${cgEsc(n)}</span>`).join('');
+            return `<tr class="cg-row" data-i="${i}" data-k="${cgEsc(g.key)}"><td class="cg-cargo">${cgEsc(prettyCargo(g.cargo))}</td><td>${cgEsc(Array.from(g.cbos).join(', ')||'-')}</td><td>${g.pessoas.length}</td><td>${fmtT(t)}</td><td>${id!=null?Math.round(id)+' anos':'-'}</td></tr>`+
                    `<tr class="cg-names-row" id="cgNames${i}" style="display:none;"><td colspan="5"><div class="cg-names">${nomes}</div></td></tr>`;
         }).join('') + `</tbody></table>`;
     tblEl.querySelectorAll('tr.cg-row').forEach(tr=>tr.addEventListener('click',()=>{
@@ -2620,6 +2772,26 @@ function renderCargosView(){
         row.style.display = row.style.display==='none' ? '' : 'none';
     }));
 }
+// Clicar num card (ou num cargo de "Demais cargos") abre a lista de nomes na tabela de detalhe lá embaixo.
+function cargosAbrirNomes(key){
+    const tr = Array.from(document.querySelectorAll('#cargosTable tr.cg-row')).find(r=>r.dataset.k===key);
+    if (!tr) return;
+    const names = document.getElementById('cgNames'+tr.dataset.i);
+    if (names) names.style.display='';
+    tr.scrollIntoView({behavior:'smooth', block:'center'});
+    tr.classList.add('flash'); setTimeout(()=>tr.classList.remove('flash'), 1400);
+}
+document.getElementById('cargosCards').addEventListener('click', e=>{
+    const more = e.target.closest('[data-more]');
+    if (more){ cargosTailOpen = !cargosTailOpen; renderCargosView(); return; }
+    const el = e.target.closest('[data-k]');
+    if (el) cargosAbrirNomes(el.dataset.k);
+});
+document.getElementById('cargosChips').addEventListener('click', e=>{
+    const b = e.target.closest('[data-area]'); if(!b) return;
+    cargosFilter = b.dataset.area; renderCargosView();
+});
+document.getElementById('cargosSearch').addEventListener('input', e=>{ cargosSearch = e.target.value; renderCargosView(); });
 
 function applyRoleUI(role){
     const isMaster = role==='master';
