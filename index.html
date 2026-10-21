@@ -2237,9 +2237,12 @@ function renderRiscosView(entradasArr, ativos, desligadosArr){
     const involPct = desligadosArr.length? (involuntario/desligadosArr.length*100).toFixed(0) : 0;
     const rPer = classificaRisco(turnover);
 
-    // --- Painel de risco: sempre mês atual x mês anterior REAIS (data de hoje), independente dos filtros ---
+    // --- Painel de risco: segue o Mês/Ano escolhidos nos filtros do topo (e compara com o mês anterior a ele).
+    // Sem mês escolhido: usa o mês atual (se o ano é o corrente) ou dezembro (anos passados). Sem ano: ano corrente. ---
     const hoje = new Date();
-    const anoAtual = hoje.getFullYear(), mesAtual0 = hoje.getMonth();
+    const fM = document.getElementById('filterMonth').value, fY = document.getElementById('filterYear').value, fA = document.getElementById('filterArea').value;
+    const anoAtual = fY ? parseInt(fY) : hoje.getFullYear();
+    const mesAtual0 = fM ? parseInt(fM)-1 : (anoAtual===hoje.getFullYear() ? hoje.getMonth() : 11);
     let anoAnterior = anoAtual, mesAnterior0 = mesAtual0 - 1;
     if (mesAnterior0 < 0){ mesAnterior0 = 11; anoAnterior -= 1; }
     function ativosFimMes(year, month0, pop){
@@ -2251,8 +2254,9 @@ function renderRiscosView(entradasArr, ativos, desligadosArr){
         return pop.filter(r=> r.status==='INATIVO' && r.dtSaida && r.dtSaida>=start && r.dtSaida<=end);
     }
     function turnoverMes(year, month0, pop){ return calcTurnover(ativosFimMes(year,month0,pop), desligadosMes(year,month0,pop)).turnover; }
-    const tAtual = turnoverMes(anoAtual, mesAtual0, globalData);
-    const tAnt = turnoverMes(anoAnterior, mesAnterior0, globalData);
+    const popGauge = fA ? globalData.filter(r=>r.canal===fA) : globalData;
+    const tAtual = turnoverMes(anoAtual, mesAtual0, popGauge);
+    const tAnt = turnoverMes(anoAnterior, mesAnterior0, popGauge);
     const rAtual = classificaRisco(tAtual);
     const diff = tAtual - tAnt;
     let deltaHtml;
@@ -2260,11 +2264,12 @@ function renderRiscosView(entradasArr, ativos, desligadosArr){
     else { const good = diff<0, dc = good?'74,222,128':'248,113,113';
         deltaHtml = `<div style="color:rgb(${dc});font-weight:800;font-size:13px;display:flex;align-items:center;gap:4px;">${rkIc(good?'down':'up',dc,16)} ${good?'−':'+'}${rkC(Math.abs(diff))} pts</div>`; }
 
-    const areas = Array.from(new Set(globalData.map(r=>r.canal).filter(Boolean)));
-    const sups = Array.from(new Set(globalData.map(r=>r.supervisor).filter(Boolean)));
+    // Tudo na aba segue os filtros: com uma Área escolhida, só entram essa área e os supervisores dela.
+    const areas = fA ? [fA] : Array.from(new Set(globalData.map(r=>r.canal).filter(Boolean)));
+    const sups = Array.from(new Set(popGauge.map(r=>r.supervisor).filter(Boolean)));
     const ents = [];
     areas.forEach(a=>ents.push({n:a, area:true, p:turnoverMes(anoAtual,mesAtual0,globalData.filter(r=>r.canal===a))}));
-    sups.forEach(s=>ents.push({n:s, area:false, p:turnoverMes(anoAtual,mesAtual0,globalData.filter(r=>r.supervisor===s))}));
+    sups.forEach(s=>ents.push({n:s, area:false, p:turnoverMes(anoAtual,mesAtual0,popGauge.filter(r=>r.supervisor===s))}));
     ents.sort((a,b)=>b.p-a.p);
 
     // --- Linha de cima: velocímetro + KPIs + ranking ---
@@ -2273,7 +2278,7 @@ function renderRiscosView(entradasArr, ativos, desligadosArr){
     const ticks = `<div class="rk-ticks"><div></div><div></div><div style="display:flex">${RK_ZONES.map(z=>`<div style="border-top:2px solid rgba(${z[1]},.7);color:rgb(${z[1]})">${z[0]}</div>`).join('')}</div><div></div></div>`;
     topEl.innerHTML = `
         <div class="rk-c rk-s4" style="align-items:center">
-            <div class="rk-ct" style="align-self:flex-start">Risco geral</div><div class="rk-cs" style="align-self:flex-start">Turnover ${MONTHS[mesAtual0]}/${anoAtual}</div>
+            <div class="rk-ct" style="align-self:flex-start">${fA?'Risco · '+eqEsc(fA):'Risco geral'}</div><div class="rk-cs" style="align-self:flex-start">Turnover ${MONTHS[mesAtual0]}/${anoAtual}</div>
             <div class="rk-gwrap">${rkGauge(tAtual)}<div style="margin-top:-8px;text-align:center"><div style="font-size:42px;font-weight:800;line-height:1">${rkC(tAtual)}%</div><div style="margin-top:8px">${rkChip(tAtual)}</div></div></div>
             <div class="rk-set"><div><div class="rk-nt">${MONTHS[mesAnterior0]}/${anoAnterior}</div><b style="font-size:15px">${rkC(tAnt)}% ${rkChip(tAnt)}</b></div>${deltaHtml}</div>
         </div>
@@ -2290,7 +2295,8 @@ function renderRiscosView(entradasArr, ativos, desligadosArr){
 
     // --- Linha de baixo: heatmap + projeção + motivos ---
     const allYears = Array.from(new Set(globalData.filter(r=>r.dtInicio).map(r=>r.dtInicio.getFullYear()))).sort();
-    const years = allYears.slice(-2);
+    // Com um Ano escolhido, o heatmap compara esse ano com o anterior; sem ano, os 2 últimos anos da base.
+    const years = fY ? [anoAtual-1, anoAtual] : allYears.slice(-2);
     let hmHtml;
     if (!areas.length || !years.length) hmHtml = `<div class="placeholder-card" style="flex:1">Carregue a planilha para ver o heatmap.</div>`;
     else {
