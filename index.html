@@ -284,7 +284,7 @@ body { font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif; backg
 .rk-row { display:flex; align-items:center; }
 .rk-pill { display:inline-block; font-size:10.5px; font-weight:800; border-radius:20px; padding:3px 10px; letter-spacing:.4px; white-space:nowrap; }
 .rk-right { grid-column:span 8; display:flex; flex-direction:column; gap:14px; min-width:0; }
-.rk-kpis { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:14px; }
+.rk-kpis { display:grid; grid-template-columns:repeat(4,minmax(0,1fr)); gap:14px; }
 .rk-kp { justify-content:space-between; }
 .rk-kic { width:38px; height:38px; border-radius:12px; display:flex; align-items:center; justify-content:center; flex-shrink:0; }
 .rk-kv { font-size:36px; font-weight:800; line-height:1; }
@@ -325,6 +325,86 @@ body { font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif; backg
     .rk-kpis { grid-template-columns:1fr; }
     .rk-rr, .rk-ticks { grid-template-columns:30px 90px minmax(0,1fr) 54px; }
 }
+/* ===== ABA MDP ===== */
+.md-seg { display:inline-flex; align-self:flex-start; background:var(--card2); border:1px solid var(--border); border-radius:12px; padding:4px; gap:4px; margin-bottom:16px; }
+.md-seg span { padding:8px 18px; border-radius:9px; font-size:13px; font-weight:700; color:var(--text2); cursor:pointer; user-select:none; }
+.md-seg span.on { background:linear-gradient(135deg,#7c3aed,#a855f7); color:#fff; box-shadow:0 0 18px rgba(168,85,247,.4); }
+.md-grid { display:grid; grid-template-columns:repeat(12,minmax(0,1fr)); gap:14px; }
+.md-s3 { grid-column:span 3; } .md-s4 { grid-column:span 4; } .md-s5 { grid-column:span 5; } .md-s7 { grid-column:span 7; } .md-s8 { grid-column:span 8; } .md-s12 { grid-column:span 12; }
+.md-c { background:linear-gradient(160deg,var(--card),var(--card2)); border:1px solid var(--border); border-radius:18px; padding:18px; position:relative; overflow:hidden; min-width:0; display:flex; flex-direction:column; }
+.md-ct { font-size:14px; font-weight:700; }
+.md-cs { font-size:12px; color:var(--text3); margin-top:2px; margin-bottom:12px; }
+.md-nt { font-size:12px; color:var(--text3); }
+.md-row { display:flex; align-items:center; }
+.md-pill { display:inline-block; font-size:10px; font-weight:800; border-radius:20px; padding:3px 9px; letter-spacing:.4px; white-space:nowrap; }
+.md-kic { width:38px; height:38px; border-radius:12px; display:flex; align-items:center; justify-content:center; flex-shrink:0; }
+.md-kv { font-size:36px; font-weight:800; line-height:1; }
+.md-kpis { display:grid; grid-template-columns:repeat(4,minmax(0,1fr)); gap:14px; }
+.md-kp { justify-content:space-between; }
+.md-bar { height:9px; border-radius:9px; background:rgba(255,255,255,.07); }
+.md-bar i { display:block; height:100%; border-radius:9px; }
+.md-av { border-radius:50%; object-fit:cover; display:flex; align-items:center; justify-content:center; font-weight:800; flex-shrink:0; }
+.md-tile { display:flex; align-items:center; gap:12px; padding:14px 16px; flex-direction:row; }
+.md-tile .md-kic { width:34px; height:34px; }
+.md-hist { flex:1; display:flex; gap:16px; min-height:170px; padding-top:6px; }
+.md-hist > div { flex:1; display:flex; flex-direction:column; align-items:center; gap:6px; }
+.md-hist .pl { flex:1; width:100%; position:relative; }
+.md-hist .pl i { position:absolute; left:0; right:0; bottom:0; border-radius:10px 10px 4px 4px; }
+.md-rank { flex:1; display:flex; flex-direction:column; justify-content:space-between; gap:10px; }
+.md-rr { display:flex; align-items:center; gap:12px; cursor:pointer; border-radius:10px; }
+.md-rr:hover { background:rgba(255,255,255,.04); }
+.md-rr .nm { width:190px; min-width:0; }
+.md-rr .nm b { display:block; font-size:12.5px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+.md-rr .nm span { display:block; font-size:10.5px; color:var(--text3); white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+.md-yr { flex:1; display:flex; gap:12px; min-height:130px; }
+.md-yr > div { flex:1; display:flex; flex-direction:column; align-items:center; gap:5px; }
+.md-yr .pl { flex:1; width:100%; position:relative; }
+.md-yr .pl i { position:absolute; left:0; right:0; bottom:0; border-radius:8px 8px 3px 3px; background:linear-gradient(180deg,#a855f7,#6d28d9); }
+.md-flow { display:flex; align-items:center; gap:8px; font-size:12px; }
+.md-flow .pill { width:96px; text-align:center; flex-shrink:0; }
+.md-stack { flex:1; display:flex; flex-direction:column; justify-content:space-between; gap:11px; }
+.md-search { background:var(--card2); border:1px solid var(--border); border-radius:11px; padding:9px 14px; font-size:12.5px; color:#fff; font-family:inherit; width:100%; outline:none; }
+.md-search:focus { border-color:rgba(168,85,247,.6); }
+.md-chip { border:1px solid var(--border); background:var(--card2); border-radius:20px; padding:5px 10px; font-size:11px; color:var(--text2); font-weight:600; cursor:pointer; user-select:none; }
+.md-chip.on { background:rgba(168,85,247,.22); border-color:rgba(168,85,247,.6); color:#fff; }
+.md-md { display:grid; grid-template-columns:minmax(0,4fr) minmax(0,8fr); gap:14px; flex:1; min-height:640px; }
+.md-listwrap { position:relative; flex:1; min-height:0; }
+.md-list { position:absolute; inset:0; overflow-y:auto; padding-right:4px; }
+.md-li { display:flex; align-items:center; gap:12px; padding:10px 12px; border-radius:12px; margin-bottom:6px; border:1px solid transparent; cursor:pointer; }
+.md-li:hover { background:rgba(255,255,255,.04); }
+.md-li.on { background:rgba(168,85,247,.16); border-color:rgba(168,85,247,.55); }
+.md-li .t { flex:1; min-width:0; } .md-li .t b { display:block; font-size:13px; } .md-li .t span { font-size:11px; color:var(--text3); }
+.md-li .dot { width:9px; height:9px; border-radius:50%; flex-shrink:0; }
+.md-stat { border-radius:14px; padding:12px 14px; }
+.md-tl { display:flex; overflow-x:auto; padding-bottom:6px; }
+.md-tl .nd { flex:1 0 118px; display:flex; flex-direction:column; align-items:center; text-align:center; position:relative; padding:0 6px; }
+.md-tl .nd .ln { position:absolute; top:41px; height:3px; left:0; right:0; background:linear-gradient(90deg,#a855f7,#22d3ee); opacity:.5; }
+.md-tl .nd:first-child .ln { left:50%; } .md-tl .nd:last-child .ln { right:50%; }
+.md-tl .nd .gp { height:16px; font-size:10.5px; color:var(--text2); margin-bottom:6px; }
+.md-tl .nd .dt { width:18px; height:18px; border-radius:50%; border:3px solid #150c2e; position:relative; z-index:1; }
+.md-sub { background:rgba(255,255,255,.03); border:1px solid var(--border); border-radius:16px; padding:16px 18px; }
+.md-ilus { display:inline-block; font-size:9.5px; font-weight:800; color:#fbbf24; border:1px dashed rgba(251,191,36,.6); border-radius:6px; padding:2px 7px; margin-left:8px; vertical-align:middle; }
+#mdpWrap { display:none; }
+@media (min-width:901px) {
+    .main-content:has(#view-mdp.active) { display:flex; flex-direction:column; }
+    #view-mdp.active { flex:1; display:flex; flex-direction:column; width:100%; }
+    #view-mdp.active #mdpWrap.has { flex:1; display:flex; flex-direction:column; }
+    .md-tab { display:none; flex-direction:column; gap:14px; flex:1; }
+    .md-tab.on { display:flex; }
+    .md-tab > .md-grid.grow { flex:1; }
+    .md-tab > .md-grid.grow2 { flex:1.15; }
+}
+@media (max-width:900px) {
+    #view-mdp.active #mdpWrap.has { display:block; }
+    .md-tab { display:none; } .md-tab.on { display:block; }
+    .md-tab > * { margin-bottom:14px; }
+    .md-grid { grid-template-columns:1fr; }
+    .md-s3, .md-s4, .md-s5, .md-s7, .md-s8, .md-s12 { grid-column:auto; }
+    .md-kpis { grid-template-columns:1fr 1fr; }
+    .md-md { grid-template-columns:1fr; min-height:0; } .md-listwrap { min-height:320px; }
+    .md-rr .nm { width:120px; }
+}
+
 .kpi-spark { height:36px; margin-top:auto; }
 .kpi-spark canvas { width:100%!important; height:100%!important; display:block; }
 /* ===== Visão Geral em mosaico (bento) ===== */
@@ -608,6 +688,7 @@ td { padding:8px; border-top:1px solid var(--border); }
         <label class="upload-pill" id="uploadFilePill"><i data-lucide="upload"></i> Carregar Excel<input type="file" id="uploadFile" accept=".xlsx,.xls" /></label>
         <label class="upload-pill" id="uploadEntrevistasPill"><i data-lucide="folder-open"></i> Base de Entrevistas<input type="file" id="uploadEntrevistas" accept=".xlsx,.xls" /></label>
         <label class="upload-pill" id="uploadCargosPill" style="display:none;"><i data-lucide="briefcase"></i> Base de Cargos<input type="file" id="uploadCargos" accept=".xlsx,.xls" /></label>
+        <label class="upload-pill" id="uploadMdpPill" style="display:none;"><i data-lucide="trending-up"></i> Base de MDP<input type="file" id="uploadMdp" accept=".xlsx,.xls" /></label>
         <div class="pill" id="roleBadge"><span class="dot"></span>—</div>
         <button class="logout-btn" id="logoutBtn" type="button">Sair</button>
     </div>
@@ -775,9 +856,12 @@ td { padding:8px; border-top:1px solid var(--border); }
 
 <!-- VIEW: MDP (Movimentação de Pessoal) -->
 <div class="container view" id="view-mdp">
-    <div class="placeholder-card">
-        <div style="font-size:15px;font-weight:700;color:#fff;margin-bottom:6px;">MDP · Movimentação de Pessoal</div>
-        Em construção. Aqui ficará o histórico de promoções e movimentações de toda a empresa.
+    <div id="mdpEmpty"></div>
+    <div id="mdpWrap">
+        <div class="md-seg" id="mdSeg"><span data-t="geral" class="on">Visão geral</span><span data-t="traj">Trajetórias</span><span data-t="anal">Análises</span></div>
+        <div class="md-tab on" id="mdTab-geral"></div>
+        <div class="md-tab" id="mdTab-traj"></div>
+        <div class="md-tab" id="mdTab-anal"></div>
     </div>
 </div>
 
@@ -1799,6 +1883,7 @@ function renderAll(){
     renderFunilContratacaoMetas();
     renderDiversidadeView(ativos);
     renderRiscosView(entradas, ativos, inativos);
+    try { renderMdpView(); } catch(e){ console.error('MDP', e); }
     renderCargosView();
 }
 
@@ -1823,9 +1908,11 @@ function showView(name){
     document.getElementById('pageSubtitle').textContent=t[1];
 
     // Filtros de Mês/Ano/Área não se aplicam a Cargos e Performance; o botão da Base de Cargos só aparece (pro master) na aba Cargos.
-    const fr = document.querySelector('.filters-row'); if (fr) fr.style.display = (name==='cargos'||name==='performance'||name==='mdp') ? 'none' : '';
+    const fr = document.querySelector('.filters-row'); if (fr) fr.style.display = (name==='cargos'||name==='performance') ? 'none' : '';
     const cp = document.getElementById('uploadCargosPill'); if (cp) cp.style.display = (name==='cargos' && getAuthRole()==='master') ? '' : 'none';
+    const mp = document.getElementById('uploadMdpPill'); if (mp) mp.style.display = (name==='mdp' && getAuthRole()==='master') ? '' : 'none';
     if (name==='cargos') renderCargosView();
+    if (name==='mdp') renderMdpView();
 
     // Os gráficos de canvas só medem o tamanho certo quando o container está visível,
     // então recalculamos a view que acabou de aparecer (evita canvas "esmagado").
@@ -1974,7 +2061,11 @@ function renderEquipesView(entradasArr, ativos, desligadosArr){
     } else {
         const foto = (sup, cls) => { const f = supPhoto(sup); return f ? `<img src="${f}" alt="${eqEsc(sup)}">` : `<div class="ph">${eqEsc(sup.trim().charAt(0).toUpperCase())}</div>`; };
         let cHtml='', rHtml='';
+        const promoMap = (typeof mdpSupPromoMap==='function') ? mdpSupPromoMap() : new Map(), temMdp = typeof mdpData!=='undefined' && mdpData.pessoas.length>0;
         sups.forEach(({sup, info, turnover, canal, risco}, i)=>{
+            const pr = promoMap.get(normKey(sup));
+            const promoCard = temMdp ? (pr ? `<div class="eq-cap" style="color:${pr.pct?'#4ade80':'var(--text3)'};margin-top:6px">${pr.pct?'▲ ':''}${pr.pct}% da equipe promovida em 12 meses <span style="color:var(--text3)">(${pr.prom} de ${pr.team})</span></div>` : `<div class="eq-cap" style="margin-top:6px">Sem dados de promoção (MDP)</div>`) : '';
+            const promoRow = pr ? ` · <span style="color:${pr.pct?'#4ade80':'var(--text3)'}">${pr.pct?'▲ ':''}${pr.pct}% promovidos</span>` : '';
             const ativosN = info.ativosFim, rgb = risco.color, normal = risco.label==='NORMAL';
             const r=(80-5)/2, c=2*Math.PI*r, p = turnover>0 ? Math.max(4, Math.min(100,turnover)) : 0;
             const anel = `<svg width="80" height="80"><circle cx="40" cy="40" r="${r}" fill="none" stroke="rgba(255,255,255,.08)" stroke-width="5"/><circle cx="40" cy="40" r="${r}" fill="none" stroke="rgb(${rgb})" stroke-width="5" stroke-linecap="round" stroke-dasharray="${(c*p/100).toFixed(1)} ${c.toFixed(1)}" transform="rotate(-90 40 40)" style="filter:drop-shadow(0 0 5px rgba(${rgb},.7))"/></svg>`;
@@ -1986,11 +2077,11 @@ function renderEquipesView(entradasArr, ativos, desligadosArr){
                 <div class="eq-sup-t"><div class="v" style="color:rgb(${rgb});">${turnover.toFixed(1)}%</div><div class="k" style="color:rgb(${rgb});">${risco.label}</div></div></div>
                 <div class="eq-sup-b"><div class="n">${ativosN}</div><div class="a">ativos</div>
                 <div class="p"><span class="eq-pl up">▲ ${info.entradas}</span><span class="eq-pl ${info.saidas?'dn':'mu'}">▼ ${info.saidas}</span></div></div>
-                <div class="eq-stack">${stack}</div><div class="eq-cap">permanecem × saíram no período</div></div>`;
+                <div class="eq-stack">${stack}</div><div class="eq-cap">permanecem × saíram no período</div>${promoCard}</div>`;
             const w = Math.min(100, turnover/80*100);
             const grad = w>0 ? `linear-gradient(90deg,#4ade80,#fbbf24 ${Math.min(100,(15/80*100)/w*100).toFixed(0)}%,#fb923c)` : 'transparent';
             rHtml += `<div class="eq-row" style="border-left-color:rgb(${rgb});"><span class="rk">#${i+1}</span>${foto(sup)}
-                <div><div class="nm">${sup}</div><div class="eqn">${canal}</div></div>
+                <div><div class="nm">${sup}</div><div class="eqn">${canal}${promoRow}</div></div>
                 <div class="eq-rb"><b style="width:${w}%;background:${grad};"></b><i style="left:${15/80*100}%;"></i><i style="left:${30/80*100}%;"></i></div>
                 <div class="eq-st"><div class="v big">${ativosN}</div><div class="l">ativos</div></div>
                 <div class="eq-st en"><div class="v" style="color:var(--green);">▲ ${info.entradas}</div><div class="l">entradas</div></div>
@@ -2198,7 +2289,7 @@ function renderDiversidadeView(ativos){
         <div class="card dv-c5"><div class="dv-ct">Situação da Formação</div><div class="dv-cs">${comSituacao.length} de ${total} ativos com situação registrada</div>${sitHtml}</div>`;
 }
 
-const RK_IC={trend:'<polyline points="22 17 13.5 8.5 8.5 13.5 2 7"/><polyline points="16 17 22 17 22 11"/>',hour:'<path d="M5 22h14"/><path d="M5 2h14"/><path d="M17 22v-4.172a2 2 0 0 0-.586-1.414L12 12l-4.414 4.414A2 2 0 0 0 7 17.828V22"/><path d="M7 2v4.172a2 2 0 0 0 .586 1.414L12 12l4.414-4.414A2 2 0 0 0 17 6.172V2"/>',userx:'<path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><line x1="17" x2="22" y1="8" y2="13"/><line x1="22" x2="17" y1="8" y2="13"/>',warn:'<path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3"/><path d="M12 9v4"/><path d="M12 17h.01"/>',check:'<path d="M20 6 9 17l-5-5"/>',down:'<path d="M12 5v14"/><path d="m19 12-7 7-7-7"/>',up:'<path d="M12 19V5"/><path d="m5 12 7-7 7 7"/>'};
+const RK_IC={trend:'<polyline points="22 17 13.5 8.5 8.5 13.5 2 7"/><polyline points="16 17 22 17 22 11"/>',hour:'<path d="M5 22h14"/><path d="M5 2h14"/><path d="M17 22v-4.172a2 2 0 0 0-.586-1.414L12 12l-4.414 4.414A2 2 0 0 0 7 17.828V22"/><path d="M7 2v4.172a2 2 0 0 0 .586 1.414L12 12l4.414-4.414A2 2 0 0 0 17 6.172V2"/>',userx:'<path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><line x1="17" x2="22" y1="8" y2="13"/><line x1="22" x2="17" y1="8" y2="13"/>',warn:'<path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3"/><path d="M12 9v4"/><path d="M12 17h.01"/>',check:'<path d="M20 6 9 17l-5-5"/>',down:'<path d="M12 5v14"/><path d="m19 12-7 7-7-7"/>',up:'<path d="M12 19V5"/><path d="m5 12 7-7 7 7"/>',shield:'<path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z"/><path d="m9 12 2 2 4-4"/>'};
 function rkIc(k,c,s){ return `<svg width="${s}" height="${s}" viewBox="0 0 24 24" fill="none" stroke="rgb(${c})" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink:0">${RK_IC[k]}</svg>`; }
 const RK_ZONES=[['NORMAL','74,222,128'],['ATENÇÃO','251,191,36'],['ALERTA','251,146,60'],['CRÍTICO','248,113,113']];
 // posição na escala de risco: cada faixa ocupa 1/4 da barra (0-15 | 15-30 | 30-100 | 100+)
@@ -2219,6 +2310,14 @@ function rkAv(name,isArea,c,sz){
     const rad = isArea ? Math.round(sz*.32)+'px' : '50%';
     const txt = isArea ? 'ÁR' : eqEsc(String(name||'?').trim().charAt(0).toUpperCase());
     return `<div class="rk-ini" style="width:${sz}px;height:${sz}px;border-radius:${rad};background:rgba(${c},.18);border:2px solid rgba(${c},.7);font-size:${Math.round(sz*.3)}px;color:rgb(${c})">${txt}</div>`;
+}
+// Destaque ligado à aba MDP: de quem foi promovido, quantos ficaram na empresa.
+function rkRetKpi(){
+    const r = (typeof mdpRetentionSummary==='function') ? mdpRetentionSummary() : null;
+    if (!r) return rkKpi('shield','74,222,128','<span style="font-size:13px;white-space:nowrap">Retenção pós-promoção</span>','—','Suba a Base de MDP para calcular');
+    if (!r.ok) return rkKpi('shield','74,222,128','<span style="font-size:13px;white-space:nowrap">Retenção pós-promoção</span>','—','Falta incluir as fichas de quem já saiu na Base de MDP');
+    const ret = Math.round((1 - r.prom.left/r.prom.n)*100), retN = Math.round((1 - r.nunca.left/r.nunca.n)*100);
+    return rkKpi('shield','74,222,128','<span style="font-size:13px;white-space:nowrap">Retenção pós-promoção</span>', ret+'%', `${r.prom.n-r.prom.left} de ${r.prom.n} promovidos ficaram · sem promoção: ${retN}%`);
 }
 function rkKpi(icon,c,label,value,note){
     return `<div class="rk-c rk-kp" style="box-shadow:0 0 40px rgba(${c},.07)"><div class="rk-row" style="gap:12px"><div class="rk-kic" style="background:rgba(${c},.16)">${rkIc(icon,c,20)}</div><div class="rk-ct" style="font-weight:600;color:var(--text2)">${label}</div></div><div style="margin:14px 0 8px"><span class="rk-kv">${value}</span></div><div class="rk-nt">${note}</div></div>`;
@@ -2287,6 +2386,7 @@ function renderRiscosView(entradasArr, ativos, desligadosArr){
                 ${rkKpi('trend',rPer.color,'Turnover no período', rkC(turnover)+'%', `${rPer.label} · taxa do filtro atual`)}
                 ${rkKpi('hour','248,113,113','Onboarding de risco', early, `${earlyPct}% dos desligamentos com &lt;3 meses de casa`)}
                 ${rkKpi('userx','236,72,153','Saídas involuntárias', involuntario, `${involPct}% do total de desligamentos`)}
+                ${rkRetKpi()}
             </div>
             <div class="rk-c" style="flex:1"><div class="rk-ct">Ranking de risco</div><div class="rk-cs">Do maior para o menor risco, na escala NORMAL → CRÍTICO — ${MONTHS[mesAtual0]}/${anoAtual}</div>
                 ${ents.length ? `<div class="rk-rank">${rows}${ticks}</div>` : `<div class="placeholder-card">Carregue a planilha para ver o ranking de risco.</div>`}
@@ -3158,6 +3258,319 @@ function applyRoleUI(role){
     document.getElementById('roleBadge').innerHTML = `<span class="dot"></span>${isMaster? 'Master':'Supervisor'}`;
 }
 
+/* ============ ABA MDP · Movimentação de Pessoal ============ */
+let mdpData = { pessoas:[], movs:[] };
+let mdTab = 'geral', mdSel = null, mdFilter = 'todos', mdSearch = '';
+const MD_PROMO = ['Subida de nível','Troca de cargo/função'];
+const MD_ROMAN = {I:1,II:2,III:3,IV:4,V:5};
+const MD_TC = { 'Admissão':['168,85,247','ADMISSÃO'], 'Subida de nível':['74,222,128','SUBIDA DE NÍVEL'], 'Troca de cargo/função':['34,211,238','TROCA DE CARGO'] };
+const MD_IC = {clock:'<circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/>',up:'<path d="m5 12 7-7 7 7"/><path d="M12 19V5"/>',star:'<path d="M11.525 2.295a.53.53 0 0 1 .95 0l2.31 4.679a2.123 2.123 0 0 0 1.595 1.16l5.166.756a.53.53 0 0 1 .294.904l-3.736 3.638a2.123 2.123 0 0 0-.611 1.878l.882 5.14a.53.53 0 0 1-.771.56l-4.618-2.428a2.122 2.122 0 0 0-1.973 0L6.396 21.01a.53.53 0 0 1-.77-.56l.881-5.139a2.122 2.122 0 0 0-.611-1.879L2.16 9.795a.53.53 0 0 1 .294-.906l5.165-.755a2.122 2.122 0 0 0 1.597-1.16z"/>',hour:'<path d="M5 22h14"/><path d="M5 2h14"/><path d="M17 22v-4.172a2 2 0 0 0-.586-1.414L12 12l-4.414 4.414A2 2 0 0 0 7 17.828V22"/><path d="M7 2v4.172a2 2 0 0 0 .586 1.414L12 12l4.414-4.414A2 2 0 0 0 17 6.172V2"/>',alert:'<path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3"/><path d="M12 9v4"/><path d="M12 17h.01"/>',crown:'<path d="m2 4 3 12h14l3-12-6 7-4-7-4 7-6-7zm3 16h14"/>',rocket:'<path d="M4.5 16.5c-1.5 1.26-2 5-2 5s3.74-.5 5-2c.71-.84.7-2.13-.09-2.91a2.18 2.18 0 0 0-2.91-.09z"/><path d="m12 15-3-3a22 22 0 0 1 2-3.95A12.88 12.88 0 0 1 22 2c0 2.72-.78 7.5-6 11a22.35 22.35 0 0 1-4 2z"/>'};
+const mdIc = (k,c,s)=>`<svg width="${s||20}" height="${s||20}" viewBox="0 0 24 24" fill="none" stroke="rgb(${c})" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink:0">${MD_IC[k]}</svg>`;
+const mdF1 = v => v.toFixed(1).replace('.',',');
+const mdPill = (t,c)=>`<span class="md-pill" style="background:rgba(${c},.16);color:rgb(${c});border:1px solid rgba(${c},.4)">${t}</span>`;
+function mdTitle(s){
+    return String(s||'').toLowerCase().replace(/(^|[\s(])([a-zà-ú])/g,(m,a,b)=>a+b.toUpperCase())
+        .replace(/\b(Ii|Iii|Iv)\b/g,x=>x.toUpperCase()).replace(/\bDe\b/g,'de').replace(/\bDo\b/g,'do').replace(/\bDa\b/g,'da').replace(/\bDos\b/g,'dos').replace(/\bDas\b/g,'das').replace(/\bDepto\b/g,'Depto.').replace(/\bTi\b/g,'TI');
+}
+function mdShort(n){ const p=String(n||'').trim().split(/\s+/); return mdTitle(p.length>1 ? p[0]+' '+p[p.length-1] : p[0]); }
+function mdLevel(c){ const m=normKey(String(c||'').replace(/\(A\)/gi,'')).match(/^(.*?)\s+(I|II|III|IV|V)$/); return m ? {base:m[1], lvl:MD_ROMAN[m[2]]} : {base:normKey(String(c||'').replace(/\(A\)/gi,'')), lvl:null}; }
+function mdGrp(c){
+    const k=normKey(c);
+    if (k.includes('ATENDIMENTO')) return 'Atendimento';
+    if (k.includes('QUALIDADE')) return 'Qualidade';
+    if (k.includes('VENDAS')||k.includes('VENDEDOR')) return 'Vendas';
+    if (k.includes('COMERCIAL')) return 'Comercial';
+    if (/ADMINISTRATIVO|PESSOAL|RECURSOS HUMANOS|TREINAMENTO|FINANCEIRO/.test(k)) return 'Adm./RH';
+    if (/DADOS|\bTI\b|DESENVOLVIMENTO/.test(k)) return 'Dados/TI';
+    return 'Outros';
+}
+const MD_GRP_COLOR = {Atendimento:'34,211,238',Comercial:'168,85,247',Vendas:'74,222,128',Qualidade:'251,191,36','Adm./RH':'236,72,153','Dados/TI':'96,165,250',Outros:'148,145,173'};
+function mdMonths(a,b){ if(!a||!b) return 0; let m=(b.getFullYear()-a.getFullYear())*12+b.getMonth()-a.getMonth(); if (b.getDate()<a.getDate()) m--; return Math.max(0,m); }
+const mdFmtDate = d => d ? String(d.getDate()).padStart(2,'0')+'/'+String(d.getMonth()+1).padStart(2,'0')+'/'+d.getFullYear() : '';
+const mdIsLeader = c => /SUPERVISOR|COORDENADOR|GERENTE/.test(normKey(c));
+function mdAvatar(nome, size, rgb, leaderPhoto){
+    if (leaderPhoto){ const f=supPhoto(String(nome).trim().split(/\s+/)[0]); if (f) return `<img class="md-av" src="${f}" alt="" style="width:${size}px;height:${size}px;border:2px solid rgba(${rgb||'168,85,247'},.7)">`; }
+    const pal=['168,85,247','34,211,238','96,165,250','236,72,153','74,222,128','251,146,60']; let h=0; for (const ch of String(nome)) h=(h*31+ch.charCodeAt(0))%pal.length;
+    const c=rgb||pal[h]; const ini=String(nome).trim().split(/\s+/).map(x=>x[0]).slice(0,2).join('').toUpperCase();
+    return `<div class="md-av" style="width:${size}px;height:${size}px;background:rgba(${c},.2);border:2px solid rgba(${c},.6);color:rgb(${c});font-size:${Math.round(size*.34)}px">${eqEsc(ini)}</div>`;
+}
+// Liga cada pessoa da MDP ao cadastro principal (área, supervisor, status) pelo nome.
+function mdMatchIndex(){
+    const full=new Map(), ends=new Map();
+    globalData.forEach(r=>{
+        const k=normKey(r.nome); if(!k) return;
+        const cur=full.get(k); if(!cur || (cur.status!=='ATIVO' && r.status==='ATIVO')) full.set(k,r);
+        const t=k.split(' '); const e=t[0]+' '+t[t.length-1]; ends.set(e, ends.has(e)?null:r);
+    });
+    return k=>{ if(full.has(k)) return full.get(k); const t=k.split(' '); return ends.get(t[0]+' '+t[t.length-1])||null; };
+}
+// Monta tudo que a aba precisa, na data de corte dada pelos filtros (fim do período escolhido ou hoje).
+function mdBuild(){
+    const b=getPeriodBounds(), now=new Date();
+    const cutoff = b ? (b.end>now ? now : b.end) : now;
+    const area=document.getElementById('filterArea').value;
+    const fY=document.getElementById('filterYear').value;
+    const find=mdMatchIndex();
+    const movsBy=new Map();
+    mdpData.movs.forEach(m=>{ if(!MD_PROMO.includes(m.tipo)||!m.data) return; const k=normKey(m.nome); if(!movsBy.has(k)) movsBy.set(k,[]); movsBy.get(k).push(m); });
+    const all = mdpData.pessoas.map(p=>{
+        const k=normKey(p.nome), g=find(k);
+        const ms=(movsBy.get(k)||[]).slice().sort((a,b)=>a.data-b.data);
+        return { k, nome:p.nome, short:mdShort(p.nome), adm:p.adm, cargoAdm:p.cargoAdm, cargoAtualBase:p.cargoAtual, movsAll:ms, g,
+                 canal:g?g.canal:'', sup:g?g.supervisor:'', inativo:!!(g && g.status==='INATIVO'), saida:(g && g.status==='INATIVO') ? g.dtSaida : null };
+    });
+    const people = all.filter(p=> p.adm && p.adm<=cutoff && !p.inativo && (!area || p.canal===area)).map(p=>{
+        const ms=p.movsAll.filter(m=>m.data<=cutoff), n=ms.length, last=n?ms[n-1].data:null;
+        const lv=mdLevel(p.cargoAdm);
+        return {...p, movs:ms, n, last, cargo: n?ms[n-1].para:p.cargoAdm, ult:mdMonths(last||p.adm,cutoff), casa:mdMonths(p.adm,cutoff),
+                first:n?mdMonths(p.adm,ms[0].data):null, avgGap:n?mdMonths(p.adm,last)/n:null,
+                grade: lv.lvl==null ? 'na' : (lv.lvl>=2 ? 'sim' : 'nao')};
+    });
+    return { all, people, cutoff, area, year: fY?parseInt(fY):cutoff.getFullYear(), anoLabel: fY?fY:String(cutoff.getFullYear()) };
+}
+function mdEvents(p, cutoff){
+    const ev=[{d:p.adm, c:p.cargoAdm, t:'Admissão', g:0}]; let prev=p.adm;
+    p.movs.forEach(m=>{ ev.push({d:m.data, c:m.para, t:m.tipo, g:mdMonths(prev,m.data)}); prev=m.data; });
+    ev.forEach((e,i)=>{ const nx=ev[i+1]; e.dur = mdMonths(e.d, nx?nx.d:cutoff); });
+    return ev;
+}
+const mdAvg = a => a.length ? a.reduce((x,y)=>x+y,0)/a.length : 0;
+
+/* ---- blocos de gráfico ---- */
+function mdKpi(icon,c,label,value,note,pct){
+    return `<div class="md-c md-kp" style="box-shadow:0 0 40px rgba(${c},.07)"><div class="md-row" style="gap:12px"><div class="md-kic" style="background:rgba(${c},.16)">${mdIc(icon,c)}</div><div class="md-ct" style="font-weight:600;color:var(--text2)">${label}</div></div><div style="margin:14px 0 8px"><span class="md-kv">${value}</span></div><div class="md-nt">${note}</div><div class="md-bar" style="margin-top:12px"><i style="width:${Math.max(0,Math.min(100,pct))}%;background:linear-gradient(90deg,rgba(${c},.5),rgb(${c}));box-shadow:0 0 10px rgba(${c},.5)"></i></div></div>`;
+}
+function mdTile(icon,c,l,v,n){
+    return `<div class="md-c md-tile" style="padding:14px 16px"><div class="md-kic" style="background:rgba(${c},.16)">${mdIc(icon,c,18)}</div><div style="min-width:0"><div class="md-nt">${l}</div><div style="font-size:20px;font-weight:800;line-height:1.2">${v}</div><div class="md-nt" style="font-size:11px">${n}</div></div></div>`;
+}
+function mdHist(people){
+    const bins=[['0–6',0,6,'74,222,128'],['6–12',6,12,'34,211,238'],['12–18',12,18,'251,191,36'],['18–24',18,24,'251,146,60'],['24+',24,9999,'248,113,113']].map(b=>[b[0],people.filter(p=>p.ult>=b[1]&&p.ult<b[2]).length,b[3]]);
+    const mx=Math.max(1,...bins.map(b=>b[1]));
+    return `<div class="md-hist">${bins.map(b=>`<div><b style="font-size:15px">${b[1]}</b><div class="pl"><i style="height:${b[1]/mx*100}%;background:linear-gradient(180deg,rgb(${b[2]}),rgba(${b[2]},.35));box-shadow:0 0 18px rgba(${b[2]},.25)"></i></div><span class="md-nt">${b[0]} m</span></div>`).join('')}</div>`;
+}
+function mdRank(people){
+    const top=[...people].sort((a,b)=>b.ult-a.ult).slice(0,8);
+    if(!top.length) return `<div class="placeholder-card">Sem colaboradores no filtro escolhido.</div>`;
+    const mx=Math.max(24,top[0].ult);
+    return `<div class="md-rank">${top.map(p=>{ const c=p.ult>=24?'248,113,113':p.ult>=18?'251,146,60':'251,191,36';
+        return `<div class="md-rr" data-k="${eqEsc(p.k)}">${mdAvatar(p.short,30,null,mdIsLeader(p.cargo))}<div class="nm"><b>${eqEsc(p.short)}</b><span>${eqEsc(mdTitle(p.cargo))}</span></div><div class="md-bar" style="flex:1"><i style="width:${Math.min(100,p.ult/mx*100)}%;background:linear-gradient(90deg,rgba(${c},.5),rgb(${c}))"></i></div><b style="width:64px;text-align:right;font-size:13px;color:rgb(${c})">${p.ult} m</b><span class="md-nt" style="width:96px;text-align:right;font-size:11px">${p.n?p.n+(p.n>1?' promoções':' promoção'):'nunca promovido'}</span></div>`; }).join('')}</div>`;
+}
+function mdPorAno(ctx){
+    const yrs={}; ctx.people.forEach(p=>p.movs.forEach(m=>{ const y=m.data.getFullYear(); yrs[y]=(yrs[y]||0)+1; }));
+    const cy=ctx.cutoff.getFullYear(); const list=[]; for(let y=cy-5;y<=cy;y++) list.push([y,yrs[y]||0]);
+    const mx=Math.max(1,...list.map(a=>a[1]));
+    return `<div class="md-yr">${list.map(([y,v])=>`<div><b style="font-size:13px">${v}</b><div class="pl"><i style="height:${v/mx*100}%;${y===cy?'box-shadow:0 0 16px rgba(168,85,247,.6)':''}"></i></div><span class="md-nt">${y}${y===cy?'*':''}</span></div>`).join('')}</div><div class="md-nt" style="margin-top:6px">* ${cy} até ${mdFmtDate(ctx.cutoff).slice(3)}</div>`;
+}
+function mdPorNivel(people){
+    const g={}; const rom=['','I','II','III','IV','V'];
+    people.forEach(p=>{ let prev=p.adm; p.movs.forEach(m=>{ if(m.tipo==='Subida de nível'){ const a=mdLevel(m.de).lvl||1, b=mdLevel(m.para).lvl; if(b){ const k=a+'→'+b; (g[k]=g[k]||[]).push(mdMonths(prev,m.data)); } } prev=m.data; }); });
+    const rows=Object.entries(g).map(([k,v])=>{ const [a,b]=k.split('→').map(Number); return {a,b,n:v.length,avg:mdAvg(v)}; }).sort((x,y)=>x.a-y.a||x.b-y.b);
+    if(!rows.length) return `<div class="md-nt" style="margin:auto">Sem subidas de nível no período.</div>`;
+    const mx=Math.max(...rows.map(r=>r.avg),1);
+    return `<div class="md-stack" style="justify-content:center;gap:18px">${rows.map(r=>`<div><div class="md-row" style="justify-content:space-between;margin-bottom:6px"><span style="font-size:12.5px;font-weight:600">${r.b-r.a>1?'Direto ':'Nível '}${rom[r.a]} → ${rom[r.b]}</span><span><b style="font-size:18px">${mdF1(r.avg)}</b> <span class="md-nt">meses · ${r.n} ${r.n>1?'pessoas':'pessoa'}</span></span></div><div class="md-bar" style="height:11px"><i style="width:${Math.max(4,r.avg/mx*100)}%;background:linear-gradient(90deg,#6d8cff,#a855f7)"></i></div></div>`).join('')}</div>`;
+}
+function mdFlows(people){
+    const f={}; people.forEach(p=>p.movs.forEach(m=>{ const a=mdGrp(m.de), b=mdGrp(m.para); if(a!==b){ const k=a+'|'+b; f[k]=(f[k]||0)+1; } }));
+    const list=Object.entries(f).sort((a,b)=>b[1]-a[1]).slice(0,6);
+    if(!list.length) return `<div class="md-nt" style="margin:auto">Nenhuma troca entre áreas no período.</div>`;
+    const mx=list[0][1];
+    return `<div class="md-stack">${list.map(([k,c])=>{ const [a,b]=k.split('|'); return `<div class="md-flow"><span class="md-pill pill" style="background:rgba(${MD_GRP_COLOR[a]},.16);color:rgb(${MD_GRP_COLOR[a]})">${a}</span><span class="md-nt">→</span><span class="md-pill pill" style="background:rgba(${MD_GRP_COLOR[b]},.16);color:rgb(${MD_GRP_COLOR[b]})">${b}</span><div class="md-bar" style="flex:1"><i style="width:${c/mx*100}%;background:rgba(${MD_GRP_COLOR[b]},.8)"></i></div><b style="width:22px;text-align:right">${c}</b></div>`; }).join('')}</div>`;
+}
+function mdStagList(people, n){
+    const L=people.filter(p=>p.ult>=18).sort((a,b)=>b.ult-a.ult).slice(0,n);
+    if(!L.length) return `<div class="md-nt" style="margin:auto;text-align:center">Ninguém há 18+ meses sem movimentação. 🎉</div>`;
+    return `<div class="md-stack" style="gap:9px">${L.map(p=>{ const c=p.ult>=24?'248,113,113':'251,146,60'; return `<div class="md-row md-rr" data-k="${eqEsc(p.k)}" style="gap:12px;background:rgba(255,255,255,.035);padding:8px 12px;border-radius:12px">${mdAvatar(p.short,28,null,mdIsLeader(p.cargo))}<div style="flex:1;min-width:0"><div style="font-size:12.5px;font-weight:700">${eqEsc(p.short)}</div><div class="md-nt" style="font-size:10.5px">${eqEsc(mdTitle(p.cargo))}</div></div>${mdPill(p.ult>=24?'24+ MESES':'18+ MESES',c)}<b style="width:60px;text-align:right;color:rgb(${c})">${p.ult} m</b></div>`; }).join('')}</div>`;
+}
+function mdLider(people){
+    const L=people.filter(p=>mdIsLeader(p.cargo));
+    if(!L.length) return `<div class="md-nt" style="margin:auto">Nenhum supervisor na base.</div>`;
+    const internos=L.filter(p=>p.n>0 && !mdIsLeader(p.cargoAdm)).length, pct=Math.round(internos/L.length*100);
+    return `<div class="md-row" style="gap:14px;margin-bottom:12px"><div style="font-size:40px;font-weight:800;color:rgb(236,72,153);line-height:1">${pct}%</div><div class="md-nt" style="line-height:1.4">dos supervisores<br>vieram de promoção interna</div></div>
+    <div class="md-stack" style="gap:8px">${L.slice(0,5).map(p=>`<div class="md-row md-rr" data-k="${eqEsc(p.k)}" style="gap:10px">${mdAvatar(p.short,26,null,true)}<div style="flex:1;min-width:0"><div style="font-size:12px;font-weight:700">${eqEsc(p.short)}</div><div class="md-nt" style="font-size:10px">${eqEsc(mdTitle(p.cargoAdm))} → Supervisor</div></div><span class="md-nt">${p.n} ${p.n===1?'promoção':'promoções'}</span></div>`).join('')}</div>`;
+}
+// Promoção por supervisor: % da equipe (da MDP) promovida nos 12 meses até a data de corte.
+function mdSupRates(ctx){
+    const ini=new Date(ctx.cutoff); ini.setFullYear(ini.getFullYear()-1);
+    const m=new Map();
+    ctx.people.forEach(p=>{ if(!p.sup) return; const o=m.get(p.sup)||{sup:p.sup,team:0,prom:0}; o.team++; if(p.movs.some(x=>x.data>ini)) o.prom++; m.set(p.sup,o); });
+    return [...m.values()].map(o=>({...o,pct:Math.round(o.prom/o.team*100)})).sort((a,b)=>b.pct-a.pct);
+}
+function mdSupTx(ctx){
+    const L=mdSupRates(ctx);
+    if(!L.length) return `<div class="md-nt" style="margin:auto;text-align:center">Sem correspondência entre a MDP e os supervisores do cadastro.</div>`;
+    const mx=Math.max(1,...L.map(x=>x.pct));
+    return `<div class="md-stack">${L.slice(0,7).map(x=>`<div class="md-row" style="gap:12px">${mdAvatar(x.sup,28,null,true)}<span style="width:110px;font-size:12.5px;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">${eqEsc(mdTitle(x.sup))}</span><div class="md-bar" style="flex:1"><i style="width:${x.pct/mx*100}%;background:linear-gradient(90deg,#6d8cff,#a855f7)"></i></div><b style="width:42px;text-align:right">${x.pct}%</b></div>`).join('')}</div><div class="md-nt" style="margin-top:8px">% da equipe promovida nos últimos 12 meses</div>`;
+}
+// Retenção: só calcula quando há pessoas da MDP já desligadas (fichas de desligados na base).
+function mdRetention(ctx){
+    const area=ctx.area, grp={prom:{n:0,left:0},nunca:{n:0,left:0}}, perf=[];
+    ctx.all.forEach(p=>{ if(!p.g || !p.adm || (area && p.canal!==area)) return;
+        const lim = p.saida || new Date(); const prom = p.movsAll.some(m=>m.data<=lim); const o=prom?grp.prom:grp.nunca; o.n++; if(p.inativo){ o.left++; if(!prom) perf.push(mdMonths(p.adm,p.saida||new Date())); } });
+    const left=grp.prom.left+grp.nunca.left;
+    return { ok: left>0 && grp.prom.n>0 && grp.nunca.n>0, grp, perf, left };
+}
+function mdEmptyAnal(msg){ return `<div class="md-nt" style="margin:auto;text-align:center;max-width:280px;line-height:1.5">${msg}</div>`; }
+function mdRetCard(ret){
+    if(!ret.ok) return mdEmptyAnal('Ainda não há desligados na base de MDP. Para calcular, suba também as fichas de quem já saiu.');
+    const items=[['Promovidos',ret.grp.prom,'74,222,128'],['Nunca promovidos',ret.grp.nunca,'248,113,113']];
+    return `<div class="md-row" style="justify-content:space-around;flex:1">${items.map(([l,o,c])=>{ const p=Math.round(o.left/o.n*100), r=46, C=2*Math.PI*r;
+        return `<div style="display:flex;flex-direction:column;align-items:center;gap:8px"><svg width="120" height="120" viewBox="0 0 120 120"><circle cx="60" cy="60" r="${r}" stroke="rgba(${c},.15)" stroke-width="12" fill="none"/><circle cx="60" cy="60" r="${r}" stroke="rgb(${c})" stroke-width="12" fill="none" stroke-linecap="round" stroke-dasharray="${C*Math.min(100,p)/100} ${C}" transform="rotate(-90 60 60)" style="filter:drop-shadow(0 0 6px rgba(${c},.6))"/><text x="60" y="66" text-anchor="middle" fill="#fff" font-size="22" font-weight="800">${p}%</text></svg><div style="font-size:12.5px;font-weight:700">${l}</div><div class="md-nt" style="margin-top:-6px">${o.left} de ${o.n} saíram</div></div>`; }).join('')}</div>`;
+}
+function mdPerfilCard(ret){
+    if(!ret.ok) return mdEmptyAnal('Sem desligados na base de MDP ainda — este bloco aparece quando as fichas de quem saiu forem carregadas.');
+    const tot=ret.left, sem=ret.grp.nunca.left, pct=Math.round(sem/tot*100), b=[['Até 3 meses',ret.perf.filter(m=>m<=3).length,'248,113,113'],['3 a 12 meses',ret.perf.filter(m=>m>3&&m<=12).length,'251,146,60'],['12+ meses',ret.perf.filter(m=>m>12).length,'251,191,36']];
+    return `<div class="md-row" style="gap:14px;margin-bottom:12px"><div style="font-size:40px;font-weight:800;color:rgb(248,113,113);line-height:1">${pct}%</div><div class="md-nt" style="line-height:1.4">dos desligados saíram<br>sem nunca ter sido promovidos</div></div><div class="md-stack" style="justify-content:center">${b.map(x=>`<div class="md-row" style="gap:10px"><span class="md-nt" style="width:84px">${x[0]}</span><div class="md-bar" style="flex:1"><i style="width:${sem?x[1]/sem*100:0}%;background:rgb(${x[2]})"></i></div><b style="width:20px;text-align:right">${x[1]}</b></div>`).join('')}</div><div class="md-nt" style="margin-top:8px">tempo de casa na saída (sem promoção)</div>`;
+}
+
+/* ---- abas ---- */
+function mdRenderGeral(ctx){
+    const P=ctx.people, N=P.length;
+    if(!N) return `<div class="placeholder-card">Nenhum colaborador da MDP no filtro escolhido.</div>`;
+    const k12=P.filter(p=>p.ult>=12).length, never6=P.filter(p=>p.n===0&&p.casa>=6).length, grade=P.filter(p=>p.grade==='sim').length;
+    const avgUlt=mdAvg(P.map(p=>p.ult)), promo=P.filter(p=>p.n>0), avgPro=mdAvg(promo.map(p=>p.ult));
+    const pct=v=>Math.round(v/N*100);
+    const yr=ctx.year, movsAno=[]; P.forEach(p=>p.movs.forEach(m=>{ if(m.data.getFullYear()===yr) movsAno.push(p.k); }));
+    const stag18=P.filter(p=>p.ult>=18).length, stag24=P.filter(p=>p.ult>=24).length;
+    const lideres=P.filter(p=>mdIsLeader(p.cargo)), internos=lideres.filter(p=>p.n>0&&!mdIsLeader(p.cargoAdm)).length;
+    const first=mdAvg(promo.map(p=>p.first));
+    return `<div class="md-kpis">
+        ${mdKpi('clock','251,146,60','Há 12+ meses na mesma função',k12,`${pct(k12)}% das ${N} pessoas`,pct(k12))}
+        ${mdKpi('hour','248,113,113','Nunca promovidos (6+ meses de casa)',never6,`${pct(never6)}% do time`,pct(never6))}
+        ${mdKpi('rocket','34,211,238','Entraram em grade acima',grade,`${pct(grade)}% já começaram no nível II ou mais`,pct(grade))}
+        ${mdKpi('up','168,85,247','Tempo desde a última promoção',mdF1(avgUlt)+' <span style="font-size:16px;font-weight:600;color:var(--text2)">meses</span>',`média geral · ${promo.length?mdF1(avgPro)+' meses entre quem já foi promovido':'ninguém promovido ainda'}`,avgUlt/24*100)}
+    </div>
+    <div class="md-kpis">
+        ${mdTile('star','74,222,128','Promoções em '+ctx.anoLabel,movsAno.length,new Set(movsAno).size+' pessoas diferentes')}
+        ${mdTile('clock','96,165,250','Tempo até a 1ª promoção',promo.length?mdF1(first)+' meses':'—','média de quem já foi promovido')}
+        ${mdTile('alert','251,191,36','Risco de estagnação',stag18,`${stag18} há 18+ meses · ${stag24} há 24+`)}
+        ${mdTile('crown','236,72,153','Promoção interna na liderança',lideres.length?internos+' de '+lideres.length:'—','supervisores vieram de dentro')}
+    </div>
+    <div class="md-grid grow2"><div class="md-c md-s5"><div class="md-ct">Tempo na função atual</div><div class="md-cs">Meses desde a última movimentação (ou desde a admissão)</div>${mdHist(P)}</div>
+        <div class="md-c md-s7"><div class="md-ct">Quem está há mais tempo sem movimentação</div><div class="md-cs">Maior intervalo desde a última promoção — clique para abrir a trajetória</div>${mdRank(P)}</div></div>
+    <div class="md-grid grow"><div class="md-c md-s4"><div class="md-ct">Promoções por ano</div><div class="md-cs">Todas as movimentações de cargo</div>${mdPorAno(ctx)}</div>
+        <div class="md-c md-s4"><div class="md-ct">Tempo médio em cada nível</div><div class="md-cs">Meses entre uma subida de nível e a anterior</div>${mdPorNivel(P)}</div>
+        <div class="md-c md-s4"><div class="md-ct">Mobilidade entre áreas</div><div class="md-cs">Para onde as pessoas migram ao trocar de cargo</div>${mdFlows(P)}</div></div>`;
+}
+function mdFiltered(ctx){
+    let L=ctx.people.slice();
+    if(mdFilter==='nunca') L=L.filter(p=>p.n===0&&p.casa>=6);
+    else if(mdFilter==='grade') L=L.filter(p=>p.grade==='sim');
+    else if(mdFilter==='parados') L=L.filter(p=>p.ult>=12);
+    else if(mdFilter==='ano') L=L.filter(p=>p.movs.some(m=>m.data.getFullYear()===ctx.year));
+    const q=normKey(mdSearch); if(q) L=L.filter(p=>p.k.includes(q));
+    return L.sort((a,b)=>b.ult-a.ult || a.nome.localeCompare(b.nome));
+}
+function mdListHtml(ctx){
+    const L=mdFiltered(ctx);
+    if(!L.length) return `<div class="md-nt" style="text-align:center;padding:24px 0">Ninguém encontrado.</div>`;
+    return L.map(p=>{ const c=p.n===0?(p.casa>=6?'248,113,113':'148,145,173'):(p.ult>=18?'251,146,60':p.grade==='sim'?'34,211,238':'74,222,128');
+        const t=p.n===0 ? (p.casa>=6?`nunca promovido · ${p.ult} m`:`${p.casa} m de casa`) : `${p.n} ${p.n===1?'promoção':'promoções'}${p.ult>=12?' · '+p.ult+' m parado':''}`;
+        return `<div class="md-li${p.k===mdSel?' on':''}" data-k="${eqEsc(p.k)}">${mdAvatar(p.short,34,null,mdIsLeader(p.cargo))}<div class="t"><b>${eqEsc(p.short)}</b><span>${t}</span></div><i class="dot" style="background:rgb(${c});box-shadow:0 0 8px rgb(${c})"></i></div>`; }).join('');
+}
+function mdDetailHtml(ctx){
+    const P=ctx.people, p=P.find(x=>x.k===mdSel);
+    if(!p) return `<div class="md-nt" style="margin:auto">Selecione um colaborador na lista.</div>`;
+    const ev=mdEvents(p,ctx.cutoff), lead=mdIsLeader(p.cargo);
+    const team=P.filter(x=>x.n>0), teamGap=mdAvg(team.map(x=>x.avgGap)), teamFirst=mdAvg(team.map(x=>x.first)), teamUlt=mdAvg(P.map(x=>x.ult));
+    const anos=Math.floor(p.casa/12), mm=p.casa%12;
+    const tiles=[['Tempo de casa',p.casa+' m','168,85,247'],['Promoções',String(p.n),'74,222,128'],['Desde a última',p.ult+' m','251,191,36'],['Média entre promoções',p.n?mdF1(p.avgGap)+' m':'—','34,211,238']];
+    const pills=[mdPill(`${anos}a ${mm}m DE CASA`,'168,85,247'), mdPill(`${p.n} ${p.n===1?'PROMOÇÃO':'PROMOÇÕES'}`, p.n?'74,222,128':'148,145,173')];
+    if(lead&&p.n>0&&!mdIsLeader(p.cargoAdm)) pills.push(mdPill('SUPERVISÃO POR PROMOÇÃO INTERNA','236,72,153'));
+    if(p.n===0&&p.casa>=6) pills.push(mdPill('NUNCA PROMOVIDO','248,113,113'));
+    if(p.grade==='sim') pills.push(mdPill('GRADE ACIMA','34,211,238'));
+    const nodes=ev.map((e,i)=>{ const t=MD_TC[e.t]||MD_TC['Troca de cargo/função'];
+        return `<div class="nd"><div class="ln"></div><div class="gp">${i?'+'+e.g+' m':''}</div><div class="dt" style="background:rgb(${t[0]});box-shadow:0 0 14px rgb(${t[0]}),0 0 0 2px rgba(${t[0]},.6)"></div><div style="font-size:12px;font-weight:700;margin-top:12px;line-height:1.25">${eqEsc(mdTitle(e.c))}</div><div class="md-nt" style="font-size:11px;margin-top:3px">${mdFmtDate(e.d)}</div><span style="margin-top:6px;font-size:9px;font-weight:800;letter-spacing:.4px;color:rgb(${t[0]})">${t[1]}</span></div>`; }).join('');
+    const mxd=Math.max(1,...ev.map(e=>e.dur)), cols=['168,85,247','34,211,238','74,222,128','251,191,36','236,72,153','96,165,250','251,146,60'];
+    const durs=ev.map((e,i)=>`<div class="md-row" style="gap:12px"><span style="width:210px;font-size:12px;${i===ev.length-1?'font-weight:700;':''}white-space:nowrap;overflow:hidden;text-overflow:ellipsis">${eqEsc(mdTitle(e.c))}</span><div class="md-bar" style="flex:1"><i style="width:${Math.max(e.dur/mxd*100,2)}%;background:linear-gradient(90deg,rgba(${cols[i%7]},.55),rgb(${cols[i%7]}))"></i></div><b style="width:84px;text-align:right;font-size:12.5px">${e.dur} m${i===ev.length-1?' <span class="md-nt">(atual)</span>':''}</b></div>`).join('');
+    const cmp = p.n ? [['Média entre promoções',mdF1(p.avgGap)+' m',mdF1(teamGap)+' m',p.avgGap/Math.max(teamGap,p.avgGap,1)*100],['Tempo até a 1ª promoção',p.first+' m',mdF1(teamFirst)+' m',p.first/Math.max(teamFirst,p.first,1)*100]]
+                    : [['Tempo na função atual',p.ult+' m',mdF1(teamUlt)+' m',p.ult/Math.max(teamUlt,p.ult,1)*100]];
+    const cmpHtml=cmp.map(([l,a,b,w])=>`<div class="md-row" style="gap:12px;margin-bottom:9px"><span class="md-nt" style="width:180px">${l}</span><div class="md-bar" style="flex:1"><i style="width:${w}%;background:linear-gradient(90deg,#6d8cff,#a855f7)"></i></div><span style="width:170px;text-align:right;font-size:12px"><b>${a}</b> <span class="md-nt">· time ${b}</span></span></div>`).join('');
+    return `<div><div class="md-row" style="gap:16px;margin-bottom:16px">${mdAvatar(p.short,64,'168,85,247',lead)}<div style="flex:1;min-width:0"><div style="font-size:20px;font-weight:800">${eqEsc(mdTitle(p.nome))}</div><div class="md-nt" style="font-size:13px">${eqEsc(mdTitle(p.cargo))} · admissão em ${mdFmtDate(p.adm)}${p.canal?' · '+eqEsc(p.canal):''}</div><div class="md-row" style="gap:6px;margin-top:8px;flex-wrap:wrap">${pills.join('')}</div></div></div>
+        <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:18px">${tiles.map(([l,v,c])=>`<div class="md-stat" style="background:rgba(${c},.08);border:1px solid rgba(${c},.28)"><div class="md-nt">${l}</div><div style="font-size:24px;font-weight:800;color:rgb(${c})">${v}</div></div>`).join('')}</div></div>
+        <div style="flex:1;display:flex;flex-direction:column;justify-content:center;min-height:0"><div class="md-ct" style="margin-bottom:10px">História na empresa</div><div class="md-tl">${nodes}</div>${p.n===0?`<div style="margin-top:10px;padding:10px 12px;border-radius:12px;background:rgba(248,113,113,.08);border:1px solid rgba(248,113,113,.3);font-size:11.5px;color:#fca5a5">Há ${p.ult} meses no mesmo cargo, sem nenhuma movimentação.</div>`:''}</div>
+        <div><div class="md-sub" style="margin-top:14px"><div class="md-ct" style="margin-bottom:12px">Tempo em cada cargo</div><div class="md-stack" style="gap:9px">${durs}</div></div>
+        <div class="md-sub" style="margin-top:14px"><div class="md-ct" style="margin-bottom:10px">Comparado ao time</div>${cmpHtml}</div></div>`;
+}
+function mdRenderTraj(ctx){
+    const P=ctx.people; if(!P.length) return `<div class="placeholder-card">Nenhum colaborador da MDP no filtro escolhido.</div>`;
+    const L=mdFiltered(ctx); if(!P.some(p=>p.k===mdSel)||(!L.some(p=>p.k===mdSel)&&L.length)) mdSel = L.length?L[0].k:null;
+    const cnt={todos:P.length, nunca:P.filter(p=>p.n===0&&p.casa>=6).length, grade:P.filter(p=>p.grade==='sim').length, parados:P.filter(p=>p.ult>=12).length, ano:P.filter(p=>p.movs.some(m=>m.data.getFullYear()===ctx.year)).length};
+    const chip=(k,t)=>`<span class="md-chip${mdFilter===k?' on':''}" data-f="${k}">${t} (${cnt[k]})</span>`;
+    return `<div class="md-md"><div class="md-c"><div class="md-row" style="justify-content:space-between;margin-bottom:10px"><div class="md-ct">Colaboradores</div><span class="md-nt" id="mdCount">${L.length}</span></div>
+        <input class="md-search" id="mdSearch" placeholder="Buscar colaborador…" value="${eqEsc(mdSearch)}" style="margin-bottom:10px">
+        <div class="md-row" style="gap:6px;flex-wrap:wrap;margin-bottom:12px">${chip('todos','Todos')}${chip('nunca','Nunca promovidos')}${chip('grade','Grade acima')}${chip('parados','12+ m parados')}${chip('ano','Promovidos em '+ctx.anoLabel)}</div>
+        <div class="md-listwrap"><div class="md-list" id="mdList">${mdListHtml(ctx)}</div></div></div>
+        <div class="md-c" id="mdDetail" style="justify-content:space-between">${mdDetailHtml(ctx)}</div></div>`;
+}
+function mdRenderAnal(ctx){
+    const ret=mdRetention(ctx);
+    return `<div class="md-grid grow"><div class="md-c md-s4"><div class="md-ct">Retenção após promoção</div><div class="md-cs">Quem saiu: promovidos × nunca promovidos</div>${mdRetCard(ret)}</div>
+        <div class="md-c md-s4"><div class="md-ct">Perfil de quem sai sem promoção</div><div class="md-cs">Desligados que nunca tiveram movimentação</div>${mdPerfilCard(ret)}</div>
+        <div class="md-c md-s4"><div class="md-ct">Taxa de promoção por supervisor</div><div class="md-cs">Quem mais desenvolve a própria equipe</div>${mdSupTx(ctx)}</div></div>
+      <div class="md-grid grow"><div class="md-c md-s7"><div class="md-ct">Risco de estagnação</div><div class="md-cs">Pessoas há 18+ meses sem nenhuma movimentação</div>${mdStagList(ctx.people,6)}</div>
+        <div class="md-c md-s5"><div class="md-ct">Promoção interna na liderança</div><div class="md-cs">De onde vieram os supervisores</div>${mdLider(ctx.people)}</div></div>`;
+}
+function renderMdpView(){
+    const wrap=document.getElementById('mdpWrap'), empty=document.getElementById('mdpEmpty'); if(!wrap||!empty) return;
+    if(!mdpData.pessoas.length){
+        wrap.classList.remove('has'); empty.style.display='';
+        empty.innerHTML = `<div class="placeholder-card"><div style="font-size:15px;font-weight:700;color:#fff;margin-bottom:6px;">MDP · Movimentação de Pessoal</div>${getAuthRole()==='master'?'Suba a <b>Base de MDP</b> (botão no topo) para ver promoções, trajetórias e análises.':'A base de MDP ainda não foi carregada pelo administrador.'}</div>`;
+        return;
+    }
+    empty.style.display='none'; wrap.classList.add('has');
+    const ctx=mdBuild();
+    document.getElementById('mdTab-geral').innerHTML = mdRenderGeral(ctx);
+    document.getElementById('mdTab-traj').innerHTML = mdRenderTraj(ctx);
+    document.getElementById('mdTab-anal').innerHTML = mdRenderAnal(ctx);
+    document.querySelectorAll('#mdSeg span').forEach(s=>s.classList.toggle('on', s.dataset.t===mdTab));
+    ['geral','traj','anal'].forEach(t=>document.getElementById('mdTab-'+t).classList.toggle('on', t===mdTab));
+    window._mdCtx = ctx;
+}
+document.addEventListener('click', e=>{
+    const root=e.target.closest && e.target.closest('#view-mdp'); if(!root) return;
+    const seg=e.target.closest('#mdSeg span'); if(seg){ mdTab=seg.dataset.t; renderMdpView(); return; }
+    const chip=e.target.closest('.md-chip'); if(chip){ mdFilter=chip.dataset.f; renderMdpView(); return; }
+    const li=e.target.closest('.md-li'); if(li){ mdSel=li.dataset.k; renderMdpView(); return; }
+    const rr=e.target.closest('.md-rr[data-k]'); if(rr){ mdSel=rr.dataset.k; mdFilter='todos'; mdSearch=''; mdTab='traj'; renderMdpView(); }
+});
+document.addEventListener('input', e=>{
+    if(e.target && e.target.id==='mdSearch'){ mdSearch=e.target.value; const ctx=window._mdCtx; if(!ctx) return;
+        document.getElementById('mdList').innerHTML=mdListHtml(ctx); document.getElementById('mdCount').textContent=mdFiltered(ctx).length; }
+});
+// ---- Upload da Base de MDP (Colaboradores + Movimentações). Só nome, datas e cargos: nada de salário ou CPF. ----
+document.getElementById('uploadMdp').addEventListener('change', async function(e){
+    const file=e.target.files[0]; if(!file) return;
+    try {
+        const buf=await file.arrayBuffer();
+        if (isLegacyXls(buf)) throw new Error(LEGACY_XLS_MSG);
+        const sh=await parseXlsxSheetsByName(buf,['Colaboradores','Movimentações']);
+        const col=(rows,pred)=>{ const ks=rows.length?Object.keys(rows[0]):[]; return ks.find(k=>pred(normKey(k))); };
+        const pr=sh['Colaboradores']||[], mr=sh['Movimentações']||[];
+        const cN=col(pr,k=>k.includes('NOME')), cA=col(pr,k=>k.includes('ADMISS')), cCA=col(pr,k=>k.includes('ADMISS')&&k.includes('CARGO')) || col(pr,k=>k.startsWith('CARGO NA')), cC=col(pr,k=>k==='CARGO ATUAL');
+        const mN=col(mr,k=>k.includes('NOME')), mD=col(mr,k=>k==='DATA'), mDe=col(mr,k=>k.includes('ANTERIOR')), mPa=col(mr,k=>k.includes('NOVO')), mT=col(mr,k=>k==='TIPO'), mM=col(mr,k=>k.includes('MOTIVO'));
+        if(!pr.length || !cN || !cA || !cCA){ alert('Não encontrei a aba "Colaboradores" com as colunas Nome, Admissão e Cargo na admissão.'); return; }
+        if(!mr.length || !mN || !mD || !mPa){ alert('Não encontrei a aba "Movimentações" com as colunas Nome, Data e Cargo novo.'); return; }
+        const pessoas=pr.map(r=>({ nome:String(r[cN]||'').trim(), adm:parseDate(r[cA]), cargoAdm:String(r[cCA]||'').trim(), cargoAtual: cC?String(r[cC]||'').trim():'' })).filter(p=>p.nome && p.adm);
+        const movs=mr.map(r=>({ nome:String(r[mN]||'').trim(), data:parseDate(r[mD]), de: mDe?String(r[mDe]||'').trim():'', para:String(r[mPa]||'').trim(), tipo: mT?String(r[mT]||'').trim():'Troca de cargo/função', motivo: mM?String(r[mM]||'').trim():'' })).filter(m=>m.nome && m.data && m.para);
+        mdpData={pessoas,movs}; mdSel=null; mdFilter='todos'; mdSearch='';
+        renderMdpView(); if(globalData.length) renderAll(); syncToBackend();
+        showMessage(`✅ MDP carregada: ${pessoas.length} pessoas e ${movs.filter(m=>MD_PROMO.includes(m.tipo)).length} movimentações`, '');
+    } catch(err){ console.error(err); alert('Erro ao processar a planilha de MDP: '+err.message); }
+    e.target.value='';
+});
+// Ligações com outras abas -----------------------------------------------------------------
+// Equipes: % da equipe promovida nos últimos 12 meses, por supervisor.
+function mdpSupPromoMap(){
+    const m=new Map(); if(!mdpData.pessoas.length) return m;
+    try { mdSupRates(mdBuild()).forEach(x=>m.set(normKey(x.sup),x)); } catch(_){}
+    return m;
+}
+// Riscos: turnover de promovidos × nunca promovidos (precisa de desligados na MDP).
+function mdpRetentionSummary(){
+    if(!mdpData.pessoas.length) return null;
+    try { const ctx=mdBuild(); const r=mdRetention(ctx); return {ok:r.ok, prom:r.grp.prom, nunca:r.grp.nunca}; } catch(_){ return null; }
+}
+
 // Datas viram string (ISO) pra viajar em JSON e voltam a ser Date ao carregar —
 // o resto do dashboard (turnover, coortes, etc.) depende de Date de verdade nesses campos.
 function serializeState(){
@@ -3167,6 +3580,7 @@ function serializeState(){
         entrevistasData: entrevistasData.map(r=>({...r, data:iso(r.data)})),
         metasContratacaoData: metasContratacaoData.map(r=>({...r, data:iso(r.data)})),
         cargosData: cargosData.map(r=>({...r, admissao:iso(r.admissao), nascimento:iso(r.nascimento)})),
+        mdpData: { pessoas: mdpData.pessoas.map(p=>({...p, adm:iso(p.adm)})), movs: mdpData.movs.map(m=>({...m, data:iso(m.data)})) },
     };
 }
 function reviveState(payload){
@@ -3175,6 +3589,8 @@ function reviveState(payload){
     entrevistasData = (payload.entrevistasData||[]).map(r=>({...r, data:dt(r.data)}));
     metasContratacaoData = (payload.metasContratacaoData||[]).map(r=>({...r, data:dt(r.data)}));
     cargosData = (payload.cargosData||[]).map(r=>({...r, admissao:dt(r.admissao), nascimento:dt(r.nascimento)}));
+    const md = payload.mdpData || {};
+    mdpData = { pessoas:(md.pessoas||[]).map(p=>({...p, adm:dt(p.adm)})), movs:(md.movs||[]).map(m=>({...m, data:dt(m.data)})) };
 }
 
 // Chamado (só se master) depois de qualquer upload processado, pra guardar o resultado
