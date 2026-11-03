@@ -778,6 +778,16 @@ td { padding:8px; border-top:1px solid var(--border); }
 .bento .copilot-questions{margin-top:6px!important}
 .bento .copilot-q{font-size:12.5px;padding:8px 14px}
 .bento .copilot-answer{flex:1;margin-bottom:0!important;display:flex;align-items:center;font-size:15.5px;line-height:1.65;padding:18px 22px}
+
+.cd-ns2{margin-top:10px;padding-top:12px;border-top:1px dashed rgba(255,255,255,.1);display:flex;flex-direction:column;gap:12px}
+.gs-h{display:flex;justify-content:space-between;align-items:center;font-size:12px;font-weight:700;margin-bottom:8px}
+.gs-h em{font-style:normal;font-weight:600;font-size:11px;color:#bbf7d0;background:rgba(74,222,128,.12);border:1px solid rgba(74,222,128,.35);border-radius:20px;padding:3px 10px}.gs-h em b{color:#fff}
+.gs-bar{display:flex;gap:3px;height:12px}.gs-bar i{display:block;border-radius:8px;box-shadow:0 0 10px rgba(255,255,255,.08)}
+.gs-lg{display:flex;gap:16px;align-items:center;margin-top:8px;font-size:11.5px;color:#d9d6ea;flex-wrap:wrap}
+.gs-lg span{display:flex;align-items:center;gap:6px}.gs-lg u{width:8px;height:8px;border-radius:50%;display:inline-block}.gs-lg b{color:#fff}.gs-lg small{margin-left:auto;color:var(--text3);font-size:10.5px}
+.gs-ns{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.gs-ns .pill{white-space:nowrap;display:flex;align-items:center;gap:8px;background:rgba(248,113,113,.12);border:1px solid rgba(248,113,113,.4);border-radius:9px;padding:5px 10px;color:#fecaca;font-weight:600;font-size:11.5px}
+.gs-ns .pill b{color:#fff;font-size:13px}.gs-ns small{color:var(--text3);font-size:11px}
 </style>
 <script src="config.js"></script>
 </head>
@@ -1758,10 +1768,19 @@ function normEtapaContratacao(v){
     if (!s) return '';
     if (s.includes('QUALIFICAD')) return 'QUALIFICADA';
     if (s.includes('AGENDAMENTO') || s.includes('AGENDAD')) return 'AGENDAMENTO';
+    if (s.includes('ENCAMINHAD')) return 'ENCAMINHADO';
     if (s.includes('ENTRADA') || s.includes('CONTRAT')) return 'CONTRATADO';
     if (s.includes('SHORTLIST') || s.includes('PROPOSTA')) return 'PROPOSTA';
     if (s.includes('ENTREVISTA')) return 'ENTREVISTA';
     if (s.includes('CANDIDAT') || s.includes('INSCRI') || s.includes('TRIAGEM')) return 'CANDIDATO';
+    return '';
+}
+function normNoShow(v){
+    // "Gestor" = não veio à conversa com o gestor; "Treinamento" (ou Sim, como na versão anterior) = não veio iniciar.
+    const s = normHeader(v);
+    if (!s) return '';
+    if (s.includes('GESTOR')) return 'gestor';
+    if (s.includes('TREIN') || /^(SIM|S|1|X|TRUE|VERDADEIRO)$/.test(s)) return 'treinamento';
     return '';
 }
 function normCanalCandidatura(v){
@@ -1799,7 +1818,7 @@ document.getElementById('uploadEntrevistas').addEventListener('change', async fu
             etapa: normEtapaContratacao(row[colEtapa]),
             data: colData ? parseDate(row[colData]) : null,
             canal: colCanal ? normCanalCandidatura(row[colCanal]) : '',
-            noShow: colNoShow ? /^(SIM|S|1|X|TRUE|VERDADEIRO)$/.test(normHeader(row[colNoShow])) : false
+            noShow: colNoShow ? normNoShow(row[colNoShow]) : ''
         })).filter(r=>r.etapa);
         if (!entrevistasData.length){
             alert('Nenhum registro válido encontrado na planilha de entrevistas. Verifique se a coluna de etapa contém valores como Candidatura, Entrevista com o RH, Shortlist ou Entrada.');
@@ -1829,20 +1848,25 @@ function renderFunilInto(canvasId, listId, noteId, dataList){
     const noteEl = document.getElementById(noteId);
     const source = dataList || entrevistasData;
     // Ordem acumulada do processo: quem chegou numa etapa também passou pelas anteriores.
-    const rank = {CANDIDATO:0, QUALIFICADA:1, AGENDAMENTO:2, ENTREVISTA:3, PROPOSTA:4, CONTRATADO:5};
-    let c6 = [0,0,0,0,0,0], noShow = 0, canais = {Plataformas:0, Facebook:0, WhatsApp:0, 'Indicações':0}, semCanal = 0, ilustrativo = false;
+    // 0 Candidatura · 1 Qualificada · 2 Agendamento · 3 Entrevista RH · 4 Encaminhado ao gestor · 5 Shortlist (aprovado pelo gestor) · 6 Entrada
+    const rank = {CANDIDATO:0, QUALIFICADA:1, AGENDAMENTO:2, ENTREVISTA:3, ENCAMINHADO:4, PROPOSTA:5, CONTRATADO:6};
+    let cnt = [0,0,0,0,0,0,0], nsG = 0, nsT = 0, canais = {Plataformas:0, Facebook:0, WhatsApp:0, 'Indicações':0}, semCanal = 0, ilustrativo = false;
     if (source.length){
         source.forEach(r=>{
-            const lvl = rank[r.etapa];
+            let lvl = rank[r.etapa];
             if (lvl===undefined) return;
-            for (let i=0;i<=lvl;i++) c6[i]++;
-            if (r.noShow) noShow++;
+            const ns = r.noShow===true ? 'treinamento' : (r.noShow||'');
+            // No-show do gestor: foi encaminhado e não veio à conversa → não conta como aprovado (Shortlist).
+            // No-show do treinamento: foi aprovado em tudo e não veio iniciar → conta no Shortlist, mas não em Entradas.
+            if (ns==='gestor'){ nsG++; lvl = Math.min(lvl, 4); }
+            else if (ns==='treinamento'){ nsT++; lvl = Math.min(lvl, 5); }
+            for (let i=0;i<=lvl;i++) cnt[i]++;
             if (r.canal && canais[r.canal]!==undefined) canais[r.canal]++; else semCanal++;
         });
         if (noteEl) noteEl.textContent = '';   // com dados reais o card fica limpo (avisos só aparecem quando há algo a avisar)
     } else if (!entrevistasData.length) {
         ilustrativo = true;
-        c6 = [320,210,140,98,41,18]; noShow = 22; canais = {Plataformas:147, Facebook:70, WhatsApp:58, 'Indicações':45}; semCanal = 0;
+        cnt = [320,210,140,98,60,41,18]; nsG = 5; nsT = 4; canais = {Plataformas:147, Facebook:70, WhatsApp:58, 'Indicações':45}; semCanal = 0;
         if (noteEl){
             noteEl.textContent = '⚠️ Dados ilustrativos — carregue a base de entrevistas para calcular com números reais';
             noteEl.style.color = 'var(--text3)';
@@ -1852,6 +1876,10 @@ function renderFunilInto(canvasId, listId, noteId, dataList){
         noteEl.textContent = '⚠️ Nenhum registro da base de entrevistas nesse mês.';
         noteEl.style.color = 'var(--text3)';
     }
+    const c6 = [cnt[0],cnt[1],cnt[2],cnt[3],cnt[5],cnt[6]];
+    // Conversa com o gestor: encaminhados = aprovados + não vieram + reprovados (reprovados = o que sobra).
+    const registrou = ilustrativo || nsG>0 || source.some(r=>r.etapa==='ENCAMINHADO');   // a planilha já usa a etapa "Encaminhado ao gestor"?
+    const gestor = { enc:cnt[4], apr:cnt[5], faltou:nsG, repr:Math.max(cnt[4]-cnt[5]-nsG,0), registrou };
     const stages6 = [
         {label:'Candidaturas', value:c6[0]},
         {label:'Candidaturas qualificadas', value:c6[1]},
@@ -1864,7 +1892,7 @@ function renderFunilInto(canvasId, listId, noteId, dataList){
     const stages4 = ilustrativo
         ? [{label:'Candidatos',value:320},{label:'Entrevistas',value:92},{label:'Propostas',value:35},{label:'Contratações',value:18}]
         : [{label:'Candidatos',value:c6[0]},{label:'Entrevistas',value:c6[3]},{label:'Propostas',value:c6[4]},{label:'Contratações',value:c6[5]}];
-    if (canvasId==='chartFunilContratacao') renderCandidaturas(stages6, {noShow, agendados:c6[2], canais, semCanal, ilustrativo, hasData: source.length>0 || ilustrativo});
+    if (canvasId==='chartFunilContratacao') renderCandidaturas(stages6, {nsG, nsT, gestor, canais, semCanal, ilustrativo, hasData: source.length>0 || ilustrativo});
     else if (canvasId==='chartFunilContratacaoMetas') renderFunilCaixas(stages4);
     else FunnelChart(canvasId, stages4);
     const lista = canvasId==='chartFunilContratacao' ? stages6 : stages4;
@@ -2748,17 +2776,36 @@ function renderCandidaturas(stages, ex){
     const el=document.getElementById('funilContratacaoBars'); if(!el) return;
     const max=Math.max(...stages.map(x=>x.value),1);
     const pal=[['#22d3ee','#22d3ee'],['#38bdf8','#38bdf8'],['#60a5fa','#60a5fa'],['#818cf8','#818cf8'],['#a855f7','#a855f7'],['#d946ef','#d946ef']];
+    const dicas = [
+        'Todas as pessoas que se candidataram.',
+        'Quem passou pela triagem.',
+        'Quem foi agendado para a entrevista com o RH.',
+        'Quem fez a entrevista com o RH (aprovado ou não).',
+        'Quem foi apresentado ao gestor e foi aprovado por ele.',
+        'Quem foi 100% aprovado em tudo e entrou.'
+    ];
     el.innerHTML = stages.map((st,i)=>{
         const w = 60 + 40*(st.value/max);
         const conv = i>0 && stages[i-1].value ? Math.round(st.value/stages[i-1].value*100)+'%' : '';
         const cor = pal[i%pal.length][0];
-        return `<div class="cd-fr"><div class="cd-ft"><div class="cd-fb" style="width:${w.toFixed(1)}%;background:linear-gradient(90deg,${cor}cc,${cor});box-shadow:0 0 16px ${cor}40;"><span>${st.label}</span><b>${st.value}</b></div></div><i>${conv}</i></div>`;
+        return `<div class="cd-fr" title="${dicas[i]||''}"><div class="cd-ft"><div class="cd-fb" style="width:${w.toFixed(1)}%;background:linear-gradient(90deg,${cor}cc,${cor});box-shadow:0 0 16px ${cor}40;"><span>${st.label}</span><b>${st.value}</b></div></div><i>${conv}</i></div>`;
     }).join('');
-    // No-show: quem tinha entrevista agendada e não compareceu.
+    // Conversa com o gestor + no-shows
     const ns=document.getElementById('funilNoShow');
     if (ns){
-        const pct = ex.agendados ? Math.round(ex.noShow/ex.agendados*100) : 0;
-        ns.innerHTML = `<div class="pill">No-show <b>${ex.noShow}</b></div><small>${ex.noShow ? pct+'% dos agendados faltaram' : 'nenhum no-show registrado'}</small>`;
+        const g=ex.gestor, comp=g.apr+g.repr;               // compareceram = aprovados + reprovados
+        const ader = (comp && g.registrou) ? Math.round(g.apr/comp*100) : null;
+        const w = v => g.enc ? (v/g.enc*100).toFixed(1) : 0;
+        const previstos = stages[5].value + ex.nsT;         // quem era pra iniciar o treinamento = quem entrou + quem não veio
+        const pctT = previstos ? Math.round(ex.nsT/previstos*100) : 0;
+        const faixa = !g.registrou ? `<div class="gs-lg"><small style="margin-left:0">Marque "Encaminhado ao gestor" na planilha de entrevistas para medir a aderência do perfil.</small></div>` : g.enc ? `<div class="gs-bar"><i style="width:${w(g.apr)}%;background:linear-gradient(90deg,#86efac,#4ade80)"></i><i style="width:${w(g.faltou)}%;background:linear-gradient(90deg,#fde68a,#fbbf24)"></i><i style="width:${w(g.repr)}%;background:linear-gradient(90deg,#fca5a5,#f87171)"></i></div>
+            <div class="gs-lg"><span><u style="background:#4ade80"></u>Aprovados <b>${g.apr}</b></span><span><u style="background:#fbbf24"></u>Não vieram <b>${g.faltou}</b></span><span><u style="background:#f87171"></u>Reprovados <b>${g.repr}</b></span><small>de ${g.enc} encaminhados</small></div>`
+            : `<div class="gs-lg"><small style="margin-left:0">Nenhum candidato encaminhado ao gestor ainda.</small></div>`;
+        ns.className='cd-ns2';
+        ns.innerHTML = `<div class="gs">
+            <div class="gs-h"><span>Conversa com o gestor</span><em title="Aprovados ÷ (aprovados + reprovados): só conta quem compareceu">Aderência do perfil <b>${ader===null?'–':ader+'%'}</b></em></div>${faixa}</div>
+            <div class="gs-ns"><div class="pill" title="Foi encaminhado ao gestor e não veio à conversa">No-show · gestor <b>${ex.nsG}</b></div><div class="pill" title="Era para iniciar o treinamento e não veio">No-show · treinamento <b>${ex.nsT}</b></div>
+            <small>${ex.nsT ? pctT+'% de quem ia iniciar o treinamento não veio' : 'ninguém faltou ao início do treinamento'}</small></div>`;
     }
     // Canal de candidatura (rosca)
     const cv=document.getElementById('funilCanal');
