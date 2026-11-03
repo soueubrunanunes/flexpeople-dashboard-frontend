@@ -770,7 +770,9 @@ td { padding:8px; border-top:1px solid var(--border); }
 .ms-mot{flex:1;justify-content:space-around;padding-bottom:4px}
 .ms-mot .m{font-size:13px}.ms-mot .bar{height:9px}
 .rt2-wrap{align-items:center}
-.rt2-r,.rt2-r svg{width:clamp(112px,8.4vw,158px)!important;height:clamp(112px,8.4vw,158px)!important}.rt2-r b{font-size:clamp(22px,1.6vw,30px)}
+.rt2-wrap{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));justify-items:center;align-items:center;padding:0;column-gap:6px}
+.rt2{width:100%;min-width:0}.rt2 .ring-slot{width:100%;display:flex;justify-content:center}
+.rt2-r{width:min(clamp(112px,8.4vw,158px),88%)!important;height:auto!important;aspect-ratio:1/1}.rt2-r svg{width:100%!important;height:100%!important}.rt2-r b{font-size:clamp(22px,1.6vw,30px)}
 .rt2 span{font-size:12.5px;padding:4px 14px}
 .gn-ring,.gn-ring svg{width:clamp(130px,9.6vw,176px)!important;height:clamp(130px,9.6vw,176px)!important}.gn-c b{font-size:clamp(25px,1.9vw,34px)}
 .gn{justify-content:space-around}
@@ -921,7 +923,7 @@ td { padding:8px; border-top:1px solid var(--border); }
         </div>
     </div>
     <div class="card bt-c5">
-                <div class="card-head"><div><div class="card-title">Motivos de Saída</div><div class="card-subtitle">Voluntário x Involuntário</div></div></div>
+                <div class="card-head"><div><div class="card-title">Tipo de saída x Motivo de saída</div><div class="card-subtitle">Voluntário x Involuntário</div></div></div>
                 <div id="motivosResumo"></div>
             </div>
     <div class="card bt-c4">
@@ -1952,7 +1954,8 @@ function initFilters(){
 // Com mês e ano -> apenas aquele mês.
 function getPeriodBounds(){
     const month=document.getElementById('filterMonth').value;
-    const year=document.getElementById('filterYear').value;
+    let year=document.getElementById('filterYear').value;
+    if (!year && month) year=String(new Date().getFullYear());   // mês sem ano = ano atual
     if (!year) return null;
     const y=parseInt(year);
     if (month){
@@ -2062,7 +2065,17 @@ function projecaoRitmoAno(pop){
     return { anoAtual, anoAnterior, taxaAnoAnterior, taxaParcial, taxaProjetada, mesesDecorridos };
 }
 
-document.getElementById('filterMonth').addEventListener('change', ()=>{ if(globalData.length) renderAll(); });
+// Escolheu um mês sem escolher o ano? Assume o ano atual (ou o mais recente da base) e mostra isso no filtro —
+// antes o mês era ignorado e o painel mostrava a situação de hoje, o que alterava os meses já fechados.
+document.getElementById('filterMonth').addEventListener('change', ()=>{
+    const ms=document.getElementById('filterMonth'), ys=document.getElementById('filterYear');
+    if (ms.value && !ys.value){
+        const opts=[...ys.options].map(o=>o.value).filter(Boolean);
+        const atual=String(new Date().getFullYear());
+        ys.value = opts.includes(atual) ? atual : (opts[0]||'');
+    }
+    if(globalData.length) renderAll();
+});
 document.getElementById('filterYear').addEventListener('change', ()=>{ if(globalData.length) renderAll(); });
 document.getElementById('filterArea').addEventListener('change', ()=>{ if(globalData.length) renderAll(); });
 window.addEventListener('resize', ()=>{ if(globalData.length) renderAll(); });
@@ -2662,7 +2675,7 @@ function renderRiscosView(entradasArr, ativos, desligadosArr){
         <div class="rk-c rk-s4"><div class="rk-ct">Heatmap de Turnover</div><div class="rk-cs">Taxa % por área e ano · cor = nível de risco</div>${hmHtml}
             <div class="rk-legend">${RK_ZONES.map(z=>`<span><i style="background:rgb(${z[1]})"></i>${z[0]}</span>`).join('')}</div></div>
         <div class="rk-c rk-s4"><div class="rk-ct">Projeção de Fechamento do Ano</div><div class="rk-cs">Ritmo atual projetado até dezembro vs. ano anterior</div><div class="rk-projs">${projHtml}</div></div>
-        <div class="rk-c rk-s4"><div class="rk-ct">Motivos de Saída</div><div class="rk-cs">Voluntário × Involuntário e principais causas</div>${motHtml}</div>`;
+        <div class="rk-c rk-s4"><div class="rk-ct">Tipo de saída x Motivo de saída</div><div class="rk-cs">Voluntário × Involuntário e principais causas</div>${motHtml}</div>`;
 }
 
 function renderKPIs(entradasArr, ativos, desligadosArr){
