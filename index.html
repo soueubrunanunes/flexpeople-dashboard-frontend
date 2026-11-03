@@ -201,6 +201,22 @@ body { font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif; backg
 .eq-stack i { display:block; }
 .eq-cap { font-size:10.5px; color:var(--text2); margin-top:5px; }
 .eq-row { display:grid; grid-template-columns:34px 56px 210px minmax(0,1fr) 90px 90px 90px 170px; align-items:center; gap:14px; padding:10px 14px; border-radius:14px; background:rgba(255,255,255,.03); border:1px solid rgba(255,255,255,.05); border-left-width:3px; margin-bottom:8px; }
+.eq-item { margin-bottom:8px; }
+.eq-item .eq-row { margin-bottom:0; cursor:pointer; transition:background .15s; }
+.eq-item .eq-row:hover { background:rgba(255,255,255,.055); }
+.eq-item.open .eq-row { border-bottom-left-radius:0; border-bottom-right-radius:0; }
+.eq-chev { display:inline-block; margin-left:10px; color:var(--text3); transition:transform .2s; }
+.eq-item.open .eq-chev { transform:rotate(180deg); color:#fff; }
+.eq-detail { display:none; grid-template-columns:repeat(3,minmax(0,1fr)); gap:22px; padding:16px 20px; border:1px solid rgba(255,255,255,.05); border-top:none; border-radius:0 0 14px 14px; background:rgba(255,255,255,.02); }
+.eq-item.open .eq-detail { display:grid; }
+.eq-dh { display:flex; align-items:center; gap:8px; font-size:13px; font-weight:700; margin-bottom:8px; }
+.eq-dh i { width:8px; height:8px; border-radius:50%; }
+.eq-dh em { margin-left:auto; font-style:normal; font-size:12px; color:var(--text2); background:rgba(255,255,255,.07); border-radius:20px; padding:1px 9px; }
+.eq-dcol ul { list-style:none; margin:0; padding:0; max-height:230px; overflow-y:auto; }
+.eq-dcol li { display:flex; flex-direction:column; padding:6px 2px; border-bottom:1px solid rgba(255,255,255,.05); font-size:12.5px; }
+.eq-dcol li span { font-size:11px; color:var(--text3); }
+.eq-dcol li.vz { color:var(--text3); font-size:12px; border:none; }
+@media (max-width:900px) { .eq-detail { grid-template-columns:1fr; } }
 .eq-row .rk { color:var(--text2); font-weight:700; }
 .eq-row img, .eq-row .ph { width:46px; height:46px; border-radius:50%; object-fit:cover; }
 .eq-row .ph { display:flex; align-items:center; justify-content:center; font-weight:700; background:linear-gradient(135deg,#7c3aed,#d946ef); }
@@ -417,6 +433,7 @@ body { font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif; backg
 .bento > .bt-c3 { grid-column:span 3; }
 .bento > .bt-c4 { grid-column:span 4; }
 .bento > .bt-c5 { grid-column:span 5; }
+.bento > .bt-c7 { grid-column:span 7; }
 .bento > .bt-c12 { grid-column:span 12; }
 .bt-hero > *:not(.bt-spark) { position:relative; z-index:1; }
 .bt-head { display:flex; align-items:center; gap:10px; align-self:flex-start; }
@@ -449,6 +466,7 @@ body { font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif; backg
 .bt-tile .kpi-delta.dlt-up { background:rgba(74,222,128,.16); color:var(--green)!important; }
 .bt-tile .kpi-delta.dlt-dn { background:rgba(248,113,113,.16); color:var(--red)!important; }
 .bt-tile .kpi-delta.dlt-eq { background:rgba(251,191,36,.16); color:var(--yellow)!important; }
+.bt-tv #kpiEntradasDelta { margin-left:10px; vertical-align:middle; position:relative; top:-2px; font-family:'Segoe UI',sans-serif; }
 .bt-tile .kpi-delta.dlt-na { background:rgba(255,255,255,.06); color:var(--text3)!important; }
 .bt-evol .chart-box { height:170px; min-height:170px; flex:none; }
 #miniStatsGrid { grid-template-columns:repeat(4,minmax(0,1fr)); }
@@ -647,6 +665,94 @@ td { padding:8px; border-top:1px solid var(--border); }
     .kpi-column, .kpi-evolution-card { flex-basis:100%; }
     .row-3, .row-4, .row-3b, .row-3c { grid-template-columns:1fr; }
 }
+.cd .card-head{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:12px}
+.cd-body{display:grid;grid-template-columns:minmax(0,1fr) 250px;gap:14px;flex:1}
+.cd-left{display:flex;flex-direction:column;justify-content:space-between;min-width:0}
+.cd-fun{display:flex;flex-direction:column;gap:6px}
+.cd-fr{display:grid;grid-template-columns:minmax(0,1fr) 40px;align-items:center;gap:6px}
+.cd-ft{display:flex;justify-content:center}
+.cd-fb{height:28px;border-radius:8px;display:flex;align-items:center;justify-content:space-between;gap:8px;padding:0 10px;font-size:11.5px;font-weight:600;white-space:nowrap}
+.cd-fb span{overflow:hidden;text-overflow:ellipsis}.cd-fr i{font-style:normal;font-size:11.5px;color:var(--text2)}
+.cd-ns{margin-top:10px;padding-top:10px;border-top:1px dashed rgba(255,255,255,.1);display:flex;align-items:center;gap:10px;font-size:11.5px}
+.cd-ns .pill{white-space:nowrap;display:flex;align-items:center;gap:8px;background:rgba(248,113,113,.12);border:1px solid rgba(248,113,113,.4);border-radius:9px;padding:6px 11px;color:#fecaca;font-weight:600}
+.cd-ns .pill b{color:#fff;font-size:13px}.cd-ns small{color:var(--text3);font-size:11px}
+.cd-don{border-left:1px solid rgba(255,255,255,.07);padding-left:16px;display:flex;flex-direction:column;justify-content:center}
+.cd-don .dt{font-size:12px;font-weight:700}.cd-don .ds{font-size:10.5px;color:var(--text3);margin-bottom:12px}
+.cd-dr{display:flex;flex-direction:column;align-items:center;gap:14px}
+.cd .dg{position:relative;width:124px;height:124px}.cd .dg .c{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center}
+.cd .dg .c b{font-size:21px}.cd .dg .c span{font-size:10px;color:var(--text3)}
+.cd .lg{width:100%;display:flex;flex-direction:column;gap:7px;font-size:12px}.cd .lg div{display:flex;align-items:center;gap:8px}
+.cd .lg em{width:9px;height:9px;border-radius:3px;display:inline-block}.cd .lg span{flex:1;color:#d9d6ea}.cd .lg b{font-weight:700}
+@media (max-width:1100px){.cd-body{grid-template-columns:1fr}.cd-don{border-left:none;padding-left:0;border-top:1px solid rgba(255,255,255,.07);padding-top:12px}.cd-dr{flex-direction:row;justify-content:center}}
+#motivosResumo{flex:1;display:flex;align-items:center;justify-content:center}
+#motivosResumo .gd-wrap{width:auto;gap:18px}
+#motivosResumo .gd-wrap > svg{width:172px;height:172px}
+#motivosResumo .lg2{width:290px}
+.bt-c4 .rt-wrap{flex:1;align-items:center;margin-top:0;padding:0 6px}
+.bt-c4 .rt-wrap .ring-slot svg{width:124px;height:124px}
+.bt-c3 .gd-wrap{flex:1;justify-content:center}
+.ms{flex:1;display:flex;flex-direction:column;justify-content:space-between;gap:12px;margin-top:6px}
+.ms-top{display:flex;align-items:center;gap:20px;position:relative}
+.ms-top svg{flex:none}
+.ms-c{position:absolute;left:0;width:132px;height:132px;display:flex;flex-direction:column;align-items:center;justify-content:center}
+.ms-c b{font-size:22px}.ms-c span{font-size:10px;color:var(--text3)}
+.ms-lg{flex:1;display:flex;flex-direction:column;gap:11px;min-width:0}
+.ms-r .h{display:flex;align-items:center;gap:8px;font-size:12.5px}.ms-r .h span{flex:1;color:#d9d6ea}.ms-r .h b{font-weight:700}.ms-r .h i{font-style:normal;width:36px;text-align:right;color:var(--text2);font-size:11.5px}
+.ms-r .h em{width:9px;height:9px;border-radius:3px;display:inline-block}
+.ms .bar{height:5px;border-radius:3px;background:rgba(255,255,255,.07);margin-top:5px;overflow:hidden}.ms .bar u{display:block;height:100%;border-radius:3px;min-width:3px}
+.ms-sep{font-size:11px;letter-spacing:.06em;text-transform:uppercase;color:var(--text3);padding-top:12px;border-top:1px dashed rgba(255,255,255,.1)}
+.ms-mot{display:flex;flex-direction:column;gap:9px}
+.ms-mot .m{display:grid;grid-template-columns:130px minmax(0,1fr) 26px;align-items:center;gap:12px;font-size:12.5px;color:#d9d6ea}
+.ms-mot .m b{text-align:right;color:#fff}.ms-mot .bar{margin:0;height:7px}.ms-mot .bar u{background:linear-gradient(90deg,#fb923c,#f87171)}
+
+/* ===== visual moderno ===== */
+.mrg{display:block;filter:drop-shadow(0 0 7px rgba(168,85,247,.35))}
+.ms-ring{position:relative;flex:none}.ms-ring .ms-c{left:0;top:0;width:100%;height:100%;position:absolute;display:flex;flex-direction:column;align-items:center;justify-content:center}
+.ms-c{position:static}
+.ms-top{gap:22px}
+.ms-lg{gap:7px}
+.ms-p{display:grid;grid-template-columns:10px 1fr auto 46px;align-items:center;gap:10px;padding:7px 12px;border-radius:12px;background:rgba(255,255,255,.035);border:1px solid rgba(255,255,255,.06);font-size:12.5px}
+.ms-p em{width:10px;height:10px;border-radius:50%;display:block;box-shadow:0 0 8px currentColor}
+.ms-p span{color:#d9d6ea}.ms-p b{font-size:15px}.ms-p i{font-style:normal;text-align:center;font-size:11px;font-weight:600;color:#e9e5ff;background:rgba(255,255,255,.08);border-radius:20px;padding:2px 0}
+.ms-p.dim{opacity:.7}
+.ms-sep{border-top:none;padding-top:4px;display:flex;align-items:center;gap:10px}.ms-sep:after{content:"";flex:1;height:1px;background:linear-gradient(90deg,rgba(255,255,255,.14),transparent)}
+.ms-mot{gap:8px}
+.ms-mot .m{grid-template-columns:22px 128px minmax(0,1fr) 24px 38px;gap:10px}
+.ms-mot .m u{text-decoration:none;font-size:10.5px;font-weight:700;color:var(--text3);letter-spacing:.04em}
+.ms-mot .m:first-child u{color:#fb923c}
+.ms-mot .bar{height:8px;border-radius:8px;background:rgba(255,255,255,.06);overflow:visible}
+.ms-mot .bar s{display:block;height:100%;border-radius:8px;background:linear-gradient(90deg,#fb923c,#f472b6);box-shadow:0 0 12px rgba(244,114,182,.45)}
+.ms-mot .m i{font-style:normal;text-align:right;font-size:11px;color:var(--text2)}
+.cd .dg{width:126px;height:126px}.cd .dg .mrg{filter:drop-shadow(0 0 7px rgba(34,211,238,.3))}
+.cd .dg .c{position:absolute;inset:0}
+.cd .lg{gap:5px}
+.cd .lg div{padding:4px 10px;border-radius:10px;background:rgba(255,255,255,.035);border:1px solid rgba(255,255,255,.06)}
+.cd .lg em{width:9px;height:9px;border-radius:50%}
+.cd-fb{box-shadow:0 0 16px rgba(129,140,248,.25);border-radius:10px}
+
+.rt2-wrap{flex:1;display:flex;justify-content:space-around;align-items:center;padding:0 4px}
+.rt2{display:flex;flex-direction:column;align-items:center;gap:10px}
+.rt2-r{position:relative;width:128px;height:128px}.rt2-r b{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-size:25px}
+.rt2 span{font-size:12px;font-weight:600;color:#fff;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.07);border-radius:20px;padding:3px 12px}
+.gn{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:16px}
+.gn-ring{position:relative;width:150px;height:150px}.gn-c{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center}
+.gn-c b{font-size:28px}.gn-c span{font-size:11px;color:var(--text3)}
+.gn-lg{width:100%;display:flex;flex-direction:column;gap:7px}
+.gn-lg div{display:grid;grid-template-columns:10px 1fr auto;align-items:center;gap:10px;padding:7px 12px;border-radius:12px;background:rgba(255,255,255,.035);border:1px solid rgba(255,255,255,.06);font-size:12.5px}
+.gn-lg em{width:10px;height:10px;border-radius:50%;display:block}.gn-lg span{color:#d9d6ea}.gn-lg b{font-size:14px}
+.rt2-r{width:112px;height:112px}.rt2-r svg{width:112px;height:112px}.rt2-r b{font-size:22px}
+.gn-ring{width:128px;height:128px}.gn-ring svg{width:128px;height:128px}.gn-c b{font-size:25px}.gn{gap:12px}
+.gn-lg{gap:6px}.gn-lg div{padding:6px 12px}
+.rt2-r{width:124px;height:124px}.rt2-r svg{width:124px;height:124px}.rt2-r b{font-size:24px}
+.gn-ring{width:140px;height:140px}.gn-ring svg{width:140px;height:140px}.gn-c b{font-size:27px}
+.bento .copilot-questions{margin-top:auto}.bento .copilot-answer{margin-bottom:auto}
+
+#motivosResumo{flex:1;display:flex;flex-direction:column;align-items:stretch;justify-content:stretch;min-height:0}
+#motivosResumo .ms{margin-top:6px}
+.cd-empty{font-size:11px;color:var(--text3);text-align:center;margin-top:6px;line-height:1.4}
+.cd-sub{font-size:10.5px;color:var(--text3);margin-top:8px}
+.cd-note{font-size:10.5px;color:var(--text3);margin:0 0 10px}.cd-note:empty{display:none}
+.bento .copilot-questions{margin-top:auto}.bento .copilot-answer{margin-bottom:auto}
 </style>
 <script src="config.js"></script>
 </head>
@@ -685,9 +791,10 @@ td { padding:8px; border-top:1px solid var(--border); }
         <div class="sub" id="pageSubtitle">Aqui está o panorama de Pessoas hoje</div>
     </div>
     <div class="header-right">
-        <label class="upload-pill" id="uploadFilePill"><i data-lucide="upload"></i> Carregar Excel<input type="file" id="uploadFile" accept=".xlsx,.xls" /></label>
+        <label class="upload-pill" id="uploadFilePill"><i data-lucide="upload"></i> Turnover comercial<input type="file" id="uploadFile" accept=".xlsx,.xls" /></label>
         <label class="upload-pill" id="uploadEntrevistasPill"><i data-lucide="folder-open"></i> Base de Entrevistas<input type="file" id="uploadEntrevistas" accept=".xlsx,.xls" /></label>
         <label class="upload-pill" id="uploadCargosPill" style="display:none;"><i data-lucide="briefcase"></i> Base de Cargos<input type="file" id="uploadCargos" accept=".xlsx,.xls" /></label>
+        <label class="upload-pill" id="uploadGeralPill" style="display:none;"><i data-lucide="users"></i> Turnover geral<input type="file" id="uploadGeral" accept=".xlsx,.xls" /></label>
         <label class="upload-pill" id="uploadMdpPill" style="display:none;"><i data-lucide="trending-up"></i> Base de MDP<input type="file" id="uploadMdp" accept=".xlsx,.xls" /></label>
         <div class="pill" id="roleBadge"><span class="dot"></span>—</div>
         <button class="logout-btn" id="logoutBtn" type="button">Sair</button>
@@ -733,64 +840,68 @@ td { padding:8px; border-top:1px solid var(--border); }
     </div>
     <div class="card bt-tile">
         <span class="bt-ic" style="--c:251,191,36;color:var(--yellow);"><i data-lucide="cake"></i></span>
-        <div class="bt-tb"><div class="bt-tl">Idade média (ativos)</div><div class="bt-tv"><span id="kpiIdade">-</span><span class="bt-unit" id="kpiIdadeUnit"> anos</span></div><div class="kpi-delta" id="kpiIdadeDelta"></div></div>
+        <div class="bt-tb"><div class="bt-tl">Idade média (ativos)</div><div class="bt-tv"><span id="kpiIdade">-</span><span class="bt-unit" id="kpiIdadeUnit"> anos</span></div></div>
     </div>
     <div class="card bt-tile">
         <span class="bt-ic" style="--c:168,85,247;color:var(--purple);"><i data-lucide="timer"></i></span>
-        <div class="bt-tb"><div class="bt-tl">Tempo de casa (ativos)</div><div class="bt-tv"><span id="kpiTempo">-</span></div><div class="kpi-delta" id="kpiTempoDelta"></div></div>
+        <div class="bt-tb"><div class="bt-tl">Tempo de casa (ativos)</div><div class="bt-tv"><span id="kpiTempo">-</span></div></div>
     </div>
     <div class="card bt-tile">
         <span class="bt-ic" style="--c:217,70,239;color:var(--magenta);"><i data-lucide="user-round-minus"></i></span>
-        <div class="bt-tb"><div class="bt-tl">Idade média (desligados)</div><div class="bt-tv"><span id="kpiIdadeDesligados">-</span><span class="bt-unit" id="kpiIdadeDesligadosUnit"> anos</span></div><div class="kpi-delta" id="kpiIdadeDesligadosDelta"></div></div>
+        <div class="bt-tb"><div class="bt-tl">Idade média (desligados)</div><div class="bt-tv"><span id="kpiIdadeDesligados">-</span><span class="bt-unit" id="kpiIdadeDesligadosUnit"> anos</span></div></div>
     </div>
     <div class="card bt-tile">
         <span class="bt-ic" style="--c:236,72,153;color:var(--pink);"><i data-lucide="hourglass"></i></span>
-        <div class="bt-tb"><div class="bt-tl">Tempo de casa (desligados)</div><div class="bt-tv"><span id="kpiTempoDesligados">-</span></div><div class="kpi-delta" id="kpiTempoDesligadosDelta"></div></div>
+        <div class="bt-tb"><div class="bt-tl">Tempo de casa (desligados)</div><div class="bt-tv"><span id="kpiTempoDesligados">-</span></div></div>
     </div>
     <div class="card bt-tile">
         <span class="bt-ic" style="--c:74,222,128;color:var(--green);"><i data-lucide="log-in"></i></span>
-        <div class="bt-tb"><div class="bt-tl">Entradas</div><div class="bt-tv"><span id="kpiEntradas">-</span></div><div class="kpi-delta" id="kpiEntradasDelta"></div></div>
+        <div class="bt-tb"><div class="bt-tl">Entradas</div><div class="bt-tv"><span id="kpiEntradas">-</span><span class="kpi-delta" id="kpiEntradasDelta"></span></div></div>
     </div>
     <div class="card bt-tile">
         <span class="bt-ic" style="--c:34,211,238;color:var(--cyan);"><i data-lucide="sprout"></i></span>
-        <div class="bt-tb"><div class="bt-tl">Idade média (entradas)</div><div class="bt-tv"><span id="kpiIdadeNovos">-</span><span class="bt-unit" id="kpiIdadeNovosUnit"> anos</span></div><div class="kpi-delta" id="kpiIdadeNovosDelta"></div></div>
+        <div class="bt-tb"><div class="bt-tl">Idade média (entradas)</div><div class="bt-tv"><span id="kpiIdadeNovos">-</span><span class="bt-unit" id="kpiIdadeNovosUnit"> anos</span></div></div>
     </div>
 
-    <div class="card bt-c5">
-                <div class="card-head"><div><div class="card-title">Funil de Contratação</div><div class="card-subtitle">Pipeline de talentos</div></div>
-                <select class="card-select" id="funilPeriodoSelect">
-                    <option value="">Todos os meses</option>
-                    <option value="1">Jan</option><option value="2">Fev</option><option value="3">Mar</option>
-                    <option value="4">Abr</option><option value="5">Mai</option><option value="6">Jun</option>
-                    <option value="7">Jul</option><option value="8">Ago</option><option value="9">Set</option>
-                    <option value="10">Out</option><option value="11">Nov</option><option value="12">Dez</option>
-                </select></div>
-                <div id="funilContratacaoNote" style="font-size:10.5px;color:var(--text3);margin-bottom:10px;"></div>
-                <div id="funilContratacaoFinal" style="display:none;"></div>
-                <div id="funilContratacaoBars" class="fn-wrap"></div>
+    <div class="card bt-c7 cd">
+        <div class="card-head"><div><div class="card-title">Candidaturas</div><div class="card-subtitle">Da candidatura à entrada</div></div>
+            <select class="card-select" id="funilPeriodoSelect">
+                <option value="">Todos os meses</option>
+                <option value="1">Jan</option><option value="2">Fev</option><option value="3">Mar</option>
+                <option value="4">Abr</option><option value="5">Mai</option><option value="6">Jun</option>
+                <option value="7">Jul</option><option value="8">Ago</option><option value="9">Set</option>
+                <option value="10">Out</option><option value="11">Nov</option><option value="12">Dez</option>
+            </select></div>
+        <div id="funilContratacaoNote" class="cd-note"></div>
+        <div id="funilContratacaoFinal" style="display:none;"></div>
+        <div class="cd-body">
+            <div class="cd-left">
+                <div id="funilContratacaoBars" class="cd-fun"></div>
+                <div id="funilNoShow" class="cd-ns"></div>
             </div>
-    <div class="card bt-c3">
+            <div class="cd-don">
+                <div class="dt">Canal de candidatura</div><div class="ds">De onde vêm os candidatos</div>
+                <div id="funilCanal" class="cd-dr"></div>
+            </div>
+        </div>
+    </div>
+    <div class="card bt-c5">
                 <div class="card-head"><div><div class="card-title">Motivos de Saída</div><div class="card-subtitle">Voluntário x Involuntário</div></div></div>
                 <div id="motivosResumo"></div>
             </div>
     <div class="card bt-c4">
             <div class="card-head"><div><div class="card-title">360 Retidos</div><div class="card-subtitle">Retenção de contratados no período</div></div></div>
-            <div class="rt-wrap">
-                <div><div id="ringRetidos90" class="ring-slot"></div><div class="rt-l">90 dias</div><div id="gaugeRetidos90note" style="display:none;"></div></div>
-                <div><div id="ringRetidos180" class="ring-slot"></div><div class="rt-l">180 dias</div><div id="gaugeRetidos180note" style="display:none;"></div></div>
-                <div><div id="ringRetidos365" class="ring-slot"></div><div class="rt-l">365 dias</div><div id="gaugeRetidos365note" style="display:none;"></div></div>
+            <div class="rt2-wrap">
+                <div class="rt2"><div id="ringRetidos90" class="ring-slot"></div><span>90 dias</span><div id="gaugeRetidos90note" style="display:none;"></div></div>
+                <div class="rt2"><div id="ringRetidos180" class="ring-slot"></div><span>180 dias</span><div id="gaugeRetidos180note" style="display:none;"></div></div>
+                <div class="rt2"><div id="ringRetidos365" class="ring-slot"></div><span>365 dias</span><div id="gaugeRetidos365note" style="display:none;"></div></div>
             </div>
-        </div>
-    <div class="card bt-c5">
-            <div class="card-head"><div><div class="card-title">Heatmap de Turnover</div><div class="card-subtitle">Taxa % por área e ano</div></div></div>
-            <div class="heatmap-grid" id="heatmapTurnover"></div>
-            <div class="heatmap-scale"><span>Baixo</span><div class="bar"></div><span>Alto</span></div>
         </div>
     <div class="card bt-c3">
             <div class="card-head"><div><div class="card-title">Distribuição de Gênero</div><div class="card-subtitle">Headcount ativo</div></div></div>
-            <div id="generoDonut" class="gd-wrap"></div>
+            <div id="generoDonut" class="gn"></div>
         </div>
-    <div class="card bt-c4">
+    <div class="card bt-c5">
             <div class="card-head"><div style="display:flex;align-items:center;gap:12px;">
                 <div class="copilot-avatar">
                     <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9.937 15.5A2 2 0 0 0 8.5 14.063l-6.135-1.582a.5.5 0 0 1 0-.962L8.5 9.936A2 2 0 0 0 9.937 8.5l1.582-6.135a.5.5 0 0 1 .963 0L14.063 8.5A2 2 0 0 0 15.5 9.937l6.135 1.581a.5.5 0 0 1 0 .964L15.5 14.063a2 2 0 0 0-1.437 1.437l-1.582 6.135a.5.5 0 0 1-.963 0z"/></svg>
@@ -1512,7 +1623,10 @@ function FunnelChart(canvasId, stages){
 }
 
 /* ============ LÓGICA DO DASHBOARD ============ */
-let globalData = [];
+let globalData = [];   // escopo COMERCIAL (Aquisição + Carteira): é o que alimenta Visão Geral, Equipes, Metas, Diversidade e Riscos
+let fullData = [];     // todas as linhas da planilha de turnover (inclui áreas fora do comercial); usado na MDP e no que é salvo no servidor
+const AREAS_COMERCIAIS = ['AQUISICAO','CARTEIRA'];
+function escopoComercial(arr){ return arr.filter(r=> AREAS_COMERCIAIS.includes(String(r.canal||'').normalize('NFD').replace(/[\u0300-\u036f]/g,'').trim().toUpperCase())); }
 let entrevistasData = [];
 const HEADCOUNT_META = 60; // 4 supervisores x 15 pessoas cada — usado no card de KPI e na Meta de Headcount
 let metasContratacaoData = [];
@@ -1560,26 +1674,32 @@ function formatTempoCasa(totalMeses){
     return txt;
 }
 
+function parseTurnoverRows(json){
+    const norm = v => (v==null?'':String(v)).trim().toUpperCase();
+    return json.map(row=>({
+        nome: (row['NOME']||'').toString().trim(), genero: norm(row['GÊNERO']), dtNasc: parseDate(row['DT_NASC']),
+        canal: norm(row['CANAL']), status: norm(row['STATUS']), dtInicio: parseDate(row['DT_INÍCIO']),
+        dtSaida: parseDate(row['DT_SAÍDA']), tipoSaida: norm(row['TIPO_SAÍDA']), motivo: (row['MOTIVO']||'').toString().trim(),
+        supervisor: (row['SUPERVISOR']||'').toString().trim(), curso: norm(row['CURSO']), statusCurso: norm(row['SUPERIOR']),
+        raca: parseRaca(row)
+    })).filter(r=>r.nome);
+}
+// Turnover COMERCIAL: alimenta Visão Geral, Equipes, Metas, Diversidade e Riscos.
 document.getElementById('uploadFile').addEventListener('change', async function(e){
     const file=e.target.files[0]; if(!file) return;
     showMessage('⏳ Processando arquivo...','');
     try {
         const buf0 = await file.arrayBuffer();
         if (isLegacyXls(buf0)) throw new Error(LEGACY_XLS_MSG);
-        const json = await parseXlsxFile(buf0);
-        function norm(v){ return (v==null?'':String(v)).trim().toUpperCase(); }
-        globalData = json.map(row=>({
-            nome: (row['NOME']||'').toString().trim(), genero: norm(row['GÊNERO']), dtNasc: parseDate(row['DT_NASC']),
-            canal: norm(row['CANAL']), status: norm(row['STATUS']), dtInicio: parseDate(row['DT_INÍCIO']),
-            dtSaida: parseDate(row['DT_SAÍDA']), tipoSaida: norm(row['TIPO_SAÍDA']), motivo: (row['MOTIVO']||'').toString().trim(),
-            supervisor: (row['SUPERVISOR']||'').toString().trim(), curso: norm(row['CURSO']), statusCurso: norm(row['SUPERIOR']),
-            raca: parseRaca(row)
-        })).filter(r=>r.nome);
-        if (!globalData.length){ showMessage('⚠️ Nenhum registro válido encontrado. Verifique os nomes das colunas.','error'); return; }
+        const rows = parseTurnoverRows(await parseXlsxFile(buf0));
+        if (!rows.length){ showMessage('⚠️ Nenhum registro válido encontrado. Verifique os nomes das colunas.','error'); return; }
+        globalData = escopoComercial(rows);
         const nAtivo = globalData.filter(r=>r.status==='ATIVO').length;
         const nInativo = globalData.filter(r=>r.status==='INATIVO').length;
         const nOutroStatus = globalData.length - nAtivo - nInativo;
-        let msg = `✅ ${globalData.length} registros carregados (${nAtivo} ativos, ${nInativo} inativos)`;
+        const fora = rows.length - globalData.length;
+        let msg = `✅ Turnover comercial: ${globalData.length} registros (${nAtivo} ativos, ${nInativo} inativos)`;
+        if (fora>0) msg += ` — ${fora} linhas de outras áreas foram ignoradas`;
         if (nOutroStatus>0) msg += ` — ⚠️ ${nOutroStatus} registros com STATUS diferente de "ATIVO"/"INATIVO" foram ignorados dos totais de ativos/inativos.`;
         showMessage(msg, nOutroStatus>0 ? 'error' : 'success');
         insightsGenerated = false;
@@ -1591,13 +1711,41 @@ document.getElementById('uploadFile').addEventListener('change', async function(
         showMessage('❌ Erro ao processar arquivo: '+err.message,'error');
     }
 });
+// Turnover GERAL (todas as áreas): só serve de apoio à aba MDP (liga cada pessoa à área, supervisor e status).
+document.getElementById('uploadGeral').addEventListener('change', async function(e){
+    const file=e.target.files[0]; if(!file) return;
+    try {
+        const buf0 = await file.arrayBuffer();
+        if (isLegacyXls(buf0)) throw new Error(LEGACY_XLS_MSG);
+        const rows = parseTurnoverRows(await parseXlsxFile(buf0));
+        if (!rows.length){ alert('Nenhum registro válido encontrado na planilha de turnover geral.'); return; }
+        fullData = rows;
+        renderMdpView(); syncToBackend();
+        showMessage(`✅ Turnover geral: ${rows.length} registros carregados para a MDP`, 'success');
+    } catch (err) { console.error(err); alert('Erro ao processar o turnover geral: '+err.message); }
+    e.target.value='';
+});
 
 function normEtapaContratacao(v){
+    // Aceita os nomes novos (Candidatura, Candidatura qualificada, Agendamento de entrevista,
+    // Entrevista com o RH, Shortlist, Entrada) e os antigos (Candidato, Entrevista, Proposta, Contratação).
     const s = normHeader(v);
-    if (s.includes('CONTRAT')) return 'CONTRATADO';
-    if (s.includes('PROPOSTA')) return 'PROPOSTA';
+    if (!s) return '';
+    if (s.includes('QUALIFICAD')) return 'QUALIFICADA';
+    if (s.includes('AGENDAMENTO') || s.includes('AGENDAD')) return 'AGENDAMENTO';
+    if (s.includes('ENTRADA') || s.includes('CONTRAT')) return 'CONTRATADO';
+    if (s.includes('SHORTLIST') || s.includes('PROPOSTA')) return 'PROPOSTA';
     if (s.includes('ENTREVISTA')) return 'ENTREVISTA';
     if (s.includes('CANDIDAT') || s.includes('INSCRI') || s.includes('TRIAGEM')) return 'CANDIDATO';
+    return '';
+}
+function normCanalCandidatura(v){
+    const s = normHeader(v);
+    if (!s) return '';
+    if (s.includes('PLATAFORMA') || s.includes('SITE') || s.includes('VAGAS') || s.includes('LINKEDIN') || s.includes('INDEED')) return 'Plataformas';
+    if (s.includes('FACEBOOK') || s==='FB' || s.includes('INSTAGRAM')) return 'Facebook';
+    if (s.includes('WHATS') || s.includes('ZAP')) return 'WhatsApp';
+    if (s.includes('INDICA')) return 'Indicações';
     return '';
 }
 
@@ -1609,22 +1757,27 @@ document.getElementById('uploadEntrevistas').addEventListener('change', async fu
         const sheets = await parseXlsxSheetsByName(buf, ['Entrevistas','Metas']);
         let json = sheets['Entrevistas'];
         if (!json.length) json = await parseXlsxFile(buf); // fallback: arquivo antigo com 1 aba só
-        const headerKeys = json.length ? Object.keys(json[0]) : [];
+        // união das colunas de todas as linhas (a 1ª linha pode ter células vazias e não trazer todas as chaves)
+        const headerKeys = Array.from(json.reduce((acc,r)=>{ Object.keys(r).forEach(k=>acc.add(k)); return acc; }, new Set()));
         function findCol(...cands){ return headerKeys.find(h => cands.some(c => normHeader(h).includes(normHeader(c)))); }
         const colNome = findCol('NOME','CANDIDATO');
         const colEtapa = findCol('ETAPA','STATUS','FASE','ESTÁGIO','ESTAGIO');
         const colData = findCol('DATA_ENTREVISTA','DATA','DT_ENTREVISTA');
+        const colCanal = findCol('CANAL_CANDIDATURA','CANAL');
+        const colNoShow = findCol('NO_SHOW','NOSHOW','NO SHOW');
         if (!colEtapa){
-            alert('Não consegui identificar a coluna de etapa/status na planilha de entrevistas. Verifique se existe uma coluna como ETAPA, STATUS ou FASE com os valores Candidato/Entrevista/Proposta/Contratado.');
+            alert('Não consegui identificar a coluna de etapa/status na planilha de entrevistas. Verifique se existe uma coluna como ETAPA, STATUS ou FASE com os valores Candidatura, Candidatura qualificada, Agendamento de entrevista, Entrevista com o RH, Shortlist ou Entrada.');
             return;
         }
         entrevistasData = json.map(row=>({
             nome: (row[colNome]||'').toString().trim(),
             etapa: normEtapaContratacao(row[colEtapa]),
-            data: colData ? parseDate(row[colData]) : null
+            data: colData ? parseDate(row[colData]) : null,
+            canal: colCanal ? normCanalCandidatura(row[colCanal]) : '',
+            noShow: colNoShow ? /^(SIM|S|1|X|TRUE|VERDADEIRO)$/.test(normHeader(row[colNoShow])) : false
         })).filter(r=>r.etapa);
         if (!entrevistasData.length){
-            alert('Nenhum registro válido encontrado na planilha de entrevistas. Verifique se a coluna de etapa contém valores como Candidato, Entrevista, Proposta ou Contratado.');
+            alert('Nenhum registro válido encontrado na planilha de entrevistas. Verifique se a coluna de etapa contém valores como Candidatura, Entrevista com o RH, Shortlist ou Entrada.');
             return;
         }
 
@@ -1648,56 +1801,50 @@ document.getElementById('uploadEntrevistas').addEventListener('change', async fu
 });
 
 function renderFunilInto(canvasId, listId, noteId, dataList){
-    let stages;
     const noteEl = document.getElementById(noteId);
     const source = dataList || entrevistasData;
+    // Ordem acumulada do processo: quem chegou numa etapa também passou pelas anteriores.
+    const rank = {CANDIDATO:0, QUALIFICADA:1, AGENDAMENTO:2, ENTREVISTA:3, PROPOSTA:4, CONTRATADO:5};
+    let c6 = [0,0,0,0,0,0], noShow = 0, canais = {Plataformas:0, Facebook:0, WhatsApp:0, 'Indicações':0}, semCanal = 0, ilustrativo = false;
     if (source.length){
-        const rank = {CANDIDATO:0, ENTREVISTA:1, PROPOSTA:2, CONTRATADO:3};
-        const counts=[0,0,0,0];
         source.forEach(r=>{
             const lvl = rank[r.etapa];
             if (lvl===undefined) return;
-            for (let i=0;i<=lvl;i++) counts[i]++;
+            for (let i=0;i<=lvl;i++) c6[i]++;
+            if (r.noShow) noShow++;
+            if (r.canal && canais[r.canal]!==undefined) canais[r.canal]++; else semCanal++;
         });
-        stages=[
-            {label:'Candidatos', value:counts[0]},
-            {label:'Entrevistas', value:counts[1]},
-            {label:'Propostas', value:counts[2]},
-            {label:'Contratações', value:counts[3]},
-        ];
-        if (noteEl){
-            noteEl.textContent = `✅ ${source.length} registros carregados da base de entrevistas`;
-            noteEl.style.color = 'var(--green)';
-        }
+        if (noteEl) noteEl.textContent = '';   // com dados reais o card fica limpo (avisos só aparecem quando há algo a avisar)
     } else if (!entrevistasData.length) {
-        stages=[
-            {label:'Candidatos', value:320},
-            {label:'Entrevistas', value:92},
-            {label:'Propostas', value:35},
-            {label:'Contratações', value:18},
-        ];
+        ilustrativo = true;
+        c6 = [320,210,140,98,41,18]; noShow = 22; canais = {Plataformas:147, Facebook:70, WhatsApp:58, 'Indicações':45}; semCanal = 0;
         if (noteEl){
             noteEl.textContent = '⚠️ Dados ilustrativos — carregue a base de entrevistas para calcular com números reais';
             noteEl.style.color = 'var(--text3)';
         }
-    } else {
+    } else if (noteEl) {
         // Há base de entrevistas carregada, mas nenhum registro caiu no mês escolhido no filtro.
-        stages=[
-            {label:'Candidatos', value:0},
-            {label:'Entrevistas', value:0},
-            {label:'Propostas', value:0},
-            {label:'Contratações', value:0},
-        ];
-        if (noteEl){
-            noteEl.textContent = '⚠️ Nenhum registro da base de entrevistas nesse mês.';
-            noteEl.style.color = 'var(--text3)';
-        }
+        noteEl.textContent = '⚠️ Nenhum registro da base de entrevistas nesse mês.';
+        noteEl.style.color = 'var(--text3)';
     }
-    if (canvasId==='chartFunilContratacao') renderFunilBarras(stages);
-    else if (canvasId==='chartFunilContratacaoMetas') renderFunilCaixas(stages);
-    else FunnelChart(canvasId, stages);
+    const stages6 = [
+        {label:'Candidaturas', value:c6[0]},
+        {label:'Candidaturas qualificadas', value:c6[1]},
+        {label:'Agendamento de entrevistas', value:c6[2]},
+        {label:'Entrevistas com o RH', value:c6[3]},
+        {label:'Shortlist', value:c6[4]},
+        {label:'Entradas', value:c6[5]},
+    ];
+    // Funil da aba Metas segue com as 4 etapas clássicas (mesmos números, derivados das etapas novas).
+    const stages4 = ilustrativo
+        ? [{label:'Candidatos',value:320},{label:'Entrevistas',value:92},{label:'Propostas',value:35},{label:'Contratações',value:18}]
+        : [{label:'Candidatos',value:c6[0]},{label:'Entrevistas',value:c6[3]},{label:'Propostas',value:c6[4]},{label:'Contratações',value:c6[5]}];
+    if (canvasId==='chartFunilContratacao') renderCandidaturas(stages6, {noShow, agendados:c6[2], canais, semCanal, ilustrativo, hasData: source.length>0 || ilustrativo});
+    else if (canvasId==='chartFunilContratacaoMetas') renderFunilCaixas(stages4);
+    else FunnelChart(canvasId, stages4);
+    const lista = canvasId==='chartFunilContratacao' ? stages6 : stages4;
     const listEl = document.getElementById(listId);
-    if (listEl) listEl.innerHTML = stages.map(s=>`
+    if (listEl) listEl.innerHTML = lista.map(s=>`
         <div class="funnel-stage">
             <div class="funnel-value">${s.value}</div>
             <div class="funnel-label">${s.label}</div>
@@ -1911,6 +2058,7 @@ function showView(name){
     const fr = document.querySelector('.filters-row'); if (fr) fr.style.display = (name==='cargos'||name==='performance') ? 'none' : '';
     const cp = document.getElementById('uploadCargosPill'); if (cp) cp.style.display = (name==='cargos' && getAuthRole()==='master') ? '' : 'none';
     const mp = document.getElementById('uploadMdpPill'); if (mp) mp.style.display = (name==='mdp' && getAuthRole()==='master') ? '' : 'none';
+    const gp = document.getElementById('uploadGeralPill'); if (gp) gp.style.display = (name==='mdp' && getAuthRole()==='master') ? '' : 'none';
     if (name==='cargos') renderCargosView();
     if (name==='mdp') renderMdpView();
 
@@ -1995,6 +2143,25 @@ function eqRingSvg(p, rgb, s, sw, texto, sub){
 function eqBadge(t){ const r=classificaRisco(t); return `<span class="eq-pl" style="background:rgba(${r.color},.16);color:rgb(${r.color});">● ${t.toFixed(1)}% · ${r.label}</span>`; }
 function eqEsc(x){ return String(x).replace(/&/g,'&amp;').replace(/"/g,'&quot;').replace(/</g,'&lt;'); }
 
+const eqOpen = new Set();
+const eqFmtD = d => d ? String(d.getDate()).padStart(2,'0')+'/'+String(d.getMonth()+1).padStart(2,'0')+'/'+d.getFullYear() : '';
+function eqDetail(info){
+    const col = (titulo, cor, lista, tipo) => {
+        const L = lista.slice().sort((a,b)=> tipo==='S' ? (b.dtSaida-a.dtSaida) : tipo==='E' ? (b.dtInicio-a.dtInicio) : String(a.nome).localeCompare(String(b.nome)));
+        const li = L.length ? L.map(r=>{
+            const nome = eqEsc(String(r.nome||'').trim());
+            const quando = tipo==='S' ? `saiu ${eqFmtD(r.dtSaida)}${r.tipoSaida?' · '+(r.tipoSaida==='VOLUNTÁRIO'?'voluntária':'involuntária'):''}` : `entrou ${eqFmtD(r.dtInicio)}`;
+            return `<li><b>${nome}</b><span>${quando}</span></li>`; }).join('') : `<li class="vz">Ninguém no período</li>`;
+        return `<div class="eq-dcol"><div class="eq-dh"><i style="background:rgb(${cor})"></i>${titulo}<em>${lista.length}</em></div><ul>${li}</ul></div>`;
+    };
+    return `<div class="eq-detail">${col('Ativos','167,139,250',info.lA,'A')}${col('Entradas','74,222,128',info.lE,'E')}${col('Saídas','248,113,113',info.lS,'S')}</div>`;
+}
+document.addEventListener('click', e=>{
+    const row = e.target.closest && e.target.closest('#eqSupRank .eq-row'); if(!row) return;
+    const it = row.parentElement, k = it.dataset.sup;
+    if (eqOpen.has(k)) eqOpen.delete(k); else eqOpen.add(k);
+    it.classList.toggle('open');
+});
 function renderEquipesView(entradasArr, ativos, desligadosArr){
     const areas = Array.from(new Set(globalData.map(r=>r.canal).filter(Boolean)));
     const topEl = document.getElementById('eqTop');
@@ -2010,15 +2177,18 @@ function renderEquipesView(entradasArr, ativos, desligadosArr){
     const cutoff = bounds ? bounds.end : hoje;
     const periodStart = bounds ? bounds.start : new Date(hoje.getFullYear(), 0, 1);
     const bySup = {};
-    function ensure(sup){ if(!bySup[sup]) bySup[sup] = {entradas:0, saidas:0, ativosFim:0, canais:new Set()}; return bySup[sup]; }
+    function ensure(sup){ if(!bySup[sup]) bySup[sup] = {entradas:0, saidas:0, ativosFim:0, canais:new Set(), lA:[], lE:[], lS:[]}; return bySup[sup]; }
     scoped.forEach(r=>{
         if (!r.supervisor) return;
         const info = ensure(r.supervisor);
-        if (r.dtInicio && r.dtInicio<=cutoff && (r.status==='ATIVO' || (r.dtSaida && r.dtSaida>cutoff))){ info.ativosFim++; if(r.canal) info.canais.add(r.canal); }
-        if (r.dtInicio && r.dtInicio>=periodStart && r.dtInicio<=cutoff) info.entradas++;
-        if (r.status==='INATIVO' && r.dtSaida && r.dtSaida>=periodStart && r.dtSaida<=cutoff) info.saidas++;
+        if (r.dtInicio && r.dtInicio<=cutoff && (r.status==='ATIVO' || (r.dtSaida && r.dtSaida>cutoff))){ info.ativosFim++; info.lA.push(r); if(r.canal) info.canais.add(r.canal); }
+        if (r.dtInicio && r.dtInicio>=periodStart && r.dtInicio<=cutoff){ info.entradas++; info.lE.push(r); }
+        if (r.status==='INATIVO' && r.dtSaida && r.dtSaida>=periodStart && r.dtSaida<=cutoff){ info.saidas++; info.lS.push(r); }
     });
-    const sups = Object.keys(bySup).map(sup=>{
+    // Quem só supervisiona outros supervisores (ex.: gestor das lideranças) não é uma "equipe": fica fora do ranking.
+    const nomesSup = new Set(Object.keys(bySup).map(k=>normKey(k)));
+    const soLideres = k => { const m = scoped.filter(r=>r.supervisor===k); return m.length>0 && m.every(r=>nomesSup.has(normKey(String(r.nome||'').trim().split(/\s+/)[0]))); };
+    const sups = Object.keys(bySup).filter(k=>!soLideres(k)).map(sup=>{
         const info = bySup[sup];
         const turnover = info.ativosFim>0 ? (info.saidas/info.ativosFim*100) : 0;
         const canal = supCanalFixo(sup) || (info.canais.size>1 ? 'Múltiplas equipes' : Array.from(info.canais)[0]||'');
@@ -2080,13 +2250,13 @@ function renderEquipesView(entradasArr, ativos, desligadosArr){
                 <div class="eq-stack">${stack}</div><div class="eq-cap">permanecem × saíram no período</div>${promoCard}</div>`;
             const w = Math.min(100, turnover/80*100);
             const grad = w>0 ? `linear-gradient(90deg,#4ade80,#fbbf24 ${Math.min(100,(15/80*100)/w*100).toFixed(0)}%,#fb923c)` : 'transparent';
-            rHtml += `<div class="eq-row" style="border-left-color:rgb(${rgb});"><span class="rk">#${i+1}</span>${foto(sup)}
+            rHtml += `<div class="eq-item${eqOpen.has(sup)?' open':''}" data-sup="${eqEsc(sup)}"><div class="eq-row" style="border-left-color:rgb(${rgb});"><span class="rk">#${i+1}</span>${foto(sup)}
                 <div><div class="nm">${sup}</div><div class="eqn">${canal}${promoRow}</div></div>
                 <div class="eq-rb"><b style="width:${w}%;background:${grad};"></b><i style="left:${15/80*100}%;"></i><i style="left:${30/80*100}%;"></i></div>
                 <div class="eq-st"><div class="v big">${ativosN}</div><div class="l">ativos</div></div>
                 <div class="eq-st en"><div class="v" style="color:var(--green);">▲ ${info.entradas}</div><div class="l">entradas</div></div>
                 <div class="eq-st sa"><div class="v" style="color:${info.saidas?'var(--red)':'#fff'};">▼ ${info.saidas}</div><div class="l">saídas</div></div>
-                <div class="eq-bd">${eqBadge(turnover)}</div></div>`;
+                <div class="eq-bd">${eqBadge(turnover)}<span class="eq-chev">▾</span></div></div>${eqDetail(info)}</div>`;
         });
         cardsEl.innerHTML = cHtml; rankEl.innerHTML = rHtml;
     }
@@ -2504,6 +2674,26 @@ function renderKPIs(entradasArr, ativos, desligadosArr){
     renderBentoExtras(headcount, turnover, riscoKpiTurnover, entradasArr, ativos, desligadosArr);
 }
 // ---- Gráficos em SVG usados no mosaico (rosca e anel) ----
+// ===== Visual moderno: anéis com ponta arredondada, degradê e brilho (usados na Visão Geral) =====
+let _gradSeq = 0;
+function donutModern(slices, size, sw, glow){
+    const segs = slices.filter(x=>x.v>0), tot = segs.reduce((a,x)=>a+x.v,0);
+    const id = 'dm'+(++_gradSeq);
+    const defs = segs.map((x,i)=>`<linearGradient id="${id}_${i}" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="${x.c1}"/><stop offset="1" stop-color="${x.c2}"/></linearGradient>`).join('');
+    const gap = segs.length>1 ? sw+1.4 : 0;
+    let off = 0;
+    const arcs = tot>0 ? segs.map((x,i)=>{
+        const pct = x.v/tot*100, d = segs.length>1 ? Math.max(pct-gap,0.6) : 100;
+        const el = `<circle cx="21" cy="21" r="15.9155" stroke="url(#${id}_${i})" stroke-dasharray="${d.toFixed(2)} ${(100-d).toFixed(2)}" stroke-dashoffset="${(-(off+gap/2)).toFixed(2)}"/>`;
+        off += pct; return el;
+    }).join('') : '';
+    return `<svg viewBox="0 0 42 42" width="${size}" height="${size}" style="display:block;filter:drop-shadow(0 0 7px ${glow||'rgba(168,85,247,.35)'})"><defs>${defs}</defs><circle cx="21" cy="21" r="15.9155" fill="none" stroke="rgba(255,255,255,.06)" stroke-width="${sw}"/><g fill="none" stroke-width="${sw}" stroke-linecap="round" transform="rotate(-90 21 21)">${arcs}</g></svg>`;
+}
+function ringModern(pct, c1, c2, size, sw, glow, texto){
+    const p = Math.max(0,Math.min(100,pct)), id = 'rm'+(++_gradSeq), d = p>0 ? Math.max(p-sw,0.5) : 0;
+    const arc = p>0 ? `<circle cx="21" cy="21" r="15.9155" fill="none" stroke="url(#${id})" stroke-width="${sw}" stroke-linecap="round" stroke-dasharray="${d.toFixed(2)} ${(100-d).toFixed(2)}" stroke-dashoffset="${(-(sw/2)).toFixed(2)}" transform="rotate(-90 21 21)"/>` : '';
+    return `<div class="rt2-r" style="width:${size}px;height:${size}px"><svg viewBox="0 0 42 42" width="${size}" height="${size}" style="display:block;filter:drop-shadow(0 0 7px ${glow})"><defs><linearGradient id="${id}" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="${c1}"/><stop offset="1" stop-color="${c2}"/></linearGradient></defs><circle cx="21" cy="21" r="15.9155" fill="none" stroke="rgba(255,255,255,.06)" stroke-width="${sw}"/>${arc}</svg><b>${texto}</b></div>`;
+}
 function donutSvg(slices, size, sw, center, sub){
     const r=(size-sw)/2, c=2*Math.PI*r, tot=slices.reduce((a,x)=>a+x.v,0);
     let acc=0;
@@ -2529,16 +2719,34 @@ function renderFunilCaixas(stages){
         return `${conv}<div class="mt-step" style="background:linear-gradient(150deg,${cor}33,${cor}0d);border:1px solid ${cor}66;"><div class="l">${st.label}</div><div class="v">${st.value}</div><div class="b"><i style="width:${topo? (st.value/topo*100).toFixed(1):0}%;background:${cor};"></i></div><div class="c">${topo? (i===0 ? 'base do funil' : Math.round(st.value/topo*100)+'% dos candidatos') : '—'}</div></div>`;
     }).join('');
 }
-function renderFunilBarras(stages){
+function renderCandidaturas(stages, ex){
     const el=document.getElementById('funilContratacaoBars'); if(!el) return;
     const max=Math.max(...stages.map(x=>x.value),1);
-    const pal=['#22d3ee','#38bdf8','#818cf8','#a855f7','#d946ef'];
+    const pal=[['#22d3ee','#22d3ee'],['#38bdf8','#38bdf8'],['#60a5fa','#60a5fa'],['#818cf8','#818cf8'],['#a855f7','#a855f7'],['#d946ef','#d946ef']];
     el.innerHTML = stages.map((st,i)=>{
-        const w = Math.max(.38, st.value/max)*100;
+        const w = 60 + 40*(st.value/max);
         const conv = i>0 && stages[i-1].value ? Math.round(st.value/stages[i-1].value*100)+'%' : '';
-        const cor = pal[stages.length>1 ? Math.round(i*(pal.length-1)/(stages.length-1)) : 0];
-        return `<div class="fn-row"><div class="fn-track"><div class="fn-bar" style="width:${w}%;background:linear-gradient(90deg,${cor}cc,${cor});box-shadow:0 0 18px ${cor}44;"><span>${st.label}</span><b>${st.value}</b></div></div><span class="fn-conv">${conv}</span></div>`;
+        const cor = pal[i%pal.length][0];
+        return `<div class="cd-fr"><div class="cd-ft"><div class="cd-fb" style="width:${w.toFixed(1)}%;background:linear-gradient(90deg,${cor}cc,${cor});box-shadow:0 0 16px ${cor}40;"><span>${st.label}</span><b>${st.value}</b></div></div><i>${conv}</i></div>`;
     }).join('');
+    // No-show: quem tinha entrevista agendada e não compareceu.
+    const ns=document.getElementById('funilNoShow');
+    if (ns){
+        const pct = ex.agendados ? Math.round(ex.noShow/ex.agendados*100) : 0;
+        ns.innerHTML = `<div class="pill">No-show <b>${ex.noShow}</b></div><small>${ex.noShow ? pct+'% dos agendados faltaram' : 'nenhum no-show registrado'}</small>`;
+    }
+    // Canal de candidatura (rosca)
+    const cv=document.getElementById('funilCanal');
+    if (cv){
+        const defs=[['Plataformas','#67e8f9','#22d3ee','rgba(34,211,238,.3)'],['Facebook','#93c5fd','#60a5fa'],['WhatsApp','#86efac','#4ade80'],['Indicações','#f0abfc','#d946ef']];
+        const inf = defs.reduce((a,d)=>a+(ex.canais[d[0]]||0),0);
+        const totalCand = stages[0].value;
+        const ring = donutModern(defs.map(d=>({v:ex.canais[d[0]]||0,c1:d[1],c2:d[2]})), 126, 3.4, 'rgba(34,211,238,.3)');
+        const leg = defs.map(d=>`<div><em style="background:linear-gradient(135deg,${d[1]},${d[2]})"></em><span>${d[0]}</span><b>${inf? Math.round((ex.canais[d[0]]||0)/inf*100)+'%' : '–'}</b></div>`).join('');
+        const aviso = (!ex.ilustrativo && inf===0) ? `<div class="cd-empty">Preencha a coluna CANAL_CANDIDATURA na planilha de entrevistas.</div>`
+                    : (!ex.ilustrativo && ex.semCanal>0) ? `<div class="cd-empty">${ex.semCanal} sem canal informado</div>` : '';
+        cv.innerHTML = `<div class="dg" style="width:126px;height:126px;position:relative;">${ring}<div class="c"><b>${totalCand}</b><span>candidaturas</span></div></div><div class="lg">${leg}</div>${aviso}`;
+    }
 }
 // Detalhes do mosaico da Visão Geral: variação do headcount, barra da meta, anel do turnover.
 function headcountEm(cut){
@@ -2617,7 +2825,7 @@ function renderBentoExtras(headcount, turnover, risco, entradasArr, ativos, desl
     });
 }
 function setDelta(id, text, positive, neutral){
-    const el=document.getElementById(id);
+    const el=document.getElementById(id); if (!el) return;
     el.textContent=text;
     el.className='kpi-delta '+(neutral? '' : (positive?'up':'down'));
     if (neutral) el.style.color='#9491ad';
@@ -2735,8 +2943,8 @@ function renderFunilRetencao(filtered){
         const pct = g.c.total? g.c.retidos/g.c.total*100 : 0;
         const slot = document.getElementById(g.id.replace('gauge','ring'));
         if (slot){
-            const cor = pct>=70 ? '#4ade80' : pct>=50 ? '#fbbf24' : '#fb923c';
-            slot.innerHTML = ringSvg(g.c.total? pct : 0, cor, 104, 10, g.c.total? Math.round(pct)+'%' : '-');
+            const pal = pct>=70 ? ['#86efac','#4ade80','rgba(74,222,128,.35)'] : pct>=50 ? ['#fde68a','#fbbf24','rgba(251,191,36,.35)'] : ['#fdba74','#fb923c','rgba(251,146,60,.35)'];
+            slot.innerHTML = ringModern(g.c.total? pct : 0, pal[0], pal[1], 124, 3.4, pal[2], g.c.total? Math.round(pct)+'%' : '-');
         }
         const noteEl = document.getElementById(g.id+'note');
         if (noteEl) noteEl.textContent = `${g.c.retidos}/${g.c.total}`;
@@ -2745,6 +2953,7 @@ function renderFunilRetencao(filtered){
 
 function renderMotivosSaida(desligadosArr){
     const resumoEl = document.getElementById('motivosResumo');
+    if (!resumoEl) return;
     const total = desligadosArr.length;
     if (!total){
         resumoEl.innerHTML = `<div style="color:var(--text3);text-align:center;padding:20px 0;">Sem desligamentos no escopo filtrado.</div>`;
@@ -2754,17 +2963,25 @@ function renderMotivosSaida(desligadosArr){
     const vol = desligadosArr.filter(r=>r.tipoSaida==='VOLUNTÁRIO').length;
     const invol = desligadosArr.filter(r=>r.tipoSaida==='INVOLUNTÁRIO').length;
     const outros = total - vol - invol;
-    const volPct = (vol/total*100).toFixed(0), involPct=(invol/total*100).toFixed(0);
-
-    const cores = {vol:'#fb923c', invol:'#a855f7', outros:'#6b6885'};
-    const fatias = [{v:vol,c:cores.vol},{v:invol,c:cores.invol}]; if (outros>0) fatias.push({v:outros,c:cores.outros});
-    resumoEl.innerHTML = `<div class="gd-wrap">${donutSvg(fatias, 130, 20, total, 'saídas')}<div class="lg2">
-        <div><em style="background:${cores.vol}"></em>Voluntário<b>${volPct}%</b></div>
-        <div><em style="background:${cores.invol}"></em>Involuntário<b>${involPct}%</b></div>
-        ${outros>0?`<div><em style="background:${cores.outros}"></em>Não informado<b>${(outros/total*100).toFixed(0)}%</b></div>`:''}</div></div>`;
+    const pct = v => Math.round(v/total*100);
+    const linhas = [
+        {l:'Voluntário', v:vol, c1:'#fdba74', c2:'#fb923c'},
+        {l:'Involuntário', v:invol, c1:'#d8b4fe', c2:'#a855f7'}
+    ];
+    if (outros>0) linhas.push({l:'Não informado', v:outros, c1:'#9ca3af', c2:'#6b6885', dim:true});
+    // Principais motivos: conta a coluna MOTIVO dos desligados (ignora vazio), do maior para o menor.
+    const cont = new Map();
+    desligadosArr.forEach(r=>{ const m=(r.motivo||'').trim(); if(!m) return; const k=m.toUpperCase(); cont.set(k,(cont.get(k)||0)+1); });
+    const bonito = k => { const t=k.toLowerCase(); return t.charAt(0).toUpperCase()+t.slice(1); };
+    const top = Array.from(cont.entries()).sort((a,b)=>b[1]-a[1]).slice(0,4);
+    const maxM = top.length ? top[0][1] : 1;
+    const motHtml = top.length ? `<div class="ms-sep">Principais motivos</div><div class="ms-mot">${top.map(([k,v],i)=>`<div class="m"><u>${String(i+1).padStart(2,'0')}</u><span>${eqEsc(bonito(k))}</span><div class="bar"><s style="width:${(v/maxM*100).toFixed(0)}%"></s></div><b>${v}</b><i>${pct(v)}%</i></div>`).join('')}</div>` : '';
+    resumoEl.innerHTML = `<div class="ms"><div class="ms-top"><div class="ms-ring">${donutModern(linhas.map(x=>({v:x.v,c1:x.c1,c2:x.c2})),136,3.4,'rgba(168,85,247,.35)')}<div class="ms-c"><b>${total}</b><span>saídas</span></div></div>
+        <div class="ms-lg">${linhas.map(x=>`<div class="ms-p${x.dim?' dim':''}"><em style="background:linear-gradient(135deg,${x.c1},${x.c2})"></em><span>${x.l}</span><b>${x.v}</b><i>${pct(x.v)}%</i></div>`).join('')}</div></div>${motHtml}</div>`;
 }
 
 function renderHeatmapTurnover(){
+    if (!document.getElementById('heatmapTurnover')) return; // card removido da Visão Geral (o da aba Riscos é outro)
     // Fórmula alinhada ao resto do dashboard: Ativos (ponto-no-tempo em 31/12 do ano) ÷ Desligamentos
     // do ano (com filtro comSupervisor via calcTurnover) — em vez da população histórica acumulada.
     const allYears = Array.from(new Set(globalData.filter(r=>r.dtInicio).map(r=>r.dtInicio.getFullYear()))).sort();
@@ -2798,8 +3015,9 @@ function renderGeneroChart(ativos){
     const alvo = document.getElementById('generoDonut');
     if (alvo){
         const tot = ativos.length || 1;
-        alvo.innerHTML = donutSvg(data.map((v,i)=>({v,c:colors[i]})), 130, 20, ativos.length, 'ativos') +
-            `<div class="lg2">${labels.map((l,i)=>`<div><em style="background:${colors[i]}"></em>${l}<b>${Math.round(data[i]/tot*100)}%</b></div>`).join('')}</div>`;
+        const pal = [['#f9a8d4','#ec4899'],['#93c5fd','#60a5fa'],['#9ca3af','#6b6885']];
+        alvo.innerHTML = `<div class="gn-ring">${donutModern(data.map((v,i)=>({v,c1:pal[i][0],c2:pal[i][1]})), 140, 3.4, 'rgba(236,72,153,.35)')}<div class="gn-c"><b>${ativos.length}</b><span>ativos</span></div></div>`+
+            `<div class="gn-lg">${labels.map((l,i)=>`<div><em style="background:linear-gradient(135deg,${pal[i][0]},${pal[i][1]})"></em><span>${l}</span><b>${Math.round(data[i]/tot*100)}%</b></div>`).join('')}</div>`;
     }
 }
 
@@ -3297,10 +3515,10 @@ function mdAvatar(nome, size, rgb, leaderPhoto){
 // Liga cada pessoa da MDP ao cadastro principal (área, supervisor, status) pelo nome.
 function mdMatchIndex(){
     const full=new Map(), ends=new Map();
-    globalData.forEach(r=>{
+    fullData.forEach(r=>{
         const k=normKey(r.nome); if(!k) return;
         const cur=full.get(k); if(!cur || (cur.status!=='ATIVO' && r.status==='ATIVO')) full.set(k,r);
-        const t=k.split(' '); const e=t[0]+' '+t[t.length-1]; ends.set(e, ends.has(e)?null:r);
+        if(r.status==='ATIVO'){ const t=k.split(' '); const e=t[0]+' '+t[t.length-1]; ends.set(e, ends.has(e)?null:r); }
     });
     return k=>{ if(full.has(k)) return full.get(k); const t=k.split(' '); return ends.get(t[0]+' '+t[t.length-1])||null; };
 }
@@ -3317,7 +3535,7 @@ function mdBuild(){
         const k=normKey(p.nome), g=find(k);
         const ms=(movsBy.get(k)||[]).slice().sort((a,b)=>a.data-b.data);
         return { k, nome:p.nome, short:mdShort(p.nome), adm:p.adm, cargoAdm:p.cargoAdm, cargoAtualBase:p.cargoAtual, movsAll:ms, g,
-                 canal:g?g.canal:'', sup:g?g.supervisor:'', inativo:!!(g && g.status==='INATIVO'), saida:(g && g.status==='INATIVO') ? g.dtSaida : null };
+                 canal:g?g.canal:'', sup:g?g.supervisor:'', inativo:!!(g && normKey(g.nome)===k && g.status==='INATIVO' && g.dtSaida && p.adm && g.dtSaida>=p.adm), saida:(g && normKey(g.nome)===k && g.status==='INATIVO') ? g.dtSaida : null };
     });
     const people = all.filter(p=> p.adm && p.adm<=cutoff && !p.inativo && (!area || p.canal===area)).map(p=>{
         const ms=p.movsAll.filter(m=>m.data<=cutoff), n=ms.length, last=n?ms[n-1].data:null;
@@ -3419,7 +3637,7 @@ function mdRetCard(ret){
 function mdPerfilCard(ret){
     if(!ret.ok) return mdEmptyAnal('Sem desligados na base de MDP ainda — este bloco aparece quando as fichas de quem saiu forem carregadas.');
     const tot=ret.left, sem=ret.grp.nunca.left, pct=Math.round(sem/tot*100), b=[['Até 3 meses',ret.perf.filter(m=>m<=3).length,'248,113,113'],['3 a 12 meses',ret.perf.filter(m=>m>3&&m<=12).length,'251,146,60'],['12+ meses',ret.perf.filter(m=>m>12).length,'251,191,36']];
-    return `<div class="md-row" style="gap:14px;margin-bottom:12px"><div style="font-size:40px;font-weight:800;color:rgb(248,113,113);line-height:1">${pct}%</div><div class="md-nt" style="line-height:1.4">dos desligados saíram<br>sem nunca ter sido promovidos</div></div><div class="md-stack" style="justify-content:center">${b.map(x=>`<div class="md-row" style="gap:10px"><span class="md-nt" style="width:84px">${x[0]}</span><div class="md-bar" style="flex:1"><i style="width:${sem?x[1]/sem*100:0}%;background:rgb(${x[2]})"></i></div><b style="width:20px;text-align:right">${x[1]}</b></div>`).join('')}</div><div class="md-nt" style="margin-top:8px">tempo de casa na saída (sem promoção)</div>`;
+    return `<div class="md-row" style="gap:14px;margin-bottom:12px"><div style="font-size:40px;font-weight:800;color:rgb(248,113,113);line-height:1">${pct}%</div><div class="md-nt" style="line-height:1.4">dos desligados saíram sem nunca ter sido promovidos<br><b style="color:#fff">${sem} de ${tot} desligados</b></div></div><div class="md-stack" style="justify-content:center">${b.map(x=>`<div class="md-row" style="gap:10px"><span class="md-nt" style="width:84px">${x[0]}</span><div class="md-bar" style="flex:1"><i style="width:${sem?x[1]/sem*100:0}%;background:rgb(${x[2]})"></i></div><b style="width:62px;text-align:right">${x[1]} ${x[1]===1?'pessoa':'pessoas'}</b></div>`).join('')}</div><div class="md-nt" style="margin-top:8px">tempo de casa na saída, entre os ${sem} sem promoção</div>`;
 }
 
 /* ---- abas ---- */
@@ -3577,6 +3795,7 @@ function serializeState(){
     const iso = d => d ? d.toISOString() : null;
     return {
         globalData: globalData.map(r=>({...r, dtNasc:iso(r.dtNasc), dtInicio:iso(r.dtInicio), dtSaida:iso(r.dtSaida)})),
+        fullData: fullData.map(r=>({...r, dtNasc:iso(r.dtNasc), dtInicio:iso(r.dtInicio), dtSaida:iso(r.dtSaida)})),
         entrevistasData: entrevistasData.map(r=>({...r, data:iso(r.data)})),
         metasContratacaoData: metasContratacaoData.map(r=>({...r, data:iso(r.data)})),
         cargosData: cargosData.map(r=>({...r, admissao:iso(r.admissao), nascimento:iso(r.nascimento)})),
@@ -3585,7 +3804,9 @@ function serializeState(){
 }
 function reviveState(payload){
     const dt = s => s ? new Date(s) : null;
-    globalData = (payload.globalData||[]).map(r=>({...r, dtNasc:dt(r.dtNasc), dtInicio:dt(r.dtInicio), dtSaida:dt(r.dtSaida)}));
+    const rv = r=>({...r, dtNasc:dt(r.dtNasc), dtInicio:dt(r.dtInicio), dtSaida:dt(r.dtSaida)});
+    if (payload.fullData){ globalData = (payload.globalData||[]).map(rv); fullData = payload.fullData.map(rv); }
+    else { fullData = (payload.globalData||[]).map(rv); globalData = escopoComercial(fullData); } // formato antigo (planilha única)
     entrevistasData = (payload.entrevistasData||[]).map(r=>({...r, data:dt(r.data)}));
     metasContratacaoData = (payload.metasContratacaoData||[]).map(r=>({...r, data:dt(r.data)}));
     cargosData = (payload.cargosData||[]).map(r=>({...r, admissao:dt(r.admissao), nascimento:dt(r.nascimento)}));
