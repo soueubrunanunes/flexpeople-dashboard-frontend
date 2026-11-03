@@ -1768,6 +1768,7 @@ function normEtapaContratacao(v){
     if (!s) return '';
     if (s.includes('QUALIFICAD')) return 'QUALIFICADA';
     if (s.includes('AGENDAMENTO') || s.includes('AGENDAD')) return 'AGENDAMENTO';
+    if (s.includes('REPROVAD')) return 'REPROVADO_GESTOR';   // conversou com o gestor e não foi aprovado
     if (s.includes('ENCAMINHAD')) return 'ENCAMINHADO';
     if (s.includes('ENTRADA') || s.includes('CONTRAT')) return 'CONTRATADO';
     if (s.includes('SHORTLIST') || s.includes('PROPOSTA')) return 'PROPOSTA';
@@ -1849,8 +1850,8 @@ function renderFunilInto(canvasId, listId, noteId, dataList){
     const source = dataList || entrevistasData;
     // Ordem acumulada do processo: quem chegou numa etapa também passou pelas anteriores.
     // 0 Candidatura · 1 Qualificada · 2 Agendamento · 3 Entrevista RH · 4 Encaminhado ao gestor · 5 Shortlist (aprovado pelo gestor) · 6 Entrada
-    const rank = {CANDIDATO:0, QUALIFICADA:1, AGENDAMENTO:2, ENTREVISTA:3, ENCAMINHADO:4, PROPOSTA:5, CONTRATADO:6};
-    let cnt = [0,0,0,0,0,0,0], nsG = 0, nsT = 0, canais = {Plataformas:0, Facebook:0, WhatsApp:0, 'Indicações':0}, semCanal = 0, ilustrativo = false;
+    const rank = {CANDIDATO:0, QUALIFICADA:1, AGENDAMENTO:2, ENTREVISTA:3, ENCAMINHADO:4, REPROVADO_GESTOR:4, PROPOSTA:5, CONTRATADO:6};
+    let cnt = [0,0,0,0,0,0,0], nsG = 0, nsT = 0, reprG = 0, canais = {Plataformas:0, Facebook:0, WhatsApp:0, 'Indicações':0}, semCanal = 0, ilustrativo = false;
     if (source.length){
         source.forEach(r=>{
             let lvl = rank[r.etapa];
@@ -1860,13 +1861,14 @@ function renderFunilInto(canvasId, listId, noteId, dataList){
             // No-show do treinamento: foi aprovado em tudo e não veio iniciar → conta no Shortlist, mas não em Entradas.
             if (ns==='gestor'){ nsG++; lvl = Math.min(lvl, 4); }
             else if (ns==='treinamento'){ nsT++; lvl = Math.min(lvl, 5); }
+            if (r.etapa==='REPROVADO_GESTOR') reprG++;
             for (let i=0;i<=lvl;i++) cnt[i]++;
             if (r.canal && canais[r.canal]!==undefined) canais[r.canal]++; else semCanal++;
         });
         if (noteEl) noteEl.textContent = '';   // com dados reais o card fica limpo (avisos só aparecem quando há algo a avisar)
     } else if (!entrevistasData.length) {
         ilustrativo = true;
-        cnt = [320,210,140,98,60,41,18]; nsG = 5; nsT = 4; canais = {Plataformas:147, Facebook:70, WhatsApp:58, 'Indicações':45}; semCanal = 0;
+        cnt = [320,210,140,98,60,41,18]; nsG = 5; nsT = 4; reprG = 14; canais = {Plataformas:147, Facebook:70, WhatsApp:58, 'Indicações':45}; semCanal = 0;
         if (noteEl){
             noteEl.textContent = '⚠️ Dados ilustrativos — carregue a base de entrevistas para calcular com números reais';
             noteEl.style.color = 'var(--text3)';
@@ -1878,8 +1880,9 @@ function renderFunilInto(canvasId, listId, noteId, dataList){
     }
     const c6 = [cnt[0],cnt[1],cnt[2],cnt[3],cnt[5],cnt[6]];
     // Conversa com o gestor: encaminhados = aprovados + não vieram + reprovados (reprovados = o que sobra).
-    const registrou = ilustrativo || nsG>0 || source.some(r=>r.etapa==='ENCAMINHADO');   // a planilha já usa a etapa "Encaminhado ao gestor"?
-    const gestor = { enc:cnt[4], apr:cnt[5], faltou:nsG, repr:Math.max(cnt[4]-cnt[5]-nsG,0), registrou };
+    const registrou = ilustrativo || nsG>0 || reprG>0 || source.some(r=>r.etapa==='ENCAMINHADO');   // a planilha já usa as etapas do gestor?
+    // conversa com o gestor em tempo real: ou foi aprovado, ou foi reprovado, ou não veio
+    const gestor = { enc:cnt[5]+nsG+reprG, apr:cnt[5], faltou:nsG, repr:reprG, registrou };
     const stages6 = [
         {label:'Candidaturas', value:c6[0]},
         {label:'Candidaturas qualificadas', value:c6[1]},
@@ -2798,7 +2801,7 @@ function renderCandidaturas(stages, ex){
         const w = v => g.enc ? (v/g.enc*100).toFixed(1) : 0;
         const previstos = stages[5].value + ex.nsT;         // quem era pra iniciar o treinamento = quem entrou + quem não veio
         const pctT = previstos ? Math.round(ex.nsT/previstos*100) : 0;
-        const faixa = !g.registrou ? `<div class="gs-lg"><small style="margin-left:0">Marque "Encaminhado ao gestor" na planilha de entrevistas para medir a aderência do perfil.</small></div>` : g.enc ? `<div class="gs-bar"><i style="width:${w(g.apr)}%;background:linear-gradient(90deg,#86efac,#4ade80)"></i><i style="width:${w(g.faltou)}%;background:linear-gradient(90deg,#fde68a,#fbbf24)"></i><i style="width:${w(g.repr)}%;background:linear-gradient(90deg,#fca5a5,#f87171)"></i></div>
+        const faixa = !g.registrou ? `<div class="gs-lg"><small style="margin-left:0">Marque "Shortlist", "Reprovado pelo gestor" ou NO_SHOW "Gestor" na planilha de entrevistas para medir a aderência do perfil.</small></div>` : g.enc ? `<div class="gs-bar"><i style="width:${w(g.apr)}%;background:linear-gradient(90deg,#86efac,#4ade80)"></i><i style="width:${w(g.faltou)}%;background:linear-gradient(90deg,#fde68a,#fbbf24)"></i><i style="width:${w(g.repr)}%;background:linear-gradient(90deg,#fca5a5,#f87171)"></i></div>
             <div class="gs-lg"><span><u style="background:#4ade80"></u>Aprovados <b>${g.apr}</b></span><span><u style="background:#fbbf24"></u>Não vieram <b>${g.faltou}</b></span><span><u style="background:#f87171"></u>Reprovados <b>${g.repr}</b></span><small>de ${g.enc} encaminhados</small></div>`
             : `<div class="gs-lg"><small style="margin-left:0">Nenhum candidato encaminhado ao gestor ainda.</small></div>`;
         ns.className='cd-ns2';
