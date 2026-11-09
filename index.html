@@ -4038,27 +4038,6 @@ const cxIni = n => { const p=String(n).split(' ').filter(Boolean); return ((p[0]
 const cxCap = n => String(n||'').toLowerCase().replace(/(^|\s)([a-zà-ú])/g,(m,a,b)=>a+b.toUpperCase()).replace(/\b(Da|De|Do|Das|Dos|E)\b/g,s=>s.toLowerCase());
 let cxG = {}, cxTotal = 0;
 
-// Só entra quem está no Turnover geral E com status ATIVO (cruza por nome; aceita nome abreviado/completo do mesmo jeito).
-function cxFiltrarTurnover(){
-    const base = (fullData && fullData.length) ? fullData : (globalData || []);
-    if (!base.length) return {lista:cargosData.slice(), aplicado:false, semTurn:0, inativos:0};
-    const st = new Map();
-    base.forEach(r=>{ const k=ogNk(r.nome); if(k) st.set(k, !!st.get(k) || r.status==='ATIVO'); });
-    const keys = Array.from(st.keys()), nt = s=>s.split(' ').length;
-    const achar = k => {
-        if (st.has(k)) return k;
-        if (nt(k) < 2) return null;
-        return keys.find(t=>nt(t)>=2 && (t.startsWith(k+' ') || k.startsWith(t+' '))) || null;
-    };
-    let semTurn = 0, inativos = 0;
-    const lista = cargosData.filter(r=>{
-        const k = achar(ogNk(r.nome));
-        if (!k){ semTurn++; return false; }
-        if (!st.get(k)){ inativos++; return false; }
-        return true;
-    });
-    return {lista, aplicado:true, semTurn, inativos};
-}
 function cxAv(p, big){
     const ph = ogPhoto({nome:p.n});
     return `<div class="cx-av${big?' big':''}" style="--c:${p.bc}" title="${cgEsc(cxCap(p.n))}">${ph?`<img src="${ph}" alt="">`:cxIni(p.n)}</div>`;
@@ -4094,8 +4073,8 @@ function renderCargosView(){
         return;
     }
     toolEl.style.display = ''; hudEl.style.display = '';
-    const hoje = new Date(), fil = cxFiltrarTurnover();
-    const pessoas = fil.lista.map(r=>({n:r.nome, c:prettyCargo(r.cargo), key:normKey(r.cargo), cbo:r.cbo, m:r.admissao?monthsBetween(r.admissao,hoje):null, a:r.nascimento?getAge(r.nascimento):null}));
+    const hoje = new Date();
+    const pessoas = cargosData.map(r=>({n:r.nome, c:prettyCargo(r.cargo), key:normKey(r.cargo), cbo:r.cbo, m:r.admissao?monthsBetween(r.admissao,hoje):null, a:r.nascimento?getAge(r.nascimento):null}));
     cxTotal = pessoas.length;
     cxG = {};
     pessoas.forEach(r=>{ const g = cxG[r.key] || (cxG[r.key] = {key:r.key, c:r.c, cbo:new Set(), p:[]}); g.p.push(r); if (r.cbo) g.cbo.add(r.cbo); });
@@ -4108,7 +4087,7 @@ function renderCargosView(){
     pessoas.forEach(r=>{ r.bc = CX_BL.find(b=>b.id===cxBloco(r.c)).c; });
 
     kpiEl.innerHTML =
-        kpiTile('<i data-lucide="users"></i>','96,165,250','Pessoas na empresa', cxTotal, 'Ativos no Turnover geral') +
+        kpiTile('<i data-lucide="users"></i>','96,165,250','Pessoas na empresa', cxTotal, 'Todos os cargos da planilha') +
         kpiTile('<i data-lucide="briefcase"></i>','168,85,247','Cargos distintos', L.length, L.length ? `Maior: ${L.slice().sort((a,b)=>b.n-a.n)[0].c} (${L.slice().sort((a,b)=>b.n-a.n)[0].n})` : '-') +
         kpiTile('<i data-lucide="timer"></i>','74,222,128','Tempo médio de empresa', cxFmtT(cxAvg(pessoas.map(x=>x.m))), 'Desde a admissão') +
         kpiTile('<i data-lucide="cake"></i>','251,191,36','Idade média', (()=>{const m=cxAvg(pessoas.map(x=>x.a)); return m!=null?Math.round(m)+' anos':'-';})(), 'Com base na data de nascimento');
@@ -4141,7 +4120,6 @@ function renderCargosView(){
     });
     if (!h) h = `<div class="placeholder-card">Nenhum cargo encontrado para esse filtro.</div>`;
     let nota = `<b>Observação:</b> “BackOffice” é como chamamos o Assistente Comercial I, II e III (área Administrativa). Os níveis tracejados são degraus da carreira que ainda não têm ninguém na base.`;
-    if (fil.aplicado && (fil.semTurn || fil.inativos)) nota += ` Esta aba mostra só quem está <b>ativo no Turnover geral</b>: ${fil.semTurn} ${fil.semTurn===1?'pessoa da planilha de cargos não consta':'pessoas da planilha de cargos não constam'} no Turnover e ${fil.inativos} ${fil.inativos===1?'está inativa':'estão inativas'}, por isso ficaram de fora.`;
     viewEl.innerHTML = h + `<div class="cx-note">${nota}</div>`;
 }
 function cxEnsureDr(){
