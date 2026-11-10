@@ -622,33 +622,34 @@ td { padding:8px; border-top:1px solid var(--border); }
 .cg-chip.on { background:linear-gradient(135deg,#7c3aed,#a855f7); color:#fff; border-color:transparent; }
 .cg-search { background:var(--card2); border:1px solid var(--border); border-radius:12px; padding:9px 14px; font-size:12px; color:#fff; width:290px; font-family:inherit; }
 .cg-search::placeholder { color:var(--text3); }
-/* ===== Cargos · layout Metrô (cm-) ===== */
-#view-cargos{--cxt2:#b9b4dc;--cxt3:#8c86b4;--cxl:rgba(168,150,255,.16)}
+/* ===== Cargos · layout por área (cm-) ===== */
+#view-cargos .cm-bar{display:flex;gap:14px;align-items:center;flex-wrap:wrap;margin:6px 0 20px}
+.cm-seg{display:flex;gap:10px;flex-wrap:wrap}
+.cm-sg{all:unset;box-sizing:border-box;cursor:pointer;display:flex;align-items:center;gap:12px;padding:11px 20px 11px 14px;border-radius:16px;border:1px solid rgba(var(--c),.4);background:linear-gradient(135deg,rgba(var(--c),.14),rgba(20,12,60,.55));transition:.18s}
+.cm-sg:hover{box-shadow:0 0 22px rgba(var(--c),.4)}
+.cm-sg.on{border-color:rgb(var(--c));box-shadow:0 0 26px rgba(var(--c),.55);background:linear-gradient(135deg,rgba(var(--c),.34),rgba(20,12,60,.6))}
+.cm-sg b{font-size:14.5px;display:block;color:#fff}.cm-sg small{display:block;color:#8c86b4;font-size:11.5px;margin-top:2px}
+.cm-sg .nn{margin-left:8px;font-size:24px;font-weight:800;color:rgb(var(--c))}
+#view-cargos .cg-search{margin-left:auto}
 .cm-hud{font:700 10.5px ui-monospace,SFMono-Regular,Menlo,monospace;letter-spacing:.16em;color:#8c86b4;text-transform:uppercase}
-.cm-flow{display:flex;gap:10px;flex-wrap:wrap;align-items:stretch;margin:8px 0 14px}
-.cm-fl{all:unset;box-sizing:border-box;cursor:pointer;display:flex;align-items:center;gap:11px;padding:10px 16px 10px 12px;border-radius:16px;border:1px solid rgba(var(--c),.4);background:linear-gradient(135deg,rgba(var(--c),.16),rgba(20,12,60,.55));transition:.18s}
-.cm-fl:hover{box-shadow:0 0 22px rgba(var(--c),.4)}
-.cm-fl.on{box-shadow:0 0 24px rgba(var(--c),.55);border-color:rgb(var(--c));background:linear-gradient(135deg,rgba(var(--c),.34),rgba(20,12,60,.6))}
-.cm-fl .no{width:26px;height:26px;border-radius:9px;display:grid;place-items:center;font:800 12px ui-monospace,Menlo,monospace;background:rgba(var(--c),.25);color:rgb(var(--c))}
-.cm-fl b{display:block;font-size:13.5px;line-height:1.15;color:#fff}
-.cm-fl small{display:block;color:#8c86b4;font-size:11px;margin-top:2px}
-.cm-fl .nn{margin-left:6px;font-size:20px;font-weight:800;color:rgb(var(--c))}
-.cm-area{margin-bottom:26px}
-.cm-ah{display:flex;align-items:center;gap:14px;margin-bottom:12px}
-.cm-ah .dot{width:10px;height:10px;border-radius:50%;background:rgb(var(--c));box-shadow:0 0 12px rgb(var(--c))}
-.cm-ah h2{font-size:15px;letter-spacing:.02em;color:#fff;margin:0}
-.cm-ah .ln{flex:1;height:1px;background:linear-gradient(90deg,rgba(var(--c),.5),transparent)}
-.cm-ah .cnt{font-size:13px;color:#b9b4dc}.cm-ah .cnt b{color:#fff;font-size:18px}
-.cm-line{display:grid;grid-template-columns:200px 1fr;gap:14px;padding:16px 16px 12px;margin-bottom:12px;border-radius:18px;border:1px solid rgba(168,150,255,.16);background:linear-gradient(120deg,rgba(var(--c),.10),rgba(14,8,44,.65) 45%)}
+.cm-ar{margin-bottom:30px;border-radius:24px;border:1px solid rgba(var(--c),.35);background:linear-gradient(180deg,rgba(var(--c),.10),rgba(14,8,44,.55) 160px);overflow:hidden}
+.cm-ar-h{display:flex;align-items:center;gap:20px;flex-wrap:wrap;padding:22px 26px 18px}
+.cm-ar-h h2{font-size:26px;letter-spacing:-.01em;color:#fff;line-height:1.1;margin:4px 0 0}
+.cm-ar-h p{color:#8c86b4;font-size:13.5px;margin:4px 0 0}
+.cm-ar-n{margin-left:auto;text-align:right}.cm-ar-n b{font-size:40px;line-height:1;font-weight:800;color:rgb(var(--c));text-shadow:0 0 22px rgba(var(--c),.55)}.cm-ar-n span{display:block;color:#b9b4dc;font-size:13px;margin-top:2px}
+.cm-split{display:flex;height:8px;border-radius:9px;overflow:hidden;gap:3px;margin:0 26px 6px}
+.cm-split i{display:block;height:100%;background:rgb(var(--c));opacity:.9;border-radius:9px;box-shadow:0 0 12px rgba(var(--c),.5)}
+.cm-leg{display:flex;gap:18px;flex-wrap:wrap;margin:0 26px 8px;font-size:12px;color:#b9b4dc}.cm-leg i{display:inline-block;width:9px;height:9px;border-radius:50%;margin-right:6px;background:rgb(var(--c))}.cm-leg b{color:#fff}
+.cm-line{display:grid;grid-template-columns:200px 1fr;gap:14px;padding:18px 26px 14px;border-top:1px solid rgba(168,150,255,.14);background:linear-gradient(90deg,rgba(var(--c),.07),transparent 40%)}
 .cm-name{display:flex;flex-direction:column;justify-content:center;gap:4px}
 .cm-name b{font-size:16px;line-height:1.2;color:rgb(var(--c));text-shadow:0 0 16px rgba(var(--c),.5)}
 .cm-name span:last-child{font-size:12.5px;color:#8c86b4}
 .cm-name .tg{display:inline-block;font:800 10px ui-monospace,Menlo,monospace;letter-spacing:.12em;padding:3px 8px;border-radius:999px;background:rgba(var(--c),.18);color:rgb(var(--c));width:max-content}
-.cm-name .big{font-size:30px;font-weight:800;color:rgb(var(--c));text-shadow:0 0 18px rgba(var(--c),.55);line-height:1}
+.cm-name .big{font-size:26px;font-weight:800;color:rgb(var(--c));text-shadow:0 0 18px rgba(var(--c),.55);line-height:1}
 .cm-track{display:grid;grid-auto-flow:column;grid-auto-columns:minmax(0,1fr);grid-template-rows:auto 44px auto;min-width:0}
 .cm-st{display:grid;grid-template-rows:subgrid;grid-row:span 3;cursor:pointer;min-width:0;padding:0 6px}
 .cm-faces{display:flex;flex-wrap:wrap;justify-content:center;align-content:flex-end;gap:4px;padding-bottom:12px}
-.cm-faces .cm-av{width:38px;height:38px;font-size:12px}
+.cm-faces .cm-av{width:38px;height:38px;font-size:12px;cursor:pointer;transition:.15s}.cm-faces .cm-av:hover{transform:scale(1.18);z-index:3}
 .cm-nr{position:relative;display:grid;place-items:center}
 .cm-nr:before{content:"";position:absolute;left:-6px;right:-6px;top:50%;height:6px;margin-top:-3px;background:linear-gradient(90deg,rgba(var(--c),.55),rgb(var(--c)));box-shadow:0 0 14px rgba(var(--c),.8);border-radius:6px}
 .cm-st:first-child .cm-nr:before{left:50%}.cm-st:last-child .cm-nr:before{right:50%}.cm-st:only-child .cm-nr:before{display:none}
@@ -657,34 +658,28 @@ td { padding:8px; border-top:1px solid var(--border); }
 .cm-lb{text-align:center;padding-top:8px}
 .cm-lb small{display:block;font:800 10.5px ui-monospace,Menlo,monospace;letter-spacing:.14em;color:rgb(var(--c))}
 .cm-lb b{display:block;font-size:13px;margin:2px 0;line-height:1.2;color:#fff}
+.cm-lb em{font-style:normal;font-size:11.5px;color:#8c86b4}
 .cm-lb .sb{display:block;font-size:11.5px;color:#8c86b4;font-weight:400}
 .cm-lb .chips{display:flex;gap:6px;justify-content:center;flex-wrap:wrap;margin-top:6px}
 .cm-lb .chips span{font-size:11.5px;padding:3px 9px;border-radius:999px;background:rgba(0,0,0,.3);color:#b9b4dc}
 .cm-st.ghost{cursor:default}
-.cm-st.ghost .cm-node{border-style:dashed;border-color:rgba(var(--c),.45);box-shadow:none;color:rgba(var(--c),.6);background:transparent}
-.cm-st.ghost .cm-lb{opacity:.55}
+.cm-st.ghost .cm-node{width:28px;height:28px;font-size:11px;border-width:2px;border-style:dashed;border-color:rgba(var(--c),.45);box-shadow:none;color:rgba(var(--c),.6);background:transparent}
+.cm-st.ghost .cm-lb{opacity:.5;padding-top:6px}
 .cm-st.ghost .cm-nr:before{opacity:.35;background:repeating-linear-gradient(90deg,rgb(var(--c)) 0 8px,transparent 8px 14px);box-shadow:none}
-.cm-solo{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:12px}
-.cm-card{border-radius:18px;padding:12px 14px;border:1px solid rgba(var(--c),.4);background:linear-gradient(160deg,rgba(var(--c),.20),rgba(14,8,44,.7) 60%);cursor:pointer;transition:.18s;display:flex;flex-direction:row;align-items:center;gap:13px}
-.cm-card:hover{transform:translateY(-3px);box-shadow:0 0 28px rgba(var(--c),.45);border-color:rgb(var(--c))}
-.cm-card b{font-size:14px;display:block;line-height:1.25;color:#fff}.cm-card small{color:#8c86b4;font-size:11.5px}
+.cm-st.ghost:hover .cm-node{transform:none}
+.cm-rs{display:flex;flex-wrap:wrap;gap:12px 10px;align-items:flex-start;padding-top:2px}
+.cm-rs .p{width:118px;text-align:center;cursor:pointer;transition:.18s}.cm-rs .p:hover{transform:translateY(-3px)}
+.cm-rs .cm-av{width:56px;height:56px;margin:0 auto;font-size:16px}
+.cm-rs .p b{display:block;font-size:12.5px;margin-top:8px;line-height:1.2;color:#fff}.cm-rs .p small{display:block;color:#8c86b4;font-size:11px;margin-top:2px;line-height:1.25}
 .cm-av{width:38px;height:38px;border-radius:50%;flex:none;overflow:hidden;display:grid;place-items:center;font-weight:800;font-size:13px;color:#fff;background:linear-gradient(135deg,rgb(var(--c)),rgba(var(--c),.35));box-shadow:0 0 0 2px #0c0524,0 0 14px rgba(var(--c),.45)}
 .cm-av img{width:100%;height:100%;object-fit:cover;display:block}
-.cm-av.big{width:56px;height:56px;font-size:17px}
 .cm-note{margin-top:14px;padding:12px 16px;border-radius:14px;border:1px dashed rgba(168,150,255,.3);background:rgba(20,12,60,.5);color:#b9b4dc;font-size:13px;line-height:1.5}
 .cm-scrim{position:fixed;inset:0;background:rgba(3,1,15,.5);z-index:1400;opacity:0;pointer-events:none;transition:.25s}.cm-scrim.on{opacity:1;pointer-events:auto}
-.cm-dr{position:fixed;top:0;right:0;bottom:0;width:min(420px,100vw);z-index:1500;transform:translateX(105%);transition:.28s;padding:22px 22px 28px;overflow:auto;border-left:1px solid rgba(168,150,255,.16);background:linear-gradient(180deg,#1a0f48,#0b0630);box-shadow:-20px 0 60px rgba(0,0,0,.5);color:#f4f2ff;font-family:inherit}
-.cm-dr.open{transform:none}
-.cm-dr .cm-x{all:unset;cursor:pointer;position:absolute;right:16px;top:14px;width:32px;height:32px;display:grid;place-items:center;border-radius:10px;border:1px solid rgba(168,150,255,.16);color:#b9b4dc}
-.cm-dr h3{font-size:20px;padding-right:40px;line-height:1.2;margin:6px 0 0}
-.cm-dr .sub{color:#8c86b4;font-size:13px;margin:4px 0 16px}
-.cm-dr .g{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:16px}
-.cm-dr .g div{padding:12px 14px;border-radius:14px;border:1px solid rgba(168,150,255,.16);background:rgba(var(--c),.10)}
-.cm-dr .g small{display:block;color:#8c86b4;font-size:11px;letter-spacing:.1em;text-transform:uppercase;margin-bottom:4px}.cm-dr .g b{font-size:19px}
-.cm-ppl{display:grid;gap:8px;margin-top:10px}
-.cm-pp{display:flex;align-items:center;gap:11px;padding:8px 10px;border-radius:12px;border:1px solid rgba(168,150,255,.16);background:rgba(255,255,255,.03)}
-.cm-pp b{display:block;font-size:13.5px}.cm-pp small{color:#8c86b4;font-size:11.5px}
-@media(max-width:900px){.cm-line{grid-template-columns:1fr}.cm-faces .cm-av{width:30px;height:30px}.cm-fl{flex:1 1 100%}}
+.o3-dr.cm-dr{position:fixed;top:0;right:0;bottom:0;width:min(470px,100vw);border-radius:0;z-index:1500;transform:translateX(105%);transition:transform .3s cubic-bezier(.2,.8,.2,1)}
+.o3-dr.cm-dr.open{transform:none}
+.cm-dr .cm-back{all:unset;cursor:pointer;display:inline-block;font:700 10.5px ui-monospace,Menlo,monospace;letter-spacing:.12em;color:#b9b4dc;margin-bottom:10px;padding:4px 0}.cm-dr .cm-back:hover{color:#fff}
+.cm-dr .hd .o3-aw.big{--c:inherit}
+@media(max-width:900px){.cm-line{grid-template-columns:1fr;padding:16px 16px 12px}.cm-ar-h{padding:18px 16px 14px}.cm-split,.cm-leg{margin-left:16px;margin-right:16px}.cm-faces .cm-av{width:30px;height:30px}.cm-sg{flex:1 1 100%}#view-cargos .cg-search{margin-left:0;width:100%}}
 
 .cg-mix { display:grid; grid-template-columns:minmax(0,1fr) 390px; gap:16px; align-items:start; margin-bottom:16px; }
 .cg-cards { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:14px; }
@@ -1233,9 +1228,8 @@ td { padding:8px; border-top:1px solid var(--border); }
 <!-- VIEW: Cargos -->
 <div class="container view" id="view-cargos">
     <div class="kpi-row" id="cargosKpis"></div>
-    <div class="cm-hud" id="cargosHud">como a estrutura funciona · clique para filtrar</div>
-    <div class="cm-flow" id="cargosChips"></div>
-    <div class="cg-toolbar" id="cargosToolbar" style="justify-content:flex-start;">
+    <div class="cm-bar" id="cargosToolbar">
+        <div class="cm-seg" id="cargosChips"></div>
         <input class="cg-search" id="cargosSearch" type="search" placeholder="Buscar cargo, CBO ou pessoa…" autocomplete="off">
     </div>
     <div id="cargosView"></div>
@@ -4019,134 +4013,179 @@ function cargoArea(s){
     return 'Administrativo e Apoio';
 }
 
-/* ============ CARGOS · layout Metrô (blocos na ordem da estrutura da empresa) ============ */
-const CM_BL = [
- {id:'LID',no:1,t:'Liderança',sub:'Comercial e Administrativo',c:'236,72,153',kind:'lines'},
- {id:'ANA',no:2,t:'Analistas e especialistas',sub:'Funções de análise e gestão de processos',c:'251,191,36',kind:'cards'},
- {id:'CON',no:3,t:'Consultor de Vendas',sub:'Comercial',c:'168,85,247',kind:'lines'},
- {id:'ATD',no:4,t:'Assistente de Atendimento',sub:'Comercial',c:'34,211,238',kind:'lines'},
- {id:'BO',no:5,t:'BackOffice',sub:'Administrativo · Assistente Comercial',c:'74,222,128',kind:'lines'},
- {id:'APO',no:6,t:'Outros cargos de apoio',sub:'Demais funções administrativas',c:'148,163,184',kind:'cards'}];
-function cmBloco(cargo){
+/* ============ CARGOS · layout por área (Comercial e Administrativo) ============ */
+const CM_BL = {
+ LID:{t:'Liderança',c:'236,72,153'}, ANA:{t:'Analistas e especialistas',c:'251,191,36'}, CON:{t:'Consultor de Vendas',c:'168,85,247'},
+ ATD:{t:'Assistente de Atendimento',c:'34,211,238'}, BO:{t:'BackOffice',c:'74,222,128'}, APO:{t:'Outros cargos de apoio',c:'148,163,184'}};
+const CM_AR = [
+ {id:'COM',t:'Comercial',sub:'Vendas e atendimento ao cliente',c:'168,85,247',lines:['LIDC','CON','ATD']},
+ {id:'ADM',t:'Administrativo',sub:'Gestão, processos e suporte à operação',c:'45,212,191',lines:['LIDA','ANA','BO','APO']}];
+const CM_LN = {
+ LIDC:{b:'LID',nm:'Liderança Comercial',tag:'COMERCIAL',kind:'metro'}, LIDA:{b:'LID',nm:'Liderança Administrativa',tag:'ADMINISTRATIVO',kind:'metro'},
+ CON:{b:'CON',nm:'Consultor de Vendas',tag:'COMERCIAL',kind:'metro',ghost:1}, ATD:{b:'ATD',nm:'Assistente de Atendimento',tag:'COMERCIAL',kind:'metro',ghost:1},
+ BO:{b:'BO',nm:'BackOffice',tag:'ADMINISTRATIVO',kind:'metro',ghost:1}, ANA:{b:'ANA',nm:'Analistas e especialistas',tag:'ADMINISTRATIVO',kind:'roster'},
+ APO:{b:'APO',nm:'Outros cargos de apoio',tag:'ADMINISTRATIVO',kind:'roster'}};
+function cmLinhaDe(cargo){
     const k = normKey(cargo);
-    return /SUPERVISOR|MONITOR/.test(k) ? 'LID' : /^ANALISTA/.test(k) ? 'ANA' : /CONSULTOR DE VENDAS/.test(k) ? 'CON' : /ATENDIMENTO/.test(k) ? 'ATD' : /^ASSISTENTE COMERCIAL/.test(k) ? 'BO' : 'APO';
+    if (/SUPERVISOR|MONITOR/.test(k)) return /COMERCIAL/.test(k) ? 'LIDC' : 'LIDA';
+    if (/^ANALISTA/.test(k)) return 'ANA';
+    if (/CONSULTOR DE VENDAS/.test(k)) return 'CON';
+    if (/ATENDIMENTO/.test(k)) return 'ATD';
+    if (/^ASSISTENTE COMERCIAL/.test(k)) return 'BO';
+    return 'APO';
 }
 const cmAvg = a => { a = a.filter(v=>v!=null); return a.length ? a.reduce((x,y)=>x+y,0)/a.length : null; };
 const cmFmtT = m => { if(m==null) return '-'; m=Math.round(m); const y=Math.floor(m/12), r=m%12; if(!y) return r+(r===1?' mês':' meses'); return y+(y===1?' ano':' anos')+(r?' e '+r+(r===1?' mês':' meses'):''); };
 const cmShort = m => { if(m==null) return '-'; m=Math.round(m); const y=Math.floor(m/12), r=m%12; return y ? (y+'a'+(r?' '+r+'m':'')) : (r+'m'); };
 const cmIni = n => { const p=String(n).split(' ').filter(Boolean); return ((p[0]||'?')[0]+(p.length>1?p[p.length-1][0]:'')).toUpperCase(); };
 const cmCap = n => String(n||'').toLowerCase().replace(/(^|\s)([a-zà-ú])/g,(m,a,b)=>a+b.toUpperCase()).replace(/\b(Da|De|Do|Das|Dos|E)\b/g,s=>s.toLowerCase());
-let cmG = {}, cmTotal = 0;
-
-function cmAv(p, big){
-    const ph = ogPhoto({nome:p.n});
-    return `<div class="cm-av${big?' big':''}" style="--c:${p.bc}" title="${cgEsc(cmCap(p.n))}">${ph?`<img src="${ph}" alt="">`:cmIni(p.n)}</div>`;
+const cmTwo = n => { const p=cmCap(n).split(' ').filter(x=>!/^(da|de|do|das|dos|e)$/.test(x)); return p.length>2 ? p[0]+' '+p[p.length-1] : p.join(' '); };
+let cmG = {}, cmTotal = 0, cmByKey = new Map(), cmLastCargo = null;
+function cmAv(p, cls){
+    const ph = ogPhotoSmart(p.n), k = ogNk(p.n);
+    return `<div class="cm-av${cls?' '+cls:''}" data-p="${cgEsc(k)}" style="--c:${p.bc}" title="${cgEsc(cmCap(p.n))}">${ph?`<img src="${ph}" alt="">`:cmIni(p.n)}</div>`;
 }
-function cmLinhas(b, gs){
-    const rank = g => (/MONITOR/.test(normKey(g.c))?0:10)+g.lr;
-    if (b.id==='LID') return [
-        ['Liderança Comercial','COMERCIAL', gs.filter(g=>/COMERCIAL/.test(normKey(g.c))).sort((x,y)=>rank(x)-rank(y))],
-        ['Liderança Administrativa','ADMINISTRATIVO', gs.filter(g=>!/COMERCIAL/.test(normKey(g.c))).sort((x,y)=>rank(x)-rank(y))]].filter(l=>l[2].length);
-    return [[b.t, b.id==='BO'?'ADMINISTRATIVO':'COMERCIAL', gs.slice().sort((x,y)=>x.lr-y.lr)]];
-}
-function cmGhosts(b, steps){
-    if (!['CON','ATD','BO'].includes(b.id)) return steps;
-    const base = steps[0] ? steps[0].c.replace(/\s(I{1,3}|IV)$/,'') : b.t, R = ['','I','II','III'], out = [];
-    for (let lv=1; lv<=3; lv++){ const g = steps.find(s=>s.lr===lv); out.push(g || {ghost:true,lr:lv,lv:R[lv],c:base+' '+R[lv],n:0,p:[],b:b.id}); }
+function cmGhosts(ln, steps){
+    if (!CM_LN[ln].ghost || !steps.length) return steps;
+    const base = steps[0].c.replace(/\s(I{1,3}|IV)$/,''), R = ['','I','II','III'], out = [];
+    for (let lv=1; lv<=3; lv++){ const g = steps.find(s=>s.lr===lv); out.push(g || {ghost:true,lr:lv,lv:R[lv],c:base+' '+R[lv],n:0,p:[]}); }
     return out;
 }
-function cmEstacao(b, g){
-    const nome = b.id==='BO' ? 'BackOffice '+g.lv : g.c;
-    if (g.ghost) return `<div class="cm-st ghost" style="--c:${b.c}"><div class="cm-faces"></div><div class="cm-nr"><div class="cm-node">0</div></div><div class="cm-lb"><small>NÍVEL ${g.lv}</small><b>${cgEsc(nome)}</b><span class="sb">${b.id==='BO'?cgEsc(g.c):'ninguém neste nível'}</span></div></div>`;
-    const tag = b.id==='BO' ? 'BACKOFFICE' : b.id==='ATD' ? 'ATENDIMENTO' : b.id==='CON' ? 'COMERCIAL' : (/MONITOR/.test(normKey(g.c)) ? 'MONITOR' : 'SUPERVISÃO');
-    return `<div class="cm-st" data-k="${cgEsc(g.key)}" style="--c:${b.c}"><div class="cm-faces">${g.p.slice().sort((a,c)=>(c.m||0)-(a.m||0)).map(p=>cmAv(p)).join('')}</div>` +
-        `<div class="cm-nr"><div class="cm-node">${g.n}</div></div><div class="cm-lb"><small>${g.lv?tag+' · NÍVEL '+g.lv:tag}</small><b>${cgEsc(nome)}</b>${b.id==='BO'?`<span class="sb">${cgEsc(g.c)}</span>`:''}` +
+function cmEstacao(ln, g, color){
+    if (g.ghost) return `<div class="cm-st ghost" style="--c:${color}"><div class="cm-faces"></div><div class="cm-nr"><div class="cm-node">0</div></div><div class="cm-lb"><small>NÍVEL ${g.lv}</small><em>sem ninguém</em></div></div>`;
+    const nome = ln==='BO' ? 'BackOffice '+g.lv : g.c;
+    const rank = /MONITOR/.test(normKey(g.c)) ? 'MONITOR' : /SUPERVISOR/.test(normKey(g.c)) ? 'SUPERVISÃO' : '';
+    const tag = rank || (ln==='BO' ? 'BACKOFFICE' : ln==='ATD' ? 'ATENDIMENTO' : 'COMERCIAL');
+    return `<div class="cm-st" data-k="${cgEsc(g.key)}" style="--c:${color}"><div class="cm-faces">${g.p.slice().sort((a,c)=>(c.m||0)-(a.m||0)).map(p=>cmAv(p)).join('')}</div>` +
+        `<div class="cm-nr"><div class="cm-node">${g.n}</div></div><div class="cm-lb"><small>${g.lv?tag+' · NÍVEL '+g.lv:tag}</small><b>${cgEsc(nome)}</b>${ln==='BO'?`<span class="sb">${cgEsc(g.c)}</span>`:''}` +
         `<div class="chips"><span>⏱ ${cmShort(g.tm)}</span><span>${g.ta?Math.round(g.ta)+' anos':'-'}</span></div></div></div>`;
 }
+function cmLinhaHtml(ln, L, match){
+    const def = CM_LN[ln], color = CM_BL[def.b].c, rank = g => (/MONITOR/.test(normKey(g.c))?0:10)+g.lr;
+    const gs = L.filter(g=>g.ln===ln).sort((x,y)=>rank(x)-rank(y)), real = gs.filter(match);
+    if (!real.length) return '';
+    const tot = real.reduce((s,g)=>s+g.n,0);
+    const left = `<div class="cm-name"><span class="tg">${def.tag}</span><b>${cgEsc(def.nm)}</b><span class="big">${tot}</span><span>${def.kind==='metro' ? real.length+(real.length===1?' estação':' estações')+' · média '+cmShort(cmAvg(real.flatMap(g=>g.p.map(x=>x.m)))) : (tot===1?'1 pessoa':tot+' pessoas')}</span></div>`;
+    if (def.kind==='roster') return `<div class="cm-line" style="--c:${color}">${left}<div class="cm-rs">${real.flatMap(g=>g.p.map(p=>`<div class="p" data-p="${cgEsc(ogNk(p.n))}" style="--c:${color}">${cmAv(p)}<b>${cgEsc(cmTwo(p.n))}</b><small>${cgEsc(g.c)}</small></div>`)).join('')}</div></div>`;
+    const steps = cmGhosts(ln, gs).filter(s=>s.ghost || match(s));
+    return `<div class="cm-line" style="--c:${color}">${left}<div class="cm-track">${steps.map(g=>cmEstacao(ln,g,color)).join('')}</div></div>`;
+}
 function renderCargosView(){
-    const kpiEl = document.getElementById('cargosKpis'), viewEl = document.getElementById('cargosView'), toolEl = document.getElementById('cargosToolbar'), chipsEl = document.getElementById('cargosChips'), hudEl = document.getElementById('cargosHud');
+    const kpiEl = document.getElementById('cargosKpis'), viewEl = document.getElementById('cargosView'), toolEl = document.getElementById('cargosToolbar'), segEl = document.getElementById('cargosChips');
     if (!kpiEl || !viewEl) return;
     if (!cargosData.length){
-        kpiEl.innerHTML = ''; chipsEl.innerHTML = ''; toolEl.style.display = 'none'; hudEl.style.display = 'none';
+        kpiEl.innerHTML = ''; segEl.innerHTML = ''; toolEl.style.display = 'none';
         const msg = getAuthRole()==='master' ? 'Nenhuma base carregada ainda. Use o botão "Base de Cargos" no topo para subir a planilha da empresa toda.' : 'Nenhuma base de cargos carregada ainda.';
         viewEl.innerHTML = `<div class="placeholder-card">${msg}</div>`;
         return;
     }
-    toolEl.style.display = ''; hudEl.style.display = '';
+    toolEl.style.display = '';
     const hoje = new Date();
     const pessoas = cargosData.map(r=>({n:r.nome, c:prettyCargo(r.cargo), key:normKey(r.cargo), cbo:r.cbo, m:r.admissao?monthsBetween(r.admissao,hoje):null, a:r.nascimento?getAge(r.nascimento):null}));
-    cmTotal = pessoas.length;
-    cmG = {};
+    cmTotal = pessoas.length; cmG = {}; cmByKey = new Map();
     pessoas.forEach(r=>{ const g = cmG[r.key] || (cmG[r.key] = {key:r.key, c:r.c, cbo:new Set(), p:[]}); g.p.push(r); if (r.cbo) g.cbo.add(r.cbo); });
     const L = Object.values(cmG), RM = {I:1,II:2,III:3,IV:4};
     L.forEach(g=>{
         g.n = g.p.length; g.tm = cmAvg(g.p.map(x=>x.m)); g.ta = cmAvg(g.p.map(x=>x.a));
         const m = g.c.match(/\s(I{1,3}|IV)$/); g.lv = m ? m[1] : ''; g.lr = m ? RM[m[1]] : 0;
-        g.b = cmBloco(g.c); g.bl = CM_BL.find(b=>b.id===g.b);
+        g.ln = cmLinhaDe(g.c); g.bl = CM_BL[CM_LN[g.ln].b];
+        g.p.forEach(p=>{ p.ln = g.ln; p.bc = g.bl.c; p.g = g; cmByKey.set(ogNk(p.n), p); });
     });
-    pessoas.forEach(r=>{ r.bc = CM_BL.find(b=>b.id===cmBloco(r.c)).c; });
-
+    const top = L.slice().sort((a,b)=>b.n-a.n)[0];
     kpiEl.innerHTML =
         kpiTile('<i data-lucide="users"></i>','96,165,250','Pessoas na empresa', cmTotal, 'Todos os cargos da planilha') +
-        kpiTile('<i data-lucide="briefcase"></i>','168,85,247','Cargos distintos', L.length, L.length ? `Maior: ${L.slice().sort((a,b)=>b.n-a.n)[0].c} (${L.slice().sort((a,b)=>b.n-a.n)[0].n})` : '-') +
+        kpiTile('<i data-lucide="briefcase"></i>','168,85,247','Cargos distintos', L.length, `Maior: ${top.c} (${top.n})`) +
         kpiTile('<i data-lucide="timer"></i>','74,222,128','Tempo médio de empresa', cmFmtT(cmAvg(pessoas.map(x=>x.m))), 'Desde a admissão') +
         kpiTile('<i data-lucide="cake"></i>','251,191,36','Idade média', (()=>{const m=cmAvg(pessoas.map(x=>x.a)); return m!=null?Math.round(m)+' anos':'-';})(), 'Com base na data de nascimento');
     if (window.lucide) try{ lucide.createIcons(); }catch(e){}
 
-    if (cargosFilter!=='Todos' && !CM_BL.some(b=>b.id===cargosFilter)) cargosFilter = 'Todos';
-    chipsEl.innerHTML = `<button type="button" class="cm-fl${cargosFilter==='Todos'?' on':''}" data-b="Todos" style="--c:196,181,253"><span class="no">★</span><div><b>Todos os blocos</b><small>visão completa</small></div><span class="nn">${cmTotal}</span></button>` +
-        CM_BL.filter(b=>L.some(g=>g.b===b.id)).map(b=>`<button type="button" class="cm-fl${cargosFilter===b.id?' on':''}" data-b="${b.id}" style="--c:${b.c}"><span class="no">${b.no}</span><div><b>${b.t}</b><small>${b.sub}</small></div><span class="nn">${L.filter(g=>g.b===b.id).reduce((s,g)=>s+g.n,0)}</span></button>`).join('');
+    if (!['Todos','COM','ADM'].includes(cargosFilter)) cargosFilter = 'Todos';
+    const cnt = id => pessoas.filter(p=>CM_AR.find(a=>a.id===id).lines.includes(p.ln)).length;
+    segEl.innerHTML = [['Todos','Empresa toda','Comercial + Administrativo',cmTotal,'196,181,253'],['COM','Comercial','Vendas e atendimento',cnt('COM'),'168,85,247'],['ADM','Administrativo','Gestão e suporte',cnt('ADM'),'45,212,191']]
+        .map(s=>`<button type="button" class="cm-sg${cargosFilter===s[0]?' on':''}" data-a="${s[0]}" style="--c:${s[4]}"><div><b>${s[1]}</b><small>${s[2]}</small></div><span class="nn">${s[3]}</span></button>`).join('');
 
     const q = normKey(cargosSearch);
-    const match = g => (cargosFilter==='Todos' || g.b===cargosFilter) && (!q || normKey(g.c).includes(q) || Array.from(g.cbo).some(c=>normKey(c).includes(q)) || g.p.some(p=>normKey(p.n).includes(q)));
+    const match = g => !q || normKey(g.c).includes(q) || Array.from(g.cbo).some(c=>normKey(c).includes(q)) || g.p.some(p=>normKey(p.n).includes(q));
     let h = '';
-    CM_BL.forEach(b=>{
-        const todos = L.filter(g=>g.b===b.id), gs = todos.filter(match);
-        if (!gs.length) return;
-        const cnt = gs.reduce((s,g)=>s+g.n,0);
-        h += `<section class="cm-area" style="--c:${b.c}"><div class="cm-ah"><span class="dot"></span><h2>${b.no}. ${b.t}</h2><span class="cm-hud">${b.sub}</span><span class="ln"></span><span class="cnt"><b>${cnt}</b> ${cnt===1?'pessoa':'pessoas'} · ${Math.round(cnt/cmTotal*100)}%</span></div>`;
-        if (b.kind==='lines'){
-            cmLinhas(b, todos).forEach(([nm, tag, steps0])=>{
-                const reais = steps0.filter(match);
-                if (!reais.length) return;
-                const steps = cmGhosts(b, steps0).filter(s=>s.ghost || match(s));
-                const tot = reais.reduce((s,g)=>s+g.n,0), tm = cmAvg(reais.flatMap(g=>g.p.map(x=>x.m)));
-                h += `<div class="cm-line" style="--c:${b.c}"><div class="cm-name"><span class="tg">${tag}</span><b>${cgEsc(nm)}</b><span class="big">${tot}</span><span>${reais.length} ${reais.length===1?'estação':'estações'} · média ${cmShort(tm)}</span></div><div class="cm-track">${steps.map(g=>cmEstacao(b,g)).join('')}</div></div>`;
-            });
-        } else {
-            h += `<div class="cm-solo">` + gs.sort((x,y)=>y.n-x.n).flatMap(g=>g.p.map(p=>`<div class="cm-card" data-k="${cgEsc(g.key)}" style="--c:${b.c}">${cmAv(p,true)}<div style="min-width:0"><b>${cgEsc(cmCap(p.n))}</b><small>${cgEsc(g.c)} · ${cmShort(p.m)} · ${p.a?p.a+' anos':'-'}</small></div></div>`)).join('') + `</div>`;
-        }
-        h += '</section>';
+    CM_AR.forEach(a=>{
+        if (cargosFilter!=='Todos' && cargosFilter!==a.id) return;
+        const ls = a.lines.map(l=>cmLinhaHtml(l, L, match)).filter(Boolean); if (!ls.length) return;
+        const n = L.filter(g=>a.lines.includes(g.ln)).reduce((s,g)=>s+g.n,0);
+        const parts = a.lines.map(l=>[l, L.filter(g=>g.ln===l).reduce((s,g)=>s+g.n,0)]).filter(x=>x[1]);
+        h += `<section class="cm-ar" style="--c:${a.c}"><div class="cm-ar-h"><div><span class="cm-hud">área</span><h2>${a.t}</h2><p>${a.sub}</p></div><div class="cm-ar-n"><b>${n}</b><span>${n===1?'pessoa':'pessoas'} · ${Math.round(n/cmTotal*100)}% da empresa</span></div></div>` +
+            `<div class="cm-split">${parts.map(([l,k])=>`<i style="flex:${k};--c:${CM_BL[CM_LN[l].b].c}" title="${cgEsc(CM_LN[l].nm)}: ${k}"></i>`).join('')}</div>` +
+            `<div class="cm-leg">${parts.map(([l,k])=>`<span style="--c:${CM_BL[CM_LN[l].b].c}"><i></i>${cgEsc(CM_LN[l].nm)} <b>${k}</b></span>`).join('')}</div>${ls.join('')}</section>`;
     });
     if (!h) h = `<div class="placeholder-card">Nenhum cargo encontrado para esse filtro.</div>`;
-    let nota = `<b>Observação:</b> “BackOffice” é como chamamos o Assistente Comercial I, II e III (área Administrativa). Os níveis tracejados são degraus da carreira que ainda não têm ninguém na base.`;
-    viewEl.innerHTML = h + `<div class="cm-note">${nota}</div>`;
+    viewEl.innerHTML = h + `<div class="cm-note"><b>Observação:</b> “BackOffice” é como chamamos o Assistente Comercial I, II e III (área Administrativa). Os níveis tracejados são degraus da carreira que ainda não têm ninguém na base. Clique em uma estação para ver o cargo ou em um rosto para ver a trajetória da pessoa.</div>`;
 }
+
+/* ---- painel lateral: cargo e pessoa (mesma trajetória do Organograma, vinda da Base de MDP) ---- */
+let cmOrgCache = null;
+function cmOrgBy(){
+    if (!orgData || !orgData.length) return null;
+    if (cmOrgCache && cmOrgCache.src===orgData) return cmOrgCache.by;
+    const by = new Map(), walk = (n,par)=>{ by.set(ogNk(n.nome),{n,par}); n.kids.forEach(k=>walk(k,ogNk(n.nome))); };
+    ogTree().forEach(r=>walk(r,null));
+    cmOrgCache = {src:orgData, by}; return by;
+}
+function cmOrgKey(by, nome){
+    const k = ogNk(nome); if (by.has(k)) return k;
+    if (k.split(' ').length<2) return null;
+    return Array.from(by.keys()).find(t=>t.split(' ').length>=2 && (t.startsWith(k+' ') || k.startsWith(t+' '))) || null;
+}
+function cmAw(nome){ const ph = ogPhotoSmart(nome); return `<div class="o3-aw"><div class="o3-av">${ph?`<img src="${ph}" alt="">`:cgEsc(cmIni(nome))}</div></div>`; }
 function cmEnsureDr(){
     if (document.getElementById('cmDr')) return;
-    document.body.insertAdjacentHTML('beforeend', '<div class="cm-scrim" id="cmScrim"></div><aside class="cm-dr" id="cmDr"></aside>');
+    document.body.insertAdjacentHTML('beforeend', '<div class="cm-scrim" id="cmScrim"></div><aside class="o3-dr cm-dr" id="cmDr"></aside>');
     document.getElementById('cmScrim').addEventListener('click', cmCloseDr);
-    document.getElementById('cmDr').addEventListener('click', e=>{ if (e.target.closest('.cm-x')) cmCloseDr(); });
+    document.getElementById('cmDr').addEventListener('click', e=>{
+        const t = e.target;
+        if (t.closest('[data-close]')) return cmCloseDr();
+        const b = t.closest('[data-back]'); if (b) return cmOpenCargo(b.dataset.back);
+        const dt = t.closest('[data-dt]'); if (dt) return cmOpenPessoa(document.getElementById('cmDr').dataset.key, dt.dataset.dt);
+        const go = t.closest('[data-go]'); if (go) return cmOpenPessoa(go.dataset.go);
+    });
     document.addEventListener('keydown', e=>{ if (e.key==='Escape') cmCloseDr(); });
 }
 function cmCloseDr(){ const d=document.getElementById('cmDr'), s=document.getElementById('cmScrim'); if(d) d.classList.remove('open'); if(s) s.classList.remove('on'); }
-function cmOpenDr(key){
-    const g = cmG[key]; if (!g) return;
-    const bl = CM_BL.find(b=>b.id===g.b); cmEnsureDr();
-    const d = document.getElementById('cmDr'); d.style.setProperty('--c', bl.c);
-    d.innerHTML = `<button class="cm-x" type="button">✕</button><div class="cm-hud">${bl.no}. ${cgEsc(bl.t)} · ${cgEsc(bl.sub)}</div><h3>${cgEsc(g.c)}</h3><div class="sub">CBO ${cgEsc(Array.from(g.cbo).join(', ')||'-')} · ${Math.round(g.n/cmTotal*100)}% da empresa</div>` +
-        `<div class="g"><div><small>Pessoas</small><b>${g.n}</b></div><div><small>Tempo médio</small><b>${cmShort(g.tm)}</b></div><div><small>Idade média</small><b>${g.ta?Math.round(g.ta)+' anos':'-'}</b></div><div><small>Mais antigo(a)</small><b>${cmShort(Math.max(...g.p.map(x=>x.m||0)))}</b></div></div>` +
-        `<div class="cm-hud">quem está neste cargo</div><div class="cm-ppl">${g.p.slice().sort((a,b)=>(b.m||0)-(a.m||0)).map(p=>`<div class="cm-pp">${cmAv(p)}<div><b>${cgEsc(cmCap(p.n))}</b><small>${cmFmtT(p.m)} de casa · ${p.a?p.a+' anos':'-'}</small></div></div>`).join('')}</div>`;
+function cmShowDr(html, rgb, key){
+    cmEnsureDr(); const d = document.getElementById('cmDr');
+    d.style.setProperty('--c', rgb); d.dataset.key = key || ''; d.innerHTML = html; d.scrollTop = 0;
     d.classList.add('open'); document.getElementById('cmScrim').classList.add('on');
 }
+function cmOpenCargo(key){
+    const g = cmG[key]; if (!g) return; cmLastCargo = key;
+    const def = CM_LN[g.ln], tag = def.tag+' · '+def.nm;
+    const old = Math.max(...g.p.map(x=>x.m||0));
+    const rows = g.p.slice().sort((a,b)=>(b.m||0)-(a.m||0)).map(p=>`<div class="lk" style="--c:${g.bl.c}" data-go="${cgEsc(ogNk(p.n))}">${cmAw(p.n)}<div><b>${cgEsc(cmCap(p.n))}</b><small>${cmFmtT(p.m)} de casa</small></div><span class="cs">${p.a?p.a+' anos':'-'}</span></div>`).join('');
+    cmShowDr(`<button class="x" data-close="1">×</button><div class="hd"><div style="min-width:0"><h4>${cgEsc(g.c)}</h4><div class="sub">CBO ${cgEsc(Array.from(g.cbo).join(', ')||'-')} · ${Math.round(g.n/cmTotal*100)}% da empresa</div><span class="tag">${cgEsc(tag)}</span></div></div>` +
+        `<div class="tiles">${[['Pessoas',String(g.n),g.bl.c],['Tempo médio',cmShort(g.tm),'74,222,128'],['Idade média',g.ta?Math.round(g.ta)+' anos':'-','251,191,36'],['Mais antigo(a)',cmShort(old),'34,211,238']].map(([l,v,c])=>`<div class="tl" style="background:rgba(${c},.08);border:1px solid rgba(${c},.28)"><small>${l}</small><b style="color:rgb(${c})">${v}</b></div>`).join('')}</div>` +
+        `<div class="sec">Quem está neste cargo <span class="n">(${g.n})</span></div>${rows}`, g.bl.c, '');
+}
+function cmOpenPessoa(key, tab){
+    const p = cmByKey.get(key), by = cmOrgBy() || new Map(), ek = cmOrgKey(by, p ? p.n : key), e = ek ? by.get(ek) : null;
+    if (!p && !e) return;
+    tab = (tab==='team' && e) ? 'team' : 'traj';
+    const nome = p ? p.n : e.n.nome, cargo = p ? p.c : ogCargo(e.n.cargo), rgb = p ? p.bc : o3c(e.n);
+    const base = e ? e.n : {nome, cargo, area:'', kids:[], size:1};
+    const tn = (typeof o3Rec==='function' && o3Rec(nome)) ? nome : base.nome;
+    const nTraj = Object.assign({}, base, {nome:tn});
+    const tag = p ? (CM_LN[p.ln].tag+' · '+CM_LN[p.ln].nm) : (base.area||'');
+    const body = tab==='traj' ? o3Traj(nTraj, by) : o3Team(base, by);
+    cmShowDr(`<button class="x" data-close="1">×</button>${p?`<button class="cm-back" data-back="${cgEsc(p.g.key)}">‹ ${cgEsc(p.g.c)}</button>`:''}` +
+        `<div class="hd"><div class="o3-aw big">${(()=>{const ph=ogPhotoSmart(nome); return `<div class="o3-av">${ph?`<img src="${ph}" alt="">`:cgEsc(cmIni(nome))}</div>`;})()}</div><div style="min-width:0"><h4>${cgEsc(ogTitleName(nome))}</h4><div class="sub">${cgEsc(cargo)}</div><span class="tag">${cgEsc(tag)}</span></div></div>` +
+        `<div class="o3-tabs"><button data-dt="traj" class="${tab==='traj'?'on':''}">Trajetória</button>${e?`<button data-dt="team" class="${tab==='team'?'on':''}">Equipe</button>`:''}</div>${body}`, rgb, key);
+}
 document.getElementById('view-cargos').addEventListener('click', e=>{
-    const b = e.target.closest('[data-b]');
-    if (b){ cargosFilter = b.dataset.b; renderCargosView(); return; }
+    const a = e.target.closest('[data-a]');
+    if (a){ cargosFilter = a.dataset.a; renderCargosView(); return; }
+    const pp = e.target.closest('[data-p]');
+    if (pp){ cmOpenPessoa(pp.dataset.p); return; }
     const k = e.target.closest('[data-k]');
-    if (k) cmOpenDr(k.dataset.k);
+    if (k) cmOpenCargo(k.dataset.k);
 });
 document.getElementById('cargosSearch').addEventListener('input', e=>{ cargosSearch = e.target.value; renderCargosView(); });
-
 function applyRoleUI(role){
     const isMaster = role==='master';
     document.getElementById('uploadFilePill').style.display = isMaster? '' : 'none';
