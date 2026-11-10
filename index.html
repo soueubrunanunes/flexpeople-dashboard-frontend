@@ -346,7 +346,7 @@ body { font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif; backg
 .md-seg span { padding:8px 18px; border-radius:9px; font-size:13px; font-weight:700; color:var(--text2); cursor:pointer; user-select:none; }
 .md-seg span.on { background:linear-gradient(135deg,#7c3aed,#a855f7); color:#fff; box-shadow:0 0 18px rgba(168,85,247,.4); }
 .md-grid { display:grid; grid-template-columns:repeat(12,minmax(0,1fr)); gap:14px; }
-.md-s3 { grid-column:span 3; } .md-s4 { grid-column:span 4; } .md-s5 { grid-column:span 5; } .md-s7 { grid-column:span 7; } .md-s8 { grid-column:span 8; } .md-s12 { grid-column:span 12; }
+.md-s3 { grid-column:span 3; } .md-s4 { grid-column:span 4; } .md-s5 { grid-column:span 5; } .md-s6 { grid-column:span 6; } .md-s7 { grid-column:span 7; } .md-s8 { grid-column:span 8; } .md-s12 { grid-column:span 12; }
 .md-c { background:linear-gradient(160deg,var(--card),var(--card2)); border:1px solid var(--border); border-radius:18px; padding:18px; position:relative; overflow:hidden; min-width:0; display:flex; flex-direction:column; }
 .md-ct { font-size:14px; font-weight:700; }
 .md-cs { font-size:12px; color:var(--text3); margin-top:2px; margin-bottom:12px; }
@@ -376,8 +376,17 @@ body { font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif; backg
 .md-yr > div { flex:1; display:flex; flex-direction:column; align-items:center; gap:5px; }
 .md-yr .pl { flex:1; width:100%; position:relative; }
 .md-yr .pl i { position:absolute; left:0; right:0; bottom:0; border-radius:8px 8px 3px 3px; background:linear-gradient(180deg,#a855f7,#6d28d9); }
+.md-mob { display:grid; grid-template-columns:minmax(0,1fr) minmax(0,.9fr); gap:18px; flex:1; }
+.md-mob-l { display:flex; flex-direction:column; gap:8px; min-width:0; }
+.md-mob-chip { align-self:flex-start; font:800 10px ui-monospace,Menlo,monospace; letter-spacing:.08em; padding:4px 10px; border-radius:999px; background:rgba(168,85,247,.16); border:1px solid rgba(168,85,247,.45); color:#d8c9ff; }
+.md-flow2 { margin:2px 0; } .md-who { font-size:10.5px; color:var(--text3); padding:2px 2px 0; line-height:1.3; }
+.md-same { border-radius:14px; padding:12px 14px; background:rgba(168,85,247,.07); border:1px dashed rgba(168,85,247,.4); align-self:start; min-width:0; }
+.md-same-h { display:flex; justify-content:space-between; align-items:baseline; gap:10px; } .md-same-h b { font-size:13px; } .md-same-h span { font-size:20px; font-weight:800; color:#c084fc; }
+.md-same p { font-size:11px; color:var(--text2); margin:4px 0 10px; line-height:1.45; } .md-same p b { color:#fff; }
+.md-same-r { display:flex; justify-content:space-between; gap:10px; font-size:11.5px; margin:5px 0; color:#e8e4ff; } .md-same-r em { font-style:normal; color:var(--text3); } .md-same-r b { color:#d8c9ff; }
+@media (max-width:1100px){ .md-mob { grid-template-columns:1fr; } }
 .md-flow { display:flex; align-items:center; gap:8px; font-size:12px; }
-.md-flow .pill { width:96px; text-align:center; flex-shrink:0; }
+.md-flow .pill { width:104px; text-align:center; flex-shrink:0; }
 .md-stack { flex:1; display:flex; flex-direction:column; justify-content:space-between; gap:11px; }
 .md-search { background:var(--card2); border:1px solid var(--border); border-radius:11px; padding:9px 14px; font-size:12.5px; color:#fff; font-family:inherit; width:100%; outline:none; }
 .md-search:focus { border-color:rgba(168,85,247,.6); }
@@ -415,7 +424,7 @@ body { font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif; backg
     .md-tab { display:none; } .md-tab.on { display:block; }
     .md-tab > * { margin-bottom:14px; }
     .md-grid { grid-template-columns:1fr; }
-    .md-s3, .md-s4, .md-s5, .md-s7, .md-s8, .md-s12 { grid-column:auto; }
+    .md-s3, .md-s4, .md-s5, .md-s6, .md-s7, .md-s8, .md-s12 { grid-column:auto; }
     .md-kpis { grid-template-columns:1fr 1fr; }
     .md-md { grid-template-columns:1fr; min-height:0; } .md-listwrap { min-height:320px; }
     .md-rr .nm { width:120px; }
@@ -869,6 +878,13 @@ td { padding:8px; border-top:1px solid var(--border); }
 .cx-lg{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:14px}
 .cx-lg div{display:grid;grid-template-columns:10px 1fr auto;gap:9px;align-items:center;padding:8px 12px;border-radius:12px;background:rgba(255,255,255,.035);border:1px solid rgba(255,255,255,.06);font-size:12.5px}
 .cx-lg em{width:10px;height:10px;border-radius:50%;display:block}.cx-lg span{color:#d9d6ea}.cx-lg b{font-size:13px}
+.cx-big2{display:flex;align-items:flex-end;justify-content:space-between;gap:16px;flex-wrap:wrap;margin-top:18px}
+.cx-big2 .l{display:flex;align-items:baseline;gap:10px;flex-wrap:wrap}
+.cx-big2 .l b{font-size:44px;line-height:1;font-weight:800;letter-spacing:-.02em}
+.cx-big2 .l span{font-size:13px;color:var(--text2)}
+.cx-pp{display:flex;align-items:center;gap:12px;padding:10px 16px;border-radius:14px;border:1px solid rgba(168,85,247,.55);background:linear-gradient(135deg,rgba(168,85,247,.24),rgba(124,58,237,.08));box-shadow:0 0 22px rgba(168,85,247,.18)}
+.cx-pp b{font-size:24px;font-weight:800;line-height:1}.cx-pp small{display:block;font-size:11.5px;color:#d8c9ff;line-height:1.3}.cx-pp u{display:block;text-decoration:none;font-size:10.5px;color:var(--text2);margin-top:2px}
+.cx-lg .v{text-align:right}.cx-lg .v b{display:block;font-size:14px}.cx-lg .v small{display:block;font-size:10.5px;color:var(--text2);margin-top:1px}
 .cx-sub{font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--text3);margin:20px 0 10px;display:flex;align-items:center;gap:12px}
 .cx-sub:after{content:"";flex:1;height:1px;background:rgba(255,255,255,.07)}
 .cx-ch{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-top:auto}
@@ -2299,7 +2315,7 @@ function renderCustosMetas(){
     const R = (!custosData || !globalData.length) ? null : calcCustos();
     if (!R){
         const m = !custosData ? 'Suba a planilha de custos (botão <b>Base de Custos</b>) para ver este card.' : 'Carregue o turnover comercial para calcular.';
-        row.innerHTML = `<div class="card cx-card">${head('Custo para trazer · CAC','Custo por contratação no período','Entrada','cx-in')}${vazio(m)}</div>
+        row.innerHTML = `<div class="card cx-card">${head('Custo para trazer · CAC','Custo total das contratações no período','Entrada','cx-in')}${vazio(m)}</div>
             <div class="card cx-card">${head('Custo para tirar · Rescisão','Cada fatia é um desligamento do período','Saída','cx-out')}${vazio(m)}</div>`;
         cedoEl.innerHTML = `<div class="cx-early"><div style="min-width:190px"><div class="card-title">Custo de quem saiu cedo</div><div class="card-subtitle">Saíram em até 90 dias</div></div>${vazio(m)}</div>`;
         return;
@@ -2313,14 +2329,14 @@ function renderCustosMetas(){
         cacBody = vazio(c.semTurma ? `Há ${c.semTurma} entradas no período, mas nenhuma delas bate com uma turma da planilha de custos (DATA_INICIO_TREINAMENTO).` : 'Nenhuma entrada nesse período.');
     } else {
         const bar = parts.filter(p=>p[1]>0).map(p=>`<i style="width:${(p[1]/c.total*100).toFixed(2)}%;min-width:4px;background:linear-gradient(90deg,${p[3]},${p[2]})"></i>`).join('');
-        const lg = parts.map(p=>`<div><em style="background:${p[2]}"></em><span>${p[0]}</span><b>${cxBRL(p[1])}</b></div>`).join('');
+        const lg = parts.map(p=>`<div><em style="background:${p[2]}"></em><span>${p[0]}</span><span class="v"><b>${cxBRL(p[1])}</b><small>${cxBRL(p[1]/c.n)} por pessoa</small></span></div>`).join('');
         const ch = c.canais.map(x=>{
             const free = x.gasto===0;
             const val = free ? 'R$ 0' : (x.entradas ? cxBRL(x.gasto/x.entradas) : cxBRL(x.gasto));
             const sub = free ? `sem custo · ${x.entradas} entradas` : (x.entradas ? `por entrada · ${x.entradas} entradas` : 'gasto direto');
             return `<div class="${free?'free':''}"><small>${x.nome}</small><b>${val}</b><u>${sub}</u></div>`;
         }).join('');
-        cacBody = `<div class="cx-big"><b>${cxBRL(c.porPessoa)}</b><span>por pessoa que entrou · ${c.n} entradas</span></div>
+        cacBody = `<div class="cx-big2"><div class="l"><b>${cxBRL(c.total)}</b><span>custo total · ${c.n} ${c.n===1?'entrada':'entradas'}</span></div><div class="cx-pp"><b>${cxBRL(c.porPessoa)}</b><div><small>por pessoa que entrou</small><u>${cxBRL(c.total)} ÷ ${c.n} ${c.n===1?'entrada':'entradas'}</u></div></div></div>
             <div class="cx-bar">${bar}</div><div class="cx-lg">${lg}</div>
             <div class="cx-sub">Por canal de candidatura</div><div class="cx-ch">${ch}</div>
             ${c.semTurma?`<div class="cx-warn">⚠ ${c.semTurma} entradas do período não têm turma na planilha de custos e ficaram fora desta conta.</div>`:''}`;
@@ -2335,7 +2351,7 @@ function renderCustosMetas(){
             <div class="cx-p"><em style="background:#c084fc"></em><span>Involuntário</span><b>${cxBRL(r.inv.v)}<small>${r.inv.n}</small></b></div>
             <div class="cx-mini"><div><small>Média por desligamento</small><b>${cxBRL(r.media)}</b></div><div><small>Maior rescisão</small><b>${cxBRL(r.max)}</b></div></div>
         </div></div>`;
-    row.innerHTML = `<div class="card cx-card">${head('Custo para trazer · CAC','Custo por contratação no período','Entrada','cx-in')}${cacBody}</div>
+    row.innerHTML = `<div class="card cx-card">${head('Custo para trazer · CAC','Custo total das contratações no período','Entrada','cx-in')}${cacBody}</div>
         <div class="card cx-card">${head('Custo para tirar · Rescisão','Cada fatia é um desligamento do período','Saída','cx-out')}${rescBody}</div>`;
     if (R.temRescisoes && r.n){
         const O=[['#fdba74','#fb923c'],['#fed7aa','#f97316'],['#fcd9a8','#f59e0b']], P=[['#e9d5ff','#c084fc'],['#d8b4fe','#a855f7'],['#f0abfc','#d946ef']];
@@ -2349,6 +2365,7 @@ function renderCustosMetas(){
             <div class="t"><small>Para trazer</small><b>${cxBRL(e.trazer)}</b><u>recrutamento, treinamento e gastos dessas ${e.n}</u></div><div class="op">+</div>
             <div class="t"><small>Para tirar</small><b>${cxBRL(e.tirar)}</b><u>${R.temRescisoes?'rescisão dessas pessoas':'preencha a aba Rescisoes'}</u></div><div class="op">=</div>
             <div class="t tot"><small>Dinheiro que não deu retorno</small><b>${cxBRL(e.total)}</b><u>${cxBRL(e.porPessoa)} por pessoa que saiu cedo</u></div></div>` : vazio(e.semTurma ? 'As saídas em até 90 dias do período não têm turma na planilha de custos.' : 'Ninguém saiu em até 90 dias nesse período.')) + '</div>';
+    if (e.n && e.semTurma) cedoEl.insertAdjacentHTML('beforeend', `<div class="cx-warn" style="margin-top:14px">⚠ ${e.semTurma} ${e.semTurma===1?'pessoa saiu':'pessoas saíram'} em até 90 dias, mas ${e.semTurma===1?'não tem':'não têm'} turma na planilha de custos (DATA_INICIO_TREINAMENTO até 3 dias da data de início) e ${e.semTurma===1?'ficou':'ficaram'} fora desta conta.</div>`);
 }
 
 function initFilters(){
@@ -4211,16 +4228,16 @@ function mdTitle(s){
 function mdShort(n){ const p=String(n||'').trim().split(/\s+/); return mdTitle(p.length>1 ? p[0]+' '+p[p.length-1] : p[0]); }
 function mdLevel(c){ const m=normKey(String(c||'').replace(/\(A\)/gi,'')).match(/^(.*?)\s+(I|II|III|IV|V)$/); return m ? {base:m[1], lvl:MD_ROMAN[m[2]]} : {base:normKey(String(c||'').replace(/\(A\)/gi,'')), lvl:null}; }
 function mdGrp(c){
-    const k=normKey(c);
-    if (k.includes('ATENDIMENTO')) return 'Atendimento';
+    const k=normKey(String(c||'').replace(/\(A\)/gi,''));
     if (k.includes('QUALIDADE')) return 'Qualidade';
-    if (k.includes('VENDAS')||k.includes('VENDEDOR')) return 'Vendas';
-    if (k.includes('COMERCIAL')) return 'Comercial';
-    if (/ADMINISTRATIVO|PESSOAL|RECURSOS HUMANOS|TREINAMENTO|FINANCEIRO/.test(k)) return 'Adm./RH';
+    if (/^(ASSISTENTE|AUXILIAR) COMERCIAL/.test(k)) return 'Administrativo';   // BackOffice: 100% administrativo
+    if (/ADMINISTRATIVO|FINANCEIRO/.test(k)) return 'Administrativo';
+    if (/ATENDIMENTO|VENDAS|VENDEDOR|COMERCIAL/.test(k)) return 'Comercial';    // Atendimento = Vendas = Comercial
+    if (/RECURSOS HUMANOS|PESSOAL|TREINAMENTO/.test(k)) return 'RH / DP';
     if (/DADOS|\bTI\b|DESENVOLVIMENTO/.test(k)) return 'Dados/TI';
     return 'Outros';
 }
-const MD_GRP_COLOR = {Atendimento:'34,211,238',Comercial:'168,85,247',Vendas:'74,222,128',Qualidade:'251,191,36','Adm./RH':'236,72,153','Dados/TI':'96,165,250',Outros:'148,145,173'};
+const MD_GRP_COLOR = {Comercial:'168,85,247',Administrativo:'45,212,191',Qualidade:'251,191,36','RH / DP':'236,72,153','Dados/TI':'96,165,250',Outros:'148,145,173'};
 function mdMonths(a,b){ if(!a||!b) return 0; let m=(b.getFullYear()-a.getFullYear())*12+b.getMonth()-a.getMonth(); if (b.getDate()<a.getDate()) m--; return Math.max(0,m); }
 const mdFmtDate = d => d ? String(d.getDate()).padStart(2,'0')+'/'+String(d.getMonth()+1).padStart(2,'0')+'/'+d.getFullYear() : '';
 const mdIsLeader = c => /SUPERVISOR|COORDENADOR|GERENTE/.test(normKey(c));
@@ -4307,11 +4324,25 @@ function mdPorNivel(people){
     return `<div class="md-stack" style="justify-content:center;gap:18px">${rows.map(r=>`<div><div class="md-row" style="justify-content:space-between;margin-bottom:6px"><span style="font-size:12.5px;font-weight:600">${r.b-r.a>1?'Direto ':'Nível '}${rom[r.a]} → ${rom[r.b]}</span><span><b style="font-size:18px">${mdF1(r.avg)}</b> <span class="md-nt">meses · ${r.n} ${r.n>1?'pessoas':'pessoa'}</span></span></div><div class="md-bar" style="height:11px"><i style="width:${Math.max(4,r.avg/mx*100)}%;background:linear-gradient(90deg,#6d8cff,#a855f7)"></i></div></div>`).join('')}</div>`;
 }
 function mdFlows(people){
-    const f={}; people.forEach(p=>p.movs.forEach(m=>{ const a=mdGrp(m.de), b=mdGrp(m.para); if(a!==b){ const k=a+'|'+b; f[k]=(f[k]||0)+1; } }));
-    const list=Object.entries(f).sort((a,b)=>b[1]-a[1]).slice(0,6);
-    if(!list.length) return `<div class="md-nt" style="margin:auto">Nenhuma troca entre áreas no período.</div>`;
-    const mx=list[0][1];
-    return `<div class="md-stack">${list.map(([k,c])=>{ const [a,b]=k.split('|'); return `<div class="md-flow"><span class="md-pill pill" style="background:rgba(${MD_GRP_COLOR[a]},.16);color:rgb(${MD_GRP_COLOR[a]})">${a}</span><span class="md-nt">→</span><span class="md-pill pill" style="background:rgba(${MD_GRP_COLOR[b]},.16);color:rgb(${MD_GRP_COLOR[b]})">${b}</span><div class="md-bar" style="flex:1"><i style="width:${c/mx*100}%;background:rgba(${MD_GRP_COLOR[b]},.8)"></i></div><b style="width:22px;text-align:right">${c}</b></div>`; }).join('')}</div>`;
+    const f={}, nm={}, same={};
+    people.forEach(p=>p.movs.forEach(m=>{
+        const a=mdGrp(m.de), b=mdGrp(m.para);
+        if(a!==b){ const k=a+'|'+b; f[k]=(f[k]||0)+1; (nm[k]=nm[k]||[]).push(mdShort(p.nome).split(' ')[0]); }
+        else if(a==='Comercial'){ const x=mdLevel(m.de).base, y=mdLevel(m.para).base; if(x!==y){ const k=mdTitle(x)+'|'+mdTitle(y); same[k]=(same[k]||0)+1; } }
+    }));
+    const list=Object.entries(f).sort((a,b)=>b[1]-a[1]);
+    const tot=list.reduce((s,x)=>s+x[1],0);
+    const pill=g=>`<span class="md-pill pill" style="background:rgba(${MD_GRP_COLOR[g]},.16);color:rgb(${MD_GRP_COLOR[g]});border:1px solid rgba(${MD_GRP_COLOR[g]},.3)">${g}</span>`;
+    const left = !list.length ? `<div class="md-nt" style="margin:auto">Nenhuma troca entre áreas no período.</div>` :
+      `<div class="md-stack">${list.slice(0,6).map(([k,c])=>{ const [a,b]=k.split('|'); const who=[...new Set(nm[k])].join(', ');
+        return `<div class="md-flow2"><div class="md-flow">${pill(a)}<span class="md-nt">→</span>${pill(b)}<div class="md-bar" style="flex:1"><i style="width:${c/list[0][1]*100}%;background:rgba(${MD_GRP_COLOR[b]},.8)"></i></div><b style="width:22px;text-align:right">${c}</b></div><div class="md-who">${who}</div></div>`; }).join('')}</div>`;
+    const sl=Object.entries(same).sort((a,b)=>b[1]-a[1]); const st=sl.reduce((s,x)=>s+x[1],0);
+    const top=sl.slice(0,4), rest=sl.slice(4).reduce((s,x)=>s+x[1],0);
+    const right = !st ? '' : `<div class="md-same"><div class="md-same-h"><b>Dentro do Comercial</b><span>${st}</span></div>
+        <p>Atendimento, Vendas e Comercial são a mesma área: estas trocas <b>não contam como mobilidade</b>. Mostram onde o mesmo trabalho tem nomes de cargo diferentes.</p>
+        ${top.map(([k,c])=>{ const [a,b]=k.split('|'); return `<div class="md-same-r"><span>${a} <em>→</em> ${b}</span><b>${c}</b></div>`; }).join('')}
+        ${rest?`<div class="md-same-r"><span>Outras trocas de nome</span><b>${rest}</b></div>`:''}</div>`;
+    return `<div class="md-mob"><div class="md-mob-l"><div class="md-mob-chip">${tot} ${tot===1?'TROCA':'TROCAS'} DE ÁREA</div>${left}</div>${right}</div>`;
 }
 function mdStagList(people, n){
     const L=people.filter(p=>p.ult>=18).sort((a,b)=>b.ult-a.ult).slice(0,n);
@@ -4384,9 +4415,9 @@ function mdRenderGeral(ctx){
     </div>
     <div class="md-grid grow2"><div class="md-c md-s5"><div class="md-ct">Tempo na função atual</div><div class="md-cs">Meses desde a última movimentação (ou desde a admissão)</div>${mdHist(P)}</div>
         <div class="md-c md-s7"><div class="md-ct">Quem está há mais tempo sem movimentação</div><div class="md-cs">Maior intervalo desde a última promoção — clique para abrir a trajetória</div>${mdRank(P)}</div></div>
-    <div class="md-grid grow"><div class="md-c md-s4"><div class="md-ct">Promoções por ano</div><div class="md-cs">Todas as movimentações de cargo</div>${mdPorAno(ctx)}</div>
-        <div class="md-c md-s4"><div class="md-ct">Tempo médio em cada nível</div><div class="md-cs">Meses entre uma subida de nível e a anterior</div>${mdPorNivel(P)}</div>
-        <div class="md-c md-s4"><div class="md-ct">Mobilidade entre áreas</div><div class="md-cs">Para onde as pessoas migram ao trocar de cargo</div>${mdFlows(P)}</div></div>`;
+    <div class="md-grid grow"><div class="md-c md-s3"><div class="md-ct">Promoções por ano</div><div class="md-cs">Todas as movimentações de cargo</div>${mdPorAno(ctx)}</div>
+        <div class="md-c md-s3"><div class="md-ct">Tempo médio em cada nível</div><div class="md-cs">Meses entre uma subida de nível e a anterior</div>${mdPorNivel(P)}</div>
+        <div class="md-c md-s6"><div class="md-ct">Mobilidade entre áreas</div><div class="md-cs">Só quando a pessoa muda de área de fato</div>${mdFlows(P)}</div></div>`;
 }
 function mdFiltered(ctx){
     let L=ctx.people.slice();
