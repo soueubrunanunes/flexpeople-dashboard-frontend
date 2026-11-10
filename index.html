@@ -61,6 +61,35 @@ body { font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif; backg
 .logout-btn:hover { color:#fff; background:rgba(255,255,255,.1); }
 
 /* ===== ABA DIVERSIDADE ===== */
+/* Diversidade com rostos */
+.dp-av { width:var(--s,30px); height:var(--s,30px); border-radius:50%; object-fit:cover; flex:none; border:2px solid rgb(var(--c,168,85,247)); display:grid; place-items:center; font-size:calc(var(--s,30px)*.34); font-weight:800; background:rgba(var(--c,168,85,247),.2); color:rgb(var(--c,168,85,247)); overflow:hidden; box-sizing:border-box; cursor:pointer; }
+img.dp-av { display:block; }
+.dp-click { cursor:pointer; transition:transform .12s; } .dp-click:hover { transform:translateY(-2px); }
+.dp-stk { display:flex; align-items:center; cursor:pointer; }
+.dp-stk .dp-av { margin-left:-9px; box-shadow:0 0 0 2px #1a1038; } .dp-stk .dp-av:first-child { margin-left:0; }
+.dp-stk .more { margin-left:6px; font-size:11.5px; font-weight:800; color:#d8d3f5; }
+.dp-seg { display:flex; height:34px; border-radius:12px; overflow:hidden; gap:3px; }
+.dp-seg > div { display:grid; place-items:center; font-size:12.5px; font-weight:700; color:#0a0118; min-width:0; cursor:pointer; transition:filter .15s; } .dp-seg > div:hover { filter:brightness(1.12); }
+.dp-grp { display:flex; flex-wrap:wrap; gap:14px 26px; margin:12px 0 18px; }
+.dp-gi { display:flex; flex-direction:column; gap:7px; }
+.dp-gi .t { display:flex; align-items:center; gap:7px; font-size:12px; color:#d9d6ea; } .dp-gi .t i { width:9px; height:9px; border-radius:50%; } .dp-gi .t b { color:#fff; font-weight:800; } .dp-gi .t span { color:var(--text3); }
+.dp-hist { display:flex; align-items:flex-end; gap:4px; position:relative; padding-top:26px; }
+.dp-hc { flex:1; display:flex; flex-direction:column; align-items:center; justify-content:flex-end; gap:3px; min-width:0; }
+.dp-hc .dp-av { --s:var(--fs,28px); transition:transform .12s; } .dp-hc .dp-av:hover { transform:scale(1.18); position:relative; z-index:3; }
+.dp-hc span { font-size:10.5px; color:var(--text3); margin-top:3px; height:14px; }
+.dp-hc.zero .ph { width:var(--fs,28px); max-width:100%; height:3px; border-radius:3px; background:rgba(255,255,255,.1); }
+.dp-avg { position:absolute; top:4px; bottom:20px; border-left:2px dashed rgba(255,255,255,.5); pointer-events:none; }
+.dp-avg b { position:absolute; top:-2px; left:6px; font-size:10.5px; background:rgba(255,255,255,.12); padding:2px 8px; border-radius:999px; white-space:nowrap; font-weight:700; }
+.dp-fx { display:inline-flex; align-items:center; gap:7px; font-size:12px; padding:5px 11px; border-radius:999px; background:rgba(255,255,255,.05); border:1px solid rgba(255,255,255,.08); cursor:pointer; } .dp-fx i { width:9px; height:9px; border-radius:50%; background:rgb(var(--c)); } .dp-fx b { font-weight:800; } .dp-fx span { color:var(--text3); }
+.dp-rk { display:flex; flex-direction:column; gap:10px; }
+.dp-r { display:grid; grid-template-columns:150px minmax(40px,1fr) 118px 62px; gap:10px; align-items:center; font-size:13px; cursor:pointer; border-radius:10px; padding:3px 5px; } .dp-r:hover { background:rgba(255,255,255,.04); }
+.dp-r .n { color:#d9d6ea; font-weight:600; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+.dp-r .t { height:10px; border-radius:8px; background:rgba(255,255,255,.07); overflow:hidden; } .dp-r .t i { display:block; height:100%; border-radius:8px; background:linear-gradient(90deg,#6d8cff,#a855f7); }
+.dp-r .c { text-align:right; font-weight:700; } .dp-r .c span { color:var(--text2); font-weight:400; font-size:11.5px; }
+.dp-tiles { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:10px; }
+.dp-tile { border-radius:14px; padding:13px 14px; background:rgba(var(--c),.09); border:1px solid rgba(var(--c),.28); cursor:pointer; transition:transform .12s; } .dp-tile:hover { transform:translateY(-2px); }
+.dp-tile small { font-size:11.5px; color:var(--text2); display:block; } .dp-tile b { font-size:26px; font-weight:800; color:rgb(var(--c)); } .dp-tile em { font-style:normal; font-size:11px; color:var(--text3); margin-left:6px; } .dp-tile .dp-stk { margin-top:9px; }
+@media (max-width:900px){ .dp-r { grid-template-columns:100px minmax(30px,1fr) 56px; } .dp-r .dp-stk { display:none; } .dp-tiles { grid-template-columns:1fr 1fr; } }
 .dv-grid { display:grid; grid-template-columns:repeat(12,minmax(0,1fr)); gap:14px; }
 #view-diversidade .dv-grid + .dv-grid { margin-top:14px; }
 .dv-c3 { grid-column:span 3; } .dv-c5 { grid-column:span 5; } .dv-c6 { grid-column:span 6; } .dv-c7 { grid-column:span 7; }
@@ -3079,70 +3108,141 @@ function dvDots(idades, buckets){
     return `<svg viewBox="0 0 ${W} ${H}" preserveAspectRatio="xMidYMid meet">${ticks.map(t=>`<line x1="${X(t).toFixed(1)}" x2="${X(t).toFixed(1)}" y1="8" y2="${H-24}" stroke="rgba(255,255,255,.07)"/><text x="${X(t).toFixed(1)}" y="${H-6}" text-anchor="middle" fill="#6b6885" font-size="11">${t}</text>`).join('')}${dots}</svg>`;
 }
 
+/* ---- Diversidade com rostos: cada número mostra quem está por trás; clique abre a lista e a trajetória ---- */
+let dpP = [], dpG = {}, dpLast = null, dpRO = null, cmBackDv = null;
+const dpUrl = new Map();
+function dpFace(nome){
+    const k=ogNk(nome), d=ogPhotoSmart(nome), c=dpUrl.get(k);
+    if (c && c.d===d) return c.u;
+    let u=d||null;
+    if (d && String(d).startsWith('data:')){ try{ const [h,b]=d.split(','), mime=(h.match(/data:(.*?);/)||[])[1]||'image/jpeg', bin=atob(b), a=new Uint8Array(bin.length); for(let i=0;i<bin.length;i++) a[i]=bin.charCodeAt(i); u=URL.createObjectURL(new Blob([a],{type:mime})); }catch(_){ u=d; } }
+    dpUrl.set(k,{d,u}); return u;
+}
+const dpIni = n => String(n||'').trim().split(/\s+/).map(x=>x[0]).slice(0,2).join('').toUpperCase();
+const dpPretty = c => !c ? '' : (c.length<=4 ? c : c.charAt(0)+c.slice(1).toLowerCase());
+function dpAv(r,s,rgb){
+    const st=`--s:${s}px;--c:${rgb}`, u=dpFace(r.nome);
+    return u ? `<img class="dp-av" src="${u}" alt="" title="${eqEsc(r.nome)}" style="${st}" data-dpp="${dpP.indexOf(r)}">` : `<div class="dp-av" title="${eqEsc(r.nome)}" style="${st}" data-dpp="${dpP.indexOf(r)}">${eqEsc(dpIni(r.nome))}</div>`;
+}
+function dpReg(title,sub,list,rgb){ const k='k'+Object.keys(dpG).length; dpG[k]={title,sub,list,rgb:rgb||'168,85,247'}; return k; }
+function dpStack(list,rgb,max,s,key){
+    if (!list.length) return '';
+    const sh=list.slice(0,max);
+    return `<div class="dp-stk" data-dpk="${key}">${sh.map(r=>dpAv(r,s,rgb)).join('')}${list.length>max?`<span class="more">+${list.length-max}</span>`:''}</div>`;
+}
+function dpStory(r){
+    const age=getAge(r.dtNasc), bits=[];
+    if (age!=null) bits.push(age+' anos');
+    const sit={'CURSANDO':'cursando','CONCLUIDO':'concluiu','TRANCADO':'trancou','NÃO INICIOU':'ainda não iniciou'}[r.statusCurso];
+    if (r.curso) bits.push((sit?sit+' ':'')+dpPretty(r.curso)); else bits.push('curso não informado');
+    if (r.supervisor){ const f=r.supervisor.split(/\s+/)[0]; bits.push('equipe de '+f.charAt(0)+f.slice(1).toLowerCase()); }
+    if (r.dtInicio) bits.push('na casa desde '+String(r.dtInicio.getMonth()+1).padStart(2,'0')+'/'+r.dtInicio.getFullYear());
+    return bits.join(' · ');
+}
+function dpOpenGroup(key){
+    const g=dpG[key]; if(!g) return; dpLast=key; cmBackDv=null;
+    const ages=g.list.map(r=>getAge(r.dtNasc)).filter(a=>a!=null), avg=ages.length?Math.round(ages.reduce((a,b)=>a+b,0)/ages.length):null;
+    const rows=g.list.slice().sort((a,b)=>a.nome.localeCompare(b.nome,'pt-BR')).map(r=>`<div class="lk" style="--c:${g.rgb}" data-dpp="${dpP.indexOf(r)}">${cmAw(r.nome)}<div style="min-width:0"><b>${cgEsc(ogTitleName(r.nome))}</b><small>${cgEsc(dpStory(r))}</small></div></div>`).join('');
+    cmShowDr(`<button class="x" data-close="1">×</button><div class="hd"><div style="min-width:0"><h4>${cgEsc(g.title)}</h4><div class="sub">${cgEsc(g.sub)}</div></div></div>` +
+        `<div class="tiles">${[['Pessoas',String(g.list.length),g.rgb],['Idade média',avg!=null?avg+' anos':'-','251,191,36']].map(([l,v,c])=>`<div class="tl" style="background:rgba(${c},.08);border:1px solid rgba(${c},.28)"><small>${l}</small><b style="color:rgb(${c})">${v}</b></div>`).join('')}</div>` +
+        `<div class="sec">Quem são <span class="n">(${g.list.length})</span></div>${rows||'<div class="cm-note">Ninguém neste grupo.</div>'}`, g.rgb, '');
+}
+function dpOpenPessoa(i){
+    const r=dpP[i]; if(!r) return;
+    const k=ogNk(r.nome), by=(typeof cmOrgBy==='function' && cmOrgBy()) || new Map();
+    cmBackDv = dpLast ? {key:dpLast, title:(dpG[dpLast]||{}).title||'Voltar'} : null;
+    if ((cmByKey && cmByKey.has(k)) || cmOrgKey(by, r.nome)) return cmOpenPessoa(k);
+    const age=getAge(r.dtNasc), kv=[['Idade',age!=null?age+' anos':'-'],['Gênero',r.genero==='FEMININO'?'Feminino':r.genero==='MASCULINO'?'Masculino':'-'],['Raça / Cor',r.raca?dpPretty(r.raca):'-'],['Na casa desde',r.dtInicio?String(r.dtInicio.getMonth()+1).padStart(2,'0')+'/'+r.dtInicio.getFullYear():'-']];
+    cmShowDr(`<button class="x" data-close="1">×</button>${cmBackDv?`<button class="cm-back" data-backdv="1">‹ ${cgEsc(cmBackDv.title)}</button>`:''}` +
+        `<div class="hd"><div class="o3-aw big">${(()=>{const ph=ogPhotoSmart(r.nome); return `<div class="o3-av">${ph?`<img src="${ph}" alt="">`:cgEsc(dpIni(r.nome))}</div>`;})()}</div><div style="min-width:0"><h4>${cgEsc(ogTitleName(r.nome))}</h4><div class="sub">${cgEsc(dpStory(r))}</div></div></div>` +
+        `<div class="kv">${kv.map(([l,v])=>`<div><small>${l}</small><b>${cgEsc(v)}</b></div>`).join('')}</div>` +
+        `<div class="cm-note">A trajetória de cargos aparece aqui quando o Organograma ou a planilha de Cargos estiverem carregados.</div>`, '168,85,247', k);
+}
+function dpFit(){
+    document.querySelectorAll('#view-diversidade .dp-hist').forEach(hs=>{
+        const cols=hs.querySelectorAll('.dp-hc'); if(!cols.length) return;
+        const w=hs.clientWidth/cols.length; if(!w) return;
+        const mx=+hs.dataset.mx||1, H=+hs.dataset.h||220;
+        const s=Math.max(10,Math.min(30,Math.floor(Math.min((H-28)/mx, w-4))));
+        hs.style.setProperty('--fs',s+'px'); hs.style.minHeight=Math.max(120,Math.round(mx*(s+3)+48))+'px';
+        const avg=+hs.dataset.avg, lo=+hs.dataset.lo, line=hs.querySelector('.dp-avg');
+        if (line && !isNaN(avg)) line.style.left=((avg-lo+.5)*w)+'px';
+    });
+}
 function renderDiversidadeView(ativos){
     const kpisEl=document.getElementById('dvKpis'), row2=document.getElementById('dvRow2'), row3=document.getElementById('dvRow3');
     if (!kpisEl||!row2||!row3) return;
-    const total=ativos.length;
-    const pct=(n,t)=>t?Math.round(n/t*100):0;
+    dpG={}; dpLast=null; dpP=ativos.slice();
+    const total=ativos.length, pct=(n,t)=>t?Math.round(n/t*100):0;
+    const A = r => getAge(r.dtNasc);
 
     // ---- Gênero e Raça/Cor ----
-    const fem=ativos.filter(r=>r.genero==='FEMININO').length;
-    const masc=ativos.filter(r=>r.genero==='MASCULINO').length;
-    const generoItems=[{label:'Feminino',n:fem,color:'#ec4899'},{label:'Masculino',n:masc,color:'#60a5fa'}];
-    if (total-fem-masc>0) generoItems.push({label:'Não informado',n:total-fem-masc,color:'#6b6885'});
-    const RACA_DEF=[
-        {key:'PARDA',label:'Parda',color:'#a855f7'},{key:'BRANCA',label:'Branca',color:'#22d3ee'},
-        {key:'NEGRA',label:'Negra',color:'#4ade80'},{key:'AMARELA',label:'Amarela',color:'#fbbf24'},
-        {key:'INDÍGENA',label:'Indígena',color:'#fb923c'}
-    ];
-    const racaItems=RACA_DEF.map(d=>({...d,n:ativos.filter(r=>r.raca===d.key).length})).filter(d=>d.n>0).sort((a,b)=>b.n-a.n);
-    const racaNI=total-racaItems.reduce((a,d)=>a+d.n,0);
-    if (racaNI>0) racaItems.push({label:'Não informado',color:'#6b6885',n:racaNI});
-    const negrasPardas=ativos.filter(r=>r.raca==='NEGRA'||r.raca==='PARDA').length;
+    const fem=ativos.filter(r=>r.genero==='FEMININO'), masc=ativos.filter(r=>r.genero==='MASCULINO'), gNI=ativos.filter(r=>r.genero!=='FEMININO'&&r.genero!=='MASCULINO');
+    const generoItems=[{label:'Feminino',l:fem,rgb:'236,72,153',hex:'#ec4899'},{label:'Masculino',l:masc,rgb:'96,165,250',hex:'#60a5fa'}];
+    if (gNI.length) generoItems.push({label:'Não informado',l:gNI,rgb:'107,104,133',hex:'#6b6885'});
+    const RACA_DEF=[{key:'PARDA',label:'Parda',rgb:'168,85,247',hex:'#a855f7'},{key:'BRANCA',label:'Branca',rgb:'34,211,238',hex:'#22d3ee'},{key:'NEGRA',label:'Negra',rgb:'74,222,128',hex:'#4ade80'},{key:'AMARELA',label:'Amarela',rgb:'251,191,36',hex:'#fbbf24'},{key:'INDÍGENA',label:'Indígena',rgb:'251,146,60',hex:'#fb923c'}];
+    const racaItems=RACA_DEF.map(d=>({...d,l:ativos.filter(r=>r.raca===d.key)})).filter(d=>d.l.length).sort((a,b)=>b.l.length-a.l.length);
+    const racaNI=ativos.filter(r=>!RACA_DEF.some(d=>d.key===r.raca));
+    if (racaNI.length) racaItems.push({label:'Não informado',l:racaNI,rgb:'107,104,133',hex:'#6b6885'});
+    const negrasPardas=ativos.filter(r=>r.raca==='NEGRA'||r.raca==='PARDA');
 
     // ---- Idades ----
-    const buckets=[{label:'<25',min:0,max:24,color:'#22d3ee'},{label:'25-34',min:25,max:34,color:'#60a5fa'},{label:'35-44',min:35,max:44,color:'#8b5cf6'},{label:'45-54',min:45,max:54,color:'#a855f7'},{label:'55+',min:55,max:200,color:'#ec4899'}];
-    const idades=ativos.map(r=>getAge(r.dtNasc)).filter(a=>a!=null);
-    const idadeMedia=idades.length?Math.round(idades.reduce((a,b)=>a+b,0)/idades.length):null;
-    const faixas=buckets.map(b=>({...b,n:idades.filter(a=>a>=b.min&&a<=b.max).length})).filter(b=>b.n>0);
+    const buckets=[{label:'<25',min:0,max:24,rgb:'34,211,238'},{label:'25-34',min:25,max:34,rgb:'96,165,250'},{label:'35-44',min:35,max:44,rgb:'139,92,246'},{label:'45-54',min:45,max:54,rgb:'168,85,247'},{label:'55+',min:55,max:200,rgb:'236,72,153'}];
+    const comIdade=ativos.filter(r=>A(r)!=null), idades=comIdade.map(A);
+    const media=idades.length?idades.reduce((a,b)=>a+b,0)/idades.length:null, idadeMedia=media!=null?Math.round(media):null;
+    const faixas=buckets.map(b=>({...b,l:comIdade.filter(r=>A(r)>=b.min&&A(r)<=b.max)})).filter(b=>b.l.length);
+    const bucketOf=a=>(buckets.find(b=>a>=b.min&&a<=b.max)||buckets[0]).rgb;
 
     // ---- Formação ----
-    const comSituacao=ativos.filter(r=>r.statusCurso);
-    const comCurso=ativos.filter(r=>r.curso);
+    const comSituacao=ativos.filter(r=>r.statusCurso), comCurso=ativos.filter(r=>r.curso);
 
     kpisEl.innerHTML = [
-        ['f','236,72,153','Mulheres',pct(fem,total)+'%',`${fem} de ${total} ativos`],
-        ['globe','34,211,238','Pessoas negras e pardas',pct(negrasPardas,total)+'%',`${negrasPardas} de ${total} ativos`],
-        ['cake','251,191,36','Idade média',idadeMedia!=null?idadeMedia+' anos':'-',idades.length?`de ${Math.min(...idades)} a ${Math.max(...idades)} anos`:'sem datas de nascimento'],
-        ['cap','74,222,128','Com formação registrada',pct(comSituacao.length,total)+'%',`${comSituacao.length} de ${total} respondentes`]
-    ].map(k=>`<div class="card dv-kp dv-c3">${dvIcon(k[0],k[1],44)}<div><div class="l">${k[2]}</div><div class="v">${k[3]}</div><div class="s">${k[4]}</div></div></div>`).join('');
+        ['f','236,72,153','Mulheres',pct(fem.length,total)+'%',`${fem.length} de ${total} ativos`,reg=>dpReg('Mulheres do time',`${fem.length} de ${total} ativos`,fem,'236,72,153')],
+        ['globe','34,211,238','Pessoas negras e pardas',pct(negrasPardas.length,total)+'%',`${negrasPardas.length} de ${total} ativos`,()=>dpReg('Pessoas negras e pardas',`${negrasPardas.length} de ${total} ativos`,negrasPardas,'34,211,238')],
+        ['cake','251,191,36','Idade média',idadeMedia!=null?idadeMedia+' anos':'-',idades.length?`de ${Math.min(...idades)} a ${Math.max(...idades)} anos`:'sem datas de nascimento',()=>dpReg('Do mais novo ao mais velho',`${comIdade.length} pessoas com data de nascimento`,comIdade.slice().sort((a,b)=>A(a)-A(b)),'251,191,36')],
+        ['cap','74,222,128','Com formação registrada',pct(comSituacao.length,total)+'%',`${comSituacao.length} de ${total} respondentes`,()=>dpReg('Com formação registrada',`${comSituacao.length} de ${total} respondentes`,comSituacao,'74,222,128')]
+    ].map(k=>`<div class="card dv-kp dv-c3 dp-click" data-dpk="${k[5]()}">${dvIcon(k[0],k[1],44)}<div><div class="l">${k[2]}</div><div class="v">${k[3]}</div><div class="s">${k[4]}</div></div></div>`).join('');
 
-    row2.innerHTML = `<div class="card dv-c6"><div class="dv-blk"><div class="dv-ct">Gênero</div><div class="dv-cs">Headcount ativo</div>${dvStack(generoItems,total)}</div>
-            <div class="dv-blk" style="margin-top:22px;"><div class="dv-ct">Raça / Cor</div><div class="dv-cs">Autodeclaração dos ativos</div>${dvStack(racaItems,total)}</div></div>
-        <div class="card dv-c6"><div class="dv-ct">Faixas Etárias</div><div class="dv-cs">Cada ponto é uma pessoa · cores = faixa (${faixas.map(f=>f.label).join(', ')||'-'})</div>
-            <div class="dv-dots">${dvDots(idades,buckets)}</div>
-            <div class="dv-pills">${faixas.map(f=>`<span class="dv-pill" style="background:${f.color}22;color:${f.color};">${f.label}: ${f.n} (${pct(f.n,idades.length)}%)</span>`).join('')}</div></div>`;
+    const seg=(items)=>`<div class="dp-seg">${items.map(x=>`<div style="flex:${x.l.length};background:rgb(${x.rgb})" data-dpk="${dpReg(x.label,`${x.l.length} de ${total} ativos`,x.l,x.rgb)}">${pct(x.l.length,total)>=6?pct(x.l.length,total)+'%':''}</div>`).join('')}</div>
+        <div class="dp-grp">${items.map(x=>`<div class="dp-gi"><div class="t"><i style="background:rgb(${x.rgb})"></i>${x.label} <b>${x.l.length}</b><span>${pct(x.l.length,total)}%</span></div>${dpStack(x.l,x.rgb,6,30,dpReg(x.label,`${x.l.length} de ${total} ativos`,x.l,x.rgb))}</div>`).join('')}</div>`;
 
-    // Formação / Curso: 6 cursos mais comuns + "Outros" (agrupa o resto), como no layout aprovado
-    const byCurso={}; comCurso.forEach(r=>{ byCurso[r.curso]=(byCurso[r.curso]||0)+1; });
-    const ordenados=Object.entries(byCurso).sort((a,b)=>b[1]-a[1]);
-    const top=ordenados.slice(0,6), resto=ordenados.slice(6), restoTotal=resto.reduce((a,[,c])=>a+c,0);
-    const barras=top.slice(); if (restoTotal>0) barras.push([`Outros (${resto.length} cursos)`,restoTotal]);
-    const c1=['#6d8cff','#8b5cf6','#a855f7','#c026d3','#d946ef','#ec4899','#64748b'], c2=['#8b5cf6','#a855f7','#c026d3','#d946ef','#ec4899','#f43f5e','#94a3b8'];
-    const maxB=barras.length?Math.max(...barras.map(b=>b[1])):1;
-    const formHtml = barras.length ? `<div class="dv-bars">${barras.map((b,i)=>{
-            const ultimo = restoTotal>0 && i===barras.length-1, k = ultimo ? 6 : Math.min(i,5);
-            return `<div class="dv-bar"><span class="n" title="${eqEsc(b[0])}">${b[0]}</span><div class="t"><i style="width:${(b[1]/maxB*100).toFixed(1)}%;background:linear-gradient(90deg,${c1[k]},${c2[k]});"></i></div><span class="c">${b[1]} <span>(${pct(b[1],comCurso.length)}%)</span></span></div>`;
-        }).join('')}</div>` : `<div class="placeholder-card">Nenhum ativo com formação informada no escopo filtrado.</div>`;
+    row2.innerHTML = `<div class="card dv-c5"><div class="dv-blk"><div class="dv-ct">Gênero</div><div class="dv-cs">Headcount ativo · clique para ver quem é</div>${seg(generoItems)}</div>
+            <div class="dv-blk" style="margin-top:8px;"><div class="dv-ct">Raça / Cor</div><div class="dv-cs">Autodeclaração dos ativos</div>${seg(racaItems)}</div></div>
+        <div class="card dv-c7"><div class="dv-ct">Faixas Etárias</div><div class="dv-cs">Cada rosto é uma pessoa · cor da borda = faixa (${faixas.map(f=>f.label).join(', ')||'-'})</div>${dpHist(comIdade,media,bucketOf)}
+            <div class="dv-pills">${faixas.map(f=>`<span class="dp-fx" style="--c:${f.rgb}" data-dpk="${dpReg('Faixa '+f.label,`${f.l.length} pessoas · ${pct(f.l.length,idades.length)}% do time`,f.l,f.rgb)}"><i></i>${f.label} <b>${f.l.length}</b><span>${pct(f.l.length,idades.length)}%</span></span>`).join('')}</div></div>`;
 
-    const SITS=[{key:'CURSANDO',label:'Cursando',icon:'book',rgb:'96,165,250'},{key:'CONCLUIDO',label:'Concluído',icon:'cap',rgb:'74,222,128'},{key:'TRANCADO',label:'Trancado',icon:'pause',rgb:'251,191,36'},{key:'NÃO INICIOU',label:'Não Iniciou',icon:'hour',rgb:'168,85,247'}];
-    const sitHtml = comSituacao.length ? `<div class="dv-sits">${SITS.map(x=>{
-            const n=comSituacao.filter(r=>r.statusCurso===x.key).length;
-            return `<div class="dv-sit">${dvIcon(x.icon,x.rgb,34)}<div class="m"><div class="r"><span>${x.label}</span><b>${n} <span style="font-weight:400;font-size:11.5px;color:var(--text2);">${pct(n,comSituacao.length)}%</span></b></div><div class="t"><i style="width:${comSituacao.length?(n/comSituacao.length*100).toFixed(1):0}%;background:rgb(${x.rgb});"></i></div></div></div>`;
-        }).join('')}</div>` : `<div class="placeholder-card">Nenhum ativo com situação de formação registrada ainda no escopo filtrado.</div>`;
-    row3.innerHTML = `<div class="card dv-c7"><div class="dv-ct">Formação / Curso</div><div class="dv-cs">${comCurso.length} ativos com curso informado</div>${formHtml}</div>
-        <div class="card dv-c5"><div class="dv-ct">Situação da Formação</div><div class="dv-cs">${comSituacao.length} de ${total} ativos com situação registrada</div>${sitHtml}</div>`;
+    // Formação / Curso: 6 cursos mais comuns + "Outros"
+    const byCurso={}; comCurso.forEach(r=>{ (byCurso[r.curso]=byCurso[r.curso]||[]).push(r); });
+    const ordenados=Object.entries(byCurso).sort((a,b)=>b[1].length-a[1].length);
+    const topC=ordenados.slice(0,6), resto=ordenados.slice(6), restoL=resto.flatMap(x=>x[1]);
+    const barras=topC.map(x=>[x[0],x[1]]); if (restoL.length) barras.push([`Outros (${resto.length} cursos)`,restoL]);
+    const maxB=barras.length?Math.max(...barras.map(b=>b[1].length)):1;
+    const formHtml = barras.length ? `<div class="dp-rk">${barras.map((b,i)=>{ const ult=restoL.length>0&&i===barras.length-1;
+            return `<div class="dp-r" data-dpk="${dpReg(b[0],`${b[1].length} pessoas`,b[1],'168,85,247')}"><span class="n" title="${eqEsc(b[0])}">${eqEsc(b[0])}</span><div class="t"><i style="width:${(b[1].length/maxB*100).toFixed(1)}%;${ult?'background:#9491ad':''}"></i></div><div class="dp-stk">${b[1].slice(0,4).map(r=>dpAv(r,24,'168,85,247')).join('')}${b[1].length>4?`<span class="more">+${b[1].length-4}</span>`:''}</div><span class="c">${b[1].length} <span>(${pct(b[1].length,comCurso.length)}%)</span></span></div>`; }).join('')}</div>`
+        : `<div class="placeholder-card">Nenhum ativo com formação informada no escopo filtrado.</div>`;
+    const SITS=[{key:'CURSANDO',label:'Cursando',rgb:'96,165,250'},{key:'CONCLUIDO',label:'Concluído',rgb:'74,222,128'},{key:'TRANCADO',label:'Trancado',rgb:'251,191,36'},{key:'NÃO INICIOU',label:'Não Iniciou',rgb:'168,85,247'}];
+    const sitHtml = comSituacao.length ? `<div class="dp-tiles">${SITS.map(x=>{ const l=comSituacao.filter(r=>r.statusCurso===x.key);
+            return `<div class="dp-tile" style="--c:${x.rgb}" data-dpk="${dpReg(x.label,`${l.length} de ${comSituacao.length} com situação registrada`,l,x.rgb)}"><small>${x.label}</small><b>${l.length}</b><em>${pct(l.length,comSituacao.length)}%</em>${dpStack(l,x.rgb,5,26,dpReg(x.label,`${l.length} de ${comSituacao.length} com situação registrada`,l,x.rgb))}</div>`; }).join('')}</div>`
+        : `<div class="placeholder-card">Nenhum ativo com situação de formação registrada ainda no escopo filtrado.</div>`;
+    row3.innerHTML = `<div class="card dv-c6"><div class="dv-ct">Formação / Curso</div><div class="dv-cs">${comCurso.length} ativos com curso informado</div>${formHtml}</div>
+        <div class="card dv-c6"><div class="dv-ct">Situação da Formação</div><div class="dv-cs">${comSituacao.length} de ${total} ativos com situação registrada</div>${sitHtml}</div>`;
+    dpFit(); requestAnimationFrame(dpFit);
+    if (window.ResizeObserver){ if (dpRO) dpRO.disconnect(); dpRO=new ResizeObserver(()=>dpFit()); const h=document.querySelector('#view-diversidade .dp-hist'); if (h) dpRO.observe(h); }
 }
+function dpHist(comIdade,media,bucketOf){
+    if (!comIdade.length) return `<div class="placeholder-card" style="width:100%;">Sem datas de nascimento no escopo filtrado.</div>`;
+    const ages=comIdade.map(r=>getAge(r.dtNasc)), mn=Math.min(...ages), mx=Math.max(...ages);
+    let lo=mn, hi=mx; if (hi-lo<12){ const extra=12-(hi-lo); lo-=Math.floor(extra/2); hi+=Math.ceil(extra/2); }
+    const by={}; comIdade.forEach(r=>{ const a=getAge(r.dtNasc); (by[a]=by[a]||[]).push(r); });
+    const maxStack=Math.max(...Object.values(by).map(l=>l.length));
+    let cols=''; for (let a=lo;a<=hi;a++){ const l=by[a]||[]; cols+=`<div class="dp-hc${l.length?'':' zero'}">${l.length?l.map(r=>dpAv(r,28,bucketOf(a))).join(''):'<div class="ph"></div>'}<span>${a}</span></div>`; }
+    return `<div class="dp-hist" data-lo="${lo}" data-avg="${media}" data-mx="${maxStack}" data-h="230">${cols}<div class="dp-avg"><b>média ${Math.round(media)}</b></div></div>`;
+}
+document.getElementById('view-diversidade').addEventListener('click', e=>{
+    const f=e.target.closest('[data-dpp]'); if (f){ const g=e.target.closest('[data-dpk]'); if (g) dpLast=g.dataset.dpk; dpOpenPessoa(+f.dataset.dpp); return; }
+    const k=e.target.closest('[data-dpk]'); if (k) dpOpenGroup(k.dataset.dpk);
+});
+addEventListener('resize', ()=>dpFit());
 
 const RK_IC={trend:'<polyline points="22 17 13.5 8.5 8.5 13.5 2 7"/><polyline points="16 17 22 17 22 11"/>',hour:'<path d="M5 22h14"/><path d="M5 2h14"/><path d="M17 22v-4.172a2 2 0 0 0-.586-1.414L12 12l-4.414 4.414A2 2 0 0 0 7 17.828V22"/><path d="M7 2v4.172a2 2 0 0 0 .586 1.414L12 12l4.414-4.414A2 2 0 0 0 17 6.172V2"/>',userx:'<path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><line x1="17" x2="22" y1="8" y2="13"/><line x1="22" x2="17" y1="8" y2="13"/>',warn:'<path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3"/><path d="M12 9v4"/><path d="M12 17h.01"/>',check:'<path d="M20 6 9 17l-5-5"/>',down:'<path d="M12 5v14"/><path d="m19 12-7 7-7-7"/>',up:'<path d="M12 19V5"/><path d="m5 12 7-7 7 7"/>',shield:'<path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z"/><path d="m9 12 2 2 4-4"/>'};
 function rkIc(k,c,s){ return `<svg width="${s}" height="${s}" viewBox="0 0 24 24" fill="none" stroke="rgb(${c})" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink:0">${RK_IC[k]}</svg>`; }
@@ -4161,6 +4261,8 @@ function cmEnsureDr(){
         const t = e.target;
         if (t.closest('[data-close]')) return cmCloseDr();
         const b = t.closest('[data-back]'); if (b) return cmOpenCargo(b.dataset.back);
+        const bd = t.closest('[data-backdv]'); if (bd && cmBackDv) return dpOpenGroup(cmBackDv.key);
+        const dp = t.closest('[data-dpp]'); if (dp) return dpOpenPessoa(+dp.dataset.dpp);
         const dt = t.closest('[data-dt]'); if (dt) return cmOpenPessoa(document.getElementById('cmDr').dataset.key, dt.dataset.dt);
         const go = t.closest('[data-go]'); if (go) return cmOpenPessoa(go.dataset.go);
     });
@@ -4173,7 +4275,7 @@ function cmShowDr(html, rgb, key){
     d.classList.add('open'); document.getElementById('cmScrim').classList.add('on');
 }
 function cmOpenCargo(key){
-    const g = cmG[key]; if (!g) return; cmLastCargo = key;
+    const g = cmG[key]; if (!g) return; cmLastCargo = key; cmBackDv = null;
     const def = CM_LN[g.ln], tag = def.tag+' · '+def.nm;
     const old = Math.max(...g.p.map(x=>x.m||0));
     const rows = g.p.slice().sort((a,b)=>(b.m||0)-(a.m||0)).map(p=>`<div class="lk" style="--c:${g.bl.c}" data-go="${cgEsc(ogNk(p.n))}">${cmAw(p.n)}<div><b>${cgEsc(cmCap(p.n))}</b><small>${cmFmtT(p.m)} de casa</small></div><span class="cs">${p.a?p.a+' anos':'-'}</span></div>`).join('');
@@ -4191,7 +4293,7 @@ function cmOpenPessoa(key, tab){
     const nTraj = Object.assign({}, base, {nome:tn});
     const tag = p ? (CM_LN[p.ln].tag+' · '+CM_LN[p.ln].nm) : (base.area||'');
     const body = tab==='traj' ? o3Traj(nTraj, by) : o3Team(base, by);
-    cmShowDr(`<button class="x" data-close="1">×</button>${p?`<button class="cm-back" data-back="${cgEsc(p.g.key)}">‹ ${cgEsc(p.g.c)}</button>`:''}` +
+    cmShowDr(`<button class="x" data-close="1">×</button>${cmBackDv?`<button class="cm-back" data-backdv="1">‹ ${cgEsc(cmBackDv.title)}</button>`:(p?`<button class="cm-back" data-back="${cgEsc(p.g.key)}">‹ ${cgEsc(p.g.c)}</button>`:'')}` +
         `<div class="hd"><div class="o3-aw big">${(()=>{const ph=ogPhotoSmart(nome); return `<div class="o3-av">${ph?`<img src="${ph}" alt="">`:cgEsc(cmIni(nome))}</div>`;})()}</div><div style="min-width:0"><h4>${cgEsc(ogTitleName(nome))}</h4><div class="sub">${cgEsc(cargo)}</div><span class="tag">${cgEsc(tag)}</span></div></div>` +
         `<div class="o3-tabs"><button data-dt="traj" class="${tab==='traj'?'on':''}">Trajetória</button>${e?`<button data-dt="team" class="${tab==='team'?'on':''}">Equipe</button>`:''}</div>${body}`, rgb, key);
 }
@@ -4199,7 +4301,7 @@ document.getElementById('view-cargos').addEventListener('click', e=>{
     const a = e.target.closest('[data-a]');
     if (a){ cargosFilter = a.dataset.a; renderCargosView(); return; }
     const pp = e.target.closest('[data-p]');
-    if (pp){ cmOpenPessoa(pp.dataset.p); return; }
+    if (pp){ cmBackDv = null; cmOpenPessoa(pp.dataset.p); return; }
     const k = e.target.closest('[data-k]');
     if (k) cmOpenCargo(k.dataset.k);
 });
