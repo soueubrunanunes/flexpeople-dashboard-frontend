@@ -4940,7 +4940,7 @@ const CH_KB = [
   l:'Compare as áreas: a que tem mais saídas do que ativos pede atenção primeiro.',
   r:['eq_mapa','turnover'] },
 { id:'eq_mapa', abas:['equipes','riscos'], nome:'Mapa de risco dos supervisores',
-  k:['mapa de risco','supervisores','supervisor','risco dos supervisores','nivel de risco','normal atencao alerta critico','ranking de supervisores','cards ranking'],
+  k:['mapa de risco','risco dos supervisores','nivel de risco','normal atencao alerta critico','ranking de supervisores','cards ranking'],
   o:'Classifica cada supervisor pelo turnover da equipe dele no período, de Normal a Crítico.',
   c:'Para cada supervisor: desligados ÷ ativos da equipe. Os níveis são: Normal até 15%, Atenção 15–30%, Alerta 30–100% e Crítico acima de 100%. A visão Cards mostra cada equipe; a visão Ranking ordena do maior para o menor risco.',
   l:'Em cada card, a seta para cima é quem permanece e a seta para baixo é quem saiu no período. A frase embaixo diz quanto da equipe foi promovido nos últimos 12 meses.',
@@ -5108,7 +5108,7 @@ const CH_KB = [
   l:'O bloco da direita mostra as mudanças de nome de cargo dentro do Comercial, útil para ver o caminho típico de carreira.',
   r:['md_niveis'] },
 { id:'md_retencao', abas:['mdp','riscos'], nome:'Retenção pós-promoção',
-  k:['retencao pos promocao','promovidos ficaram','sem promocao','promovidos x nunca promovidos','pos promocao'],
+  k:['retencao pos promocao','promovidos ficaram','promovidos x nunca promovidos','pos promocao'],
   o:'Compara quantos promovidos e quantos nunca promovidos deixaram a empresa.',
   c:'Usa todas as pessoas da MDP, incluindo quem já saiu. Divide em dois grupos (já promovidos e nunca promovidos) e mostra a proporção de saídas em cada um.',
   l:'Se quem foi promovido sai menos do que quem nunca foi, promover ajuda a reter. No Riscos aparece como "X de Y promovidos ficaram".',
@@ -5261,11 +5261,17 @@ const CH_NEW = [
         `${chN(s.i.length?Math.round(early/s.i.length*100)+'%':'0%')} das saídas foram de quem tinha menos de 3 meses de casa`,
         worst?`Área com maior turnover: ${chB(worst[0])} (${chP1(worst[1])})`:'']);
       return h+`<span class="ch-t">Como ler</span>Comece pelo motivo principal e pelas saídas precoces: são onde dá para agir mais rápido.`; }, r:['olhar_primeiro','onboarding_risco','tipo_motivo'] },
+{ id:'area_pior', abas:CH_ALL, nome:'Qual área tem o maior turnover?',
+  k:['qual area tem o maior turnover','area com maior turnover','qual canal perde mais','area com mais saidas'],
+  html:()=>{ const s=chS(); if(!s.a.length && !s.i.length) return 'Ainda não há dados carregados.';
+      const m={}; s.a.forEach(r=>{ const a=r.canal||'N/D'; m[a]=m[a]||{a:0,i:0}; m[a].a++; }); s.i.forEach(r=>{ const a=r.canal||'N/D'; m[a]=m[a]||{a:0,i:0}; m[a].i++; });
+      const L=Object.entries(m).filter(x=>x[1].a+x[1].i>0).map(x=>({n:x[0],a:x[1].a,i:x[1].i,t:x[1].a?x[1].i/x[1].a*100:0})).sort((a,b)=>b.t-a.t);
+      return `<b style="display:block;margin-bottom:6px">Turnover por área (filtro atual)</b>`+chRows(L.map(x=>`${chB(chTit(x.n))}: ${chN(chP1(x.t))} · ${classificaRisco(x.t).label} (${x.i} saídas, ${x.a} ativos)`))+`<span class="ch-t">Como ler</span>Saídas ÷ ativos de cada área no período. A aba Equipes mostra o mesmo recorte em cards.`; }, r:['sup_pior','area_cedo'] },
 { id:'sup_pior', abas:CH_ALL, nome:'Qual supervisor tem o pior turnover?',
   k:['qual supervisor tem o pior turnover','supervisor com pior turnover','pior supervisor','supervisor com maior turnover','qual equipe tem mais saidas','qual equipe perde mais gente','equipe com maior turnover','qual equipe esta pior'],
   html:()=>{ const L=chSupStats(); if(!L.length) return 'Ainda não há dados de supervisores carregados.';
       return `<b style="display:block;margin-bottom:6px">Turnover por supervisor (filtro atual)</b>`+chRows(L.slice(0,4).map(x=>`${chB(chTit(x.n))}: ${chN(chP1(x.t))} · ${x.lv} (${x.i} saídas, ${x.a} ativos)`))+`<span class="ch-t">Como ler</span>Calculado como saídas ÷ ativos da equipe no período. Veja o mapa completo na aba Equipes.`; }, r:['eq_mapa','olhar_primeiro'] },
-{ id:'meta_status', abas:CH_ALL, nome:'Estamos dentro das metas?',
+{ id:'meta_status', qty:true, abas:CH_ALL, nome:'Estamos dentro das metas?',
   k:['estamos dentro das metas','quanto falta para a meta','dentro da meta','estamos dentro da meta','falta para a meta de headcount','bateu a meta','meta de turnover','como estamos nas metas','status das metas'],
   html:()=>{ const s=chS(); const t=calcTurnover(s.a,s.i).turnover, gap=HEADCOUNT_META-s.a.length;
       const tt=new Date(); const c=globalData.filter(r=>r.dtInicio&&r.dtInicio<=new Date(tt.getTime()-90*86400000)); const ok=c.filter(r=>r.status==='ATIVO'||(r.dtSaida&&monthsBetween(r.dtInicio,r.dtSaida)*30>90)).length; const rr=c.length?ok/c.length*100:0;
@@ -5279,18 +5285,18 @@ const CH_NEW = [
       const m={}; s.i.forEach(r=>{ const a=r.canal||'N/D'; m[a]=m[a]||{t:0,e:0}; m[a].t++; if(r.dtInicio&&r.dtSaida&&monthsBetween(r.dtInicio,r.dtSaida)<3) m[a].e++; });
       const L=Object.entries(m).sort((a,b)=>b[1].e-a[1].e);
       return `<b style="display:block;margin-bottom:6px">Saídas com menos de 3 meses de casa, por área</b>`+chRows(L.map(x=>`${chB(x[0])}: ${chN(x[1].e)} de ${x[1].t} saídas (${x[1].t?Math.round(x[1].e/x[1].t*100):0}%)`))+`<span class="ch-t">Como ler</span>Onde a porcentagem é maior, o começo da jornada está falhando mais. Veja também o card Onboarding de risco.`; }, r:['onboarding_risco','custo_cedo'] },
-{ id:'sem_promocao', abas:CH_ALL, nome:'Quem está há mais tempo sem promoção?',
+{ id:'sem_promocao', people:true, abas:CH_ALL, nome:'Quem está há mais tempo sem promoção?',
   k:['quem esta ha mais tempo sem promocao','mais tempo sem promocao','quem nunca foi promovido','sem promocao ha mais tempo','quem esta parado','quem esta estagnado','quem precisa de promocao'],
   html:()=>{ const P=chMd(); if(!P.length) return chNoMdp();
       const L=P.slice().sort((a,b)=>b.ult-a.ult).slice(0,6);
       return `<b style="display:block;margin-bottom:6px">Maior tempo sem movimentação de cargo</b>`+chRows(L.map(p=>`${chB(chNm(p.nome))} · ${chEsc(chTit(p.cargo))} · ${chN(Math.round(p.ult)+' meses')} (${p.n?p.n+(p.n>1?' promoções':' promoção'):'nunca promovido(a)'})`))+`<span class="ch-t">Como ler</span>É o tempo desde a última movimentação (ou desde a admissão, se nunca teve). A lista completa está na aba MDP.`; }, r:['md_estag','md_nunca'] },
-{ id:'entrou_saiu_mes', abas:CH_ALL, nome:'Quem entrou e quem saiu neste mês?',
+{ id:'entrou_saiu_mes', people:true, abas:CH_ALL, nome:'Quem entrou e quem saiu neste mês?',
   k:['quem entrou neste mes','quem saiu neste mes','quem entrou e quem saiu','quem entrou no mes','quem saiu no mes','quem foi desligado neste mes','quem foi contratado neste mes','entradas e saidas do mes','por que saiu'],
   html:()=>{ const pop=chPop(), M=chMes(); if(!pop.length) return 'Ainda não há dados carregados.';
       const e=chIn(M.s,M.t,pop), s=chOut(M.s,M.t,pop);
       const lst=(a,f)=>a.length?chRows(a.slice(0,8).map(f))+(a.length>8?`<br>… e mais ${a.length-8}`:''):'Ninguém até agora.';
       return `<b style="display:block;margin-bottom:6px">${M.lab[0].toUpperCase()+M.lab.slice(1)}: entradas e saídas</b><span class="ch-t">Entraram (${e.length})</span>${lst(e,r=>`${chB(chNm(r.nome))}${r.canal?' · '+chEsc(r.canal):''}`)}<span class="ch-t">Saíram (${s.length})</span>${lst(s,r=>`${chB(chNm(r.nome))} · ${chEsc((r.tipoSaida||'').toLowerCase()||'tipo não informado')}${r.motivo?' · '+chEsc(r.motivo):''}`)}`; }, r:['mudou_mes','tipo_motivo'] },
-{ id:'lideres_times', abas:CH_ALL, nome:'Quem responde a quem? Quantas pessoas tem cada líder?',
+{ id:'lideres_times', people:true, abas:CH_ALL, nome:'Quem responde a quem? Quantas pessoas tem cada líder?',
   k:['quem responde ao','quem responde a','quem e o gestor','quem e o chefe','quem e a gestora','equipe do','time do','quem trabalha com','quantas pessoas tem cada lider','quantas pessoas tem cada gestor','tamanho de cada equipe','quem sao os lideres','quem sao os supervisores','gestor do','gestor da'],
   html:(q)=>{ const L=chLeaders(); if(!L) return chNoMdp();
       const nq=chNk(q); const asks=/(responde|gestor|gestora|chefe|equipe d|time d|trabalha com|reporta)/.test(nq);
@@ -5303,7 +5309,7 @@ const CH_NEW = [
               return h; } }
       const rows=L.leaders.map(p=>({p, d:(L.by.get(ogNk(p.nome))||[]).length, t:L.tot(p)})).sort((a,b)=>b.t-a.t);
       return `<b style="display:block;margin-bottom:6px">Líderes e tamanho das equipes</b>`+chRows(rows.map(x=>`${chB(chNm(x.p.nome))} · ${chEsc(chTit(x.p.cargo))}: ${chN(x.d)} direto${x.d>1?'s':''}${x.t!==x.d?` (${x.t} no total)`:''}`))+`<span class="ch-t">Dica</span>Pergunte "quem responde ao Bruno?" ou "quem é o gestor da Jessica?" para ver uma pessoa.`; }, r:['org_mapa'] },
-{ id:'pessoas_por_cargo', abas:CH_ALL, nome:'Quantas pessoas tem em cada cargo?',
+{ id:'pessoas_por_cargo', qty:true, abas:CH_ALL, nome:'Quantas pessoas tem em cada cargo?',
   k:['quantas pessoas tem em cada cargo','pessoas por cargo','em cada cargo','quantos consultores','quantos assistentes','quantos supervisores','quantos analistas','quantos monitores','quantas pessoas no cargo','quantos backoffice','quantos operadores','distribuicao por cargo'],
   html:(q)=>{ if(typeof cargosData==='undefined' || !cargosData.length) return chNoMdp();
       const sing=t=>t.replace(/([rz])es$/,'$1').replace(/s$/,''), qt=chNk(q).split(' ').filter(t=>t.length>1 && !CH_STOP.has(t)).map(sing);
@@ -5341,27 +5347,190 @@ const CH_NEW = [
 ];
 CH_NEW.forEach(e=>CH_KB.push(e));
 
+/* ===== Entendimento de perguntas: sinônimos, plural, erros de digitação e pontuação por significado ===== */
+const CH_SYN = {
+  turnover:['turnover','rotatividade','giro','rotativ'],
+  saida:['saida','sair','saiu','sairam','saem','sai','saindo','desligamento','desligado','desligada','desligar','desligou','demissao','demitido','demitida','demitir','demitiu','demissoes','perda','perder','perde','perdem','perdeu','evasao','abandono','abandonar','deixou','deixaram','deixar','pediu','pedir','pedindo','pedem','pede','pedido'],
+  entrada:['entrada','entrar','entrou','entraram','entram','admissao','admitido','admitida','admitir','contratacao','contratado','contratada','contratar','contratou','contratados','ingresso','ingressou','novato','novata','recem'],
+  promocao:['promocao','promovido','promovida','promover','promoveu','subir','subiu','subida','ascensao','progressao','crescer','crescimento','carreira'],
+  supervisor:['supervisor','supervisora','lider','lideranca','gestor','gestora','chefe','coordenador','coordenadora','responsavel','responde','responder','reporta','reportar','subordinado','gerente','embaixo','abaixo','liderados','lidera','liderar','comanda','manda'],
+  equipe:['equipe','time','squad','grupo'],
+  pessoa:['pessoa','colaborador','colaboradora','funcionario','funcionaria','gente','empregado','empregada','integrante','membro','pessoal'],
+  custo:['custo','gasto','gastos','preco','valor','dinheiro','investimento','caro','custar','custa','gastar','gasta','gastou'],
+  meta:['meta','objetivo','alvo','target'],
+  idade:['idade','velho','jovem','nascimento','aniversario'],
+  tempocasa:['tempocasa','antiguidade','veterano','veterana'],
+  cargo:['cargo','funcao','posicao','titulo','consultor','consultora','assistente','analista','monitor','monitora','operador','operadora','backoffice','atendente','vendedor','vendedora','vendas','venda','atendimento'],
+  genero:['genero','sexo','mulher','homem','feminino','masculino','feminina','masculina'],
+  raca:['raca','etnia','negro','negra','pardo','parda','preto','preta','branco','branca','autodeclaracao'],
+  formacao:['formacao','curso','faculdade','escolaridade','graduacao','estudo','estudando','superior','universidade'],
+  area:['area','setor','departamento','canal'],
+  risco:['risco','perigo','critico','critica','alerta','atencao','grave','preocupante','alarmante'],
+  prioridade:['problema','problemas','ruim','mal','pessimo','urgente','prioridade','prioridades','foco','focar','preocupante','preocupa','preocupacao'],
+  resumo:['resumo','panorama','sintese','overview','balanco','retrato','visao','anda','andando','situacao'],
+  diferenca:['diferenca','diferente','diferem','difere','versus','comparar','comparacao','distincao'],
+  mudanca:['mudou','mudanca','variacao','variou','evoluiu','evolucao','alterou'],
+  retencao:['retencao','retido','retida','reter','ficou','ficaram','permanecer','permanece','permanecem','permanencia','continuar','continua','continuam','segurar'],
+  calculo:['calculo','calcula','calculado','calcular','calculam','formula','medido','medir','mede','apurado','apurar','composto','composicao'],
+  organograma:['organograma','hierarquia','estrutura'],
+  funil:['funil','pipeline','candidatura','candidato','candidata','candidaturas'],
+  motivo:['motivo','causa','razao','porque'],
+  pior:['pior','maior','alto','alta','elevado','elevada','critico','campeao','mais_alto','absurdo','exagerado'],
+  noshow:['noshow','faltou','faltaram','faltar','faltas'],
+  melhor:['melhor','menor','baixo','baixa','minimo'],
+  estagnacao:['estagnacao','estagnado','estagnada','parado','parada','estagnar','travado','travada'],
+  ajuda:['ajuda','ajudar','duvida','socorro','explicar','explica','explique','entender','entendo','significa','significado','definicao','conceito','funciona'],
+  hoje:['hoje','agora','atual','atualmente','neste','nesse','esse','este','corrente'],
+};
+const CH_PHRASES = [ ['tempo de casa','tempocasa'],['tempo de empresa','tempocasa'],['tempo na empresa','tempocasa'],['tempo de servico','tempocasa'],['turn over','turnover'],['taxa de saida','turnover'],['taxa de desligamento','turnover'],['mais alto','pior'],['mais alta','pior'],['mais elevado','pior'],['mais baixo','melhor'],['mais baixa','melhor'],['por que','porque'],['liste','lista'],['como e feita a conta','calculo'],['como e feita','calculo'],['a conta do','calculo'],['como se calcula','calculo'],['por quê','porque'],['pq','porque'],['quem sao','lista'],['quais sao','lista'],['no show','noshow'],['no-show','noshow'],['360','retidos'],['o que e','ajuda'],['o que significa','ajuda'],['o que quer dizer','ajuda'],['como funciona','ajuda'],['para que serve','ajuda'],['como e calculado','calculo'],['como calcula','calculo'],['como e feito','calculo'],['como e medido','calculo'],['saidas precoces','saidacedo'],['saida precoce','saidacedo'],['saem cedo','saidacedo'],['saiu cedo','saidacedo'],['saiu cedo','saidacedo'] ];
+const CH_STOP2 = new Set('o a os as um uma uns umas de da do das dos em no na nos nas por para pra com sem que e eh ou se me te nao sim isso esse essa este esta isto aquele aquela ele ela seu sua meu minha qual quais quanto quantos quantas como onde quando favor poderia pode voce vc fala falar quer dizer sobre mais mim aqui aba ter tem tenho temos ser sao foi esta estao estamos esta ha ja ai la tao muito muita pouco todo toda todos todas cada algum alguma outro outra entre ate desde depois antes sobre vai vao ao aos a as pelo pela pelos pelas dele dela deles delas quer queria gostaria saber ver mostra mostrar mostre diz dizer fala me manda mande indicador indicadores card cartao grafico numero numeros dado dados ta to tava pra pro rh empresa dashboard sistema porcentagem percentual proporcao indice quantidade total numero tipo ficam quem fica ficaram feita feito'.split(' '));
+let CH_IDX = null;
+const CH_GLOSS = ['niveis_risco','md_promocao_def','filtros','base_empresa','dif_retencao','dif_bases','como_promovido','copilot'];
+const CH_QTY = ['headcount','genero','md_nunca','md_estag','md_12m','md_grade','diversidade_kpis','entradas'];
+function chStem(w){
+    if(w==='meses') return 'mes';
+    w = w.replace(/coes$/,'cao').replace(/oes$/,'ao').replace(/aes$/,'ao').replace(/ais$/,'al').replace(/eis$/,'el').replace(/([rzl])es$/,'$1');
+    if(w.length>3 && /s$/.test(w) && !/(us|is|ss)$/.test(w)) w = w.slice(0,-1);
+    return w;
+}
+const chLev = (a,b)=>{ if(Math.abs(a.length-b.length)>2) return 9; const m=[...Array(b.length+1).keys()]; for(let i=1;i<=a.length;i++){ let p=m[0]; m[0]=i; for(let j=1;j<=b.length;j++){ const t=m[j]; m[j]=Math.min(m[j]+1,m[j-1]+1,p+(a[i-1]===b[j-1]?0:1)); p=t; } } return m[b.length]; };
+function chPrep(){
+    const syn=new Map(); Object.keys(CH_SYN).forEach(c=>CH_SYN[c].forEach(w=>{ const s=chStem(chNk(w)); if(!syn.has(s)) syn.set(s,[]); if(!syn.get(s).includes(c)) syn.get(s).push(c); }));
+    return syn;
+}
+function chTokens(text, idx, fix){
+    let s=' '+chNk(text)+' ';
+    CH_PHRASES.forEach(([a,b])=>{ const na=' '+chNk(a)+' '; while(s.includes(na)) s=s.replace(na,' '+b+' '); });
+    const out=[];
+    s.trim().split(' ').forEach(t=>{
+        if(!t || CH_STOP2.has(t)) return;
+        let st=chStem(t), known = idx.syn.has(st) || idx.vocab.has(st) || /^[0-9]+$/.test(st);
+        if(/^[0-9]+$/.test(st) && !idx.vocab.has(st)) return;
+        if(!known && fix && st.length>=5){ let best=null,bd=9; const lim = st.length>=8?2:1; for(const v of idx.fuzzy){ if(v[0]!==st[0]) continue; const d=chLev(st,v); if(d<bd){bd=d;best=v;} } if(best && bd<=lim){ st=best; known=true; } }
+        if(idx.syn.has(st)) idx.syn.get(st).forEach(c=>out.push({t:c, known:true}));
+        if(idx.vocab.has(st) && !idx.syn.has(st)) out.push({t:st, known:true});
+        else if(!known) out.push({t:st, known:false});
+    });
+    return out;
+}
+function chIndex(){
+    const syn=chPrep(), idx={syn, vocab:new Set(), fuzzy:[]};
+    // pessoas (nomes) viram o conceito "nome": assim "quem responde ao Bruno" reconhece que há um nome na pergunta
+    const names=new Set(); try{ (orgData||[]).forEach(p=>chNk(p.nome).split(' ').forEach(t=>{ if(t.length>2) names.add(chStem(t)); })); (cargosData||[]).forEach(p=>chNk(p.nome).split(' ').forEach(t=>{ if(t.length>2) names.add(chStem(t)); })); }catch(_){}
+    idx.names=names;
+    const base=(e,fn)=>{ // pré-passada só para montar o vocabulário
+        [e.nome, ...(e.k||[]), ...(e.ex||[]), e.o||''].forEach(tx=>{ chNk(tx).split(' ').forEach(w=>{ if(w && !CH_STOP2.has(w)){ const st=chStem(w); idx.vocab.add(st); } }); }); };
+    CH_KB.forEach(e=>{ e.ex=(CH_EX[e.id]||[]); if(CH_QTY.includes(e.id)) e.qty=true; if(CH_GLOSS.includes(e.id)) e.gloss=true; base(e); });
+    Object.keys(CH_SYN).forEach(c=>idx.vocab.add(c));
+    idx.fuzzy=[...idx.vocab].filter(w=>w.length>=5);
+    const df=new Map();
+    CH_KB.forEach(e=>{
+        const bag=new Map(), core=new Set();
+        const add=(tx,w,isCore)=>{ chTokens(tx,idx,false).forEach(x=>{ if(!x.known) return; if((bag.get(x.t)||0)<w) bag.set(x.t,w); if(isCore) core.add(x.t); }); };
+        add(e.nome,3,true); (e.k||[]).forEach(k=>add(k,2.6,chNk(k).split(' ').length<=2)); (e.ex||[]).forEach(k=>add(k,2.6,false));
+        add(e.o||'',1,false); add(e.c||'',0.5,false); add(e.l||'',0.3,false);
+        e.abas.forEach(a=>add(CH_TABS[a]||a,0.6,false));
+        if(e.nome_flag){}
+        e._bag=bag; e._core=core;
+        bag.forEach((w,t)=>{ if(w>=1) df.set(t,(df.get(t)||0)+1); });
+    });
+    idx.idf=t=>Math.log(1+CH_KB.length/(df.get(t)||0.5));
+    idx.df=df; CH_IDX=idx;
+}
+function chScore(q){
+    if(!CH_IDX) chIndex();
+    const idx=CH_IDX; let toks=chTokens(q,idx,true);
+    // nomes de pessoas
+    const qn=chNk(q).split(' ').filter(t=>t.length>2 && idx.names.has(chStem(t)) && !idx.syn.has(chStem(t)) && !idx.vocab.has(chStem(t)));
+    if(qn.length){ toks=toks.filter(x=>!(x.known===false && qn.includes(x.t))); toks.push({t:'NOME',known:true}); }
+    const uniq=[]; toks.forEach(x=>{ if(!uniq.find(u=>u.t===x.t)) uniq.push(x); });
+    const nq=' '+chNk(q)+' ';
+    const feat={ quem:/ (quem|lista|liste) | quais (pessoas|colaboradores|funcionarios) /.test(nq), qty:/ (quant(o|a|os|as)|numero) /.test(nq), ajuda:!!uniq.find(x=>x.t==='ajuda'||x.t==='calculo') };
+    const noise=uniq.filter(x=>x.t!=='ajuda' && x.t!=='hoje' && x.t!=='NOME');
+    const meaningful=noise.filter(x=>x.known);
+    const res=CH_KB.map(e=>{
+        let num=0, den=0, matched=0, matchedIdf=0;
+        noise.forEach(x=>{ if(x.known){ const w=(e._bag.get(x.t)||0), wk=(x.t==='pessoa'?0.4:1), i=idx.idf(x.t)*wk; den+=3*i; num+=Math.min(w,3)*i; if(w>=1){ matched++; matchedIdf+=i; } } else { den+=Math.min(4,0.7*x.t.length); } });
+        if(x=>false){}
+        if(e.id==='lideres_times' && uniq.find(x=>x.t==='NOME')){ const i=idx.idf('supervisor'); num+=3*i*0.8; den+=3*i*0.8; matched++; matchedIdf+=i; }
+        const cov = den? num/den : 0;
+        let coreSum=0, coreHit=0; e._core.forEach(t=>{ const i=idx.idf(t); coreSum+=i; if(noise.find(x=>x.t===t)) coreHit+=i; });
+        const prec = coreSum? coreHit/coreSum : 0;
+        let bonus=0; (e.k||[]).concat(e.ex||[]).forEach(k=>{ const nk=chNk(k); if(nk && nq.includes(' '+nk+' ')) bonus=Math.max(bonus, 0.1+Math.min(nk.split(' ').length-1,4)*0.08); });
+        if(CH_STATE_TAB(e)) bonus+=0.05;
+        if(feat.quem && e.people) bonus+=0.2;
+        if(feat.ajuda) bonus += e.html ? -0.08 : 0.1;
+        if(feat.qty && e.qty) bonus+=0.1;
+        if(e.gloss) bonus += feat.ajuda ? 0.1 : -0.12;
+        return { e, cov, prec, matched, matchedIdf, s: cov + 0.3*prec + bonus };
+    }).filter(x=>x.matched>0).sort((a,b)=>b.s-a.s);
+    return { res, nTok: meaningful.length, nAll: noise.length };
+}
+const CH_STATE_TAB = e => (typeof chState!=='undefined') && e.abas.includes(chState.tab) && e.abas.length<8;
+function chMatch(q){
+    const r=chScore(q), L=r.res; if(!L.length) return null;
+    try{ const tb=(typeof chTabNow==='function')?chTabNow():null; if(tb){ L.forEach(x=>{ if(x.e.abas && x.e.abas.indexOf(tb)>=0) x.s+=0.15; }); L.sort((p,q2)=>q2.s-p.s); } }catch(_){}
+    const unk=r.nAll-r.nTok, okE = x => (x.matched>=2 || (unk===0 && ((r.nAll===1 && x.cov>=0.85) || (x.matched>=1 && x.e._core.size<=2 && x.cov>=0.7)))) && (x.cov>=0.5 || x.s>=0.9);
+    const good=L.filter(okE); if(!good.length) return null;
+    const b=good[0];
+    const other=good.find(x=>x.e.id!==b.e.id && x.s>=b.s*0.88 && x.cov>=0.45);
+    return { e:b.e, other: other?other.e:null, s:b.s, cov:b.cov };
+}
+function chCands(q){
+    const r=chScore(q); return r.res.filter(x=>(x.matched>=2 && x.cov>=0.4) || (r.nAll<=1 && x.cov>=0.8)).slice(0,3).map(x=>x.e);
+}
+/* paráfrases extras: jeitos diferentes de perguntar a mesma coisa */
+const CH_EX = {
+  sup_pior:['qual supervisor tem a maior rotatividade','qual lider perde mais gente','quem tem a equipe com mais saidas','qual supervisor tem mais desligamentos','qual time tem mais turnover','supervisor com maior taxa de saida','qual equipe esta pior','qual supervisor esta mal','ranking de supervisores por turnover'],
+  area_pior:['qual area tem o maior turnover','qual area tem mais rotatividade','em qual area saem mais pessoas','qual canal perde mais gente','aquisicao ou carteira qual tem mais saida','qual area esta pior'],
+  resumo_mes:['como esta o time hoje','me conta como estamos','resume o mes','quero um panorama geral','como esta a situacao do mes','faz um resumo para mim'],
+  mudou_mes:['o que mudou em relacao ao mes passado','estamos melhor ou pior que o mes passado','comparar com o mes anterior','como foi este mes comparado ao anterior','o turnover subiu ou desceu'],
+  olhar_primeiro:['me diga o que esta ruim','quais sao as prioridades','qual o maior problema','o que esta mais critico','onde devo focar','qual o maior problema agora','o que esta mais preocupante','o que eu devo resolver primeiro','quais os principais alertas','o que esta pior no time','por onde eu comeco','o que precisa de atencao urgente'],
+  porque_turnover_alto:['por que estamos perdendo tanta gente','por que sai tanta gente','o que esta causando as saidas','por que o turnover e tao alto','qual a causa do turnover alto','por que tantas demissoes','por que o turnover passa de 100','turnover maior que 100 faz sentido'],
+  meta_status:['estamos batendo as metas','como estamos em relacao as metas','falta quanto para a meta','a meta de turnover esta sendo cumprida','estamos abaixo da meta','quanto falta de gente para bater a meta'],
+  area_cedo:['em que area as pessoas saem antes de 3 meses','onde as pessoas desistem mais cedo','qual area tem mais saida de quem acabou de entrar','quem sai no comeco vem de qual area'],
+  sem_promocao:['quais pessoas nunca foram promovidas','quem esta parado na carreira','quem nunca foi promovido','quem esta ha mais tempo sem subir de cargo','quem esta sem crescer na empresa','quem precisa ser promovido','quais pessoas estao paradas na carreira','quem esta esquecido na carreira'],
+  entrou_saiu_mes:['quem foi contratado este mes','quem foi embora este mes','quem saiu agora','quem sao os novos colaboradores','quem foi desligado recentemente','quem entrou recentemente','por que as pessoas sairam este mes','quem pediu demissao este mes'],
+  lideres_times:['quantas pessoas tem em cada equipe','quantas pessoas tem cada time','quem e o chefe da','quem manda no time','quem lidera a equipe','quem sao os liderados do','quem trabalha para o','qual o tamanho da equipe de cada lider','quantas pessoas cada supervisor tem','quem e o lider da','a quem a pessoa responde'],
+  pessoas_por_cargo:['quantas pessoas existem por cargo','quantos colaboradores tem em cada cargo','quantas pessoas ocupam o cargo','distribuicao de cargos','quantos funcionarios por funcao','quantos tem nesse cargo'],
+  dif_retencao:['por que o 360 retidos e diferente da retencao das metas','qual a diferenca entre retencao nas metas e na visao geral','duas retencoes diferentes','por que a retencao nao bate'],
+  dif_bases:['por que os numeros nao batem','por que cargos tem mais gente','por que a diversidade tem menos pessoas','por que o headcount e diferente entre abas','de onde vem cada numero','qual a diferenca entre comercial e empresa toda'],
+  md_promocao_def:['o que e considerado promocao','quando conta como promocao','o que o dashboard considera promocao','mudanca de cargo conta como promocao'],
+  como_promovido:['como voces sabem quem foi promovido','de onde vem a trajetoria','como funciona a recontratacao','e se a pessoa voltar para a empresa','como o sistema registra promocoes'],
+  turnover:['o que e rotatividade','qual a taxa de saida','como esta a rotatividade','quanto estamos perdendo de pessoas','qual a porcentagem de saidas','como o turnover e calculado','qual o turnover atual'],
+  headcount:['quantas pessoas temos hoje','quantos colaboradores temos','qual o tamanho do time','quantos funcionarios ativos','quantas pessoas estao ativas','qual o headcount'],
+  retidos360:['quantos contratados continuam na empresa','quantas pessoas ficam depois de 90 dias','quantos continuam depois de 6 meses','como esta a retencao dos contratados','quantos contratados ficaram','o que sao os aneis de retencao','retencao de 1 ano'],
+  tipo_motivo:['por que as pessoas saem','quais os motivos das saidas','quais as causas dos desligamentos','quantos pediram demissao','quantos foram demitidos','saidas voluntarias e involuntarias','principal motivo de desligamento'],
+  onboarding_risco:['quantos saem nos primeiros meses','saidas de quem acabou de entrar','quem sai com menos de 3 meses','desligamentos no comeco da jornada','problema no onboarding'],
+  cac:['quanto custa contratar uma pessoa','qual o custo por contratacao','quanto gastamos para trazer cada pessoa','custo de recrutamento por pessoa','o que e cac'],
+  rescisao:['quanto custa demitir uma pessoa','qual o custo das demissoes','quanto gastamos com rescisoes'],
+  md_estag:['quem esta estagnado na carreira','quantas pessoas estao paradas','risco de ninguem crescer'],
+  md_nunca:['quantas pessoas nunca foram promovidas','quantas pessoas nunca subiram de cargo','quantos nunca receberam promocao','pessoas sem nenhuma promocao'],
+  md_mobilidade:['quantas pessoas mudaram de area','quem trocou de setor','para onde as pessoas se movimentam'],
+  md_retencao:['quem fica mais quem e promovido ou quem nao','promocao ajuda a reter','promovidos saem menos'],
+  funil:['quantos candidatos viram contratados','como esta o processo seletivo','quantas candidaturas recebemos','onde perdemos mais candidatos','conversao do recrutamento'],
+  noshow:['quantos candidatos faltaram','quantos faltaram na entrevista','quantos nao apareceram','quem nao veio no treinamento','faltas no treinamento'],
+  genero:['quantas mulheres temos','quantos homens temos','proporcao de genero no time','qual a divisao entre homens e mulheres'],
+  diversidade_kpis:['quantas pessoas negras temos','qual a diversidade racial','quantos pardos temos','como esta a diversidade do time'],
+  diversidade_idade:['qual a idade do time','quantos jovens temos','qual a faixa de idade das pessoas','o time e novo ou velho','como e calculada a idade','como funciona a faixa etaria','como as faixas de idade sao feitas'],
+  diversidade_formacao:['quem esta estudando','quantos tem faculdade','que cursos o pessoal faz','quantos estao cursando'],
+  org_mapa:['o que e squad','o que e um squad','como esta a estrutura da empresa','quem esta em cada equipe','mostra a hierarquia','como e o organograma'],
+  tempo_casa_x:[],
+  idade_tempo:['qual a idade media do time','quanto tempo as pessoas ficam na empresa','tempo medio de permanencia','qual o tempo medio de casa'],
+  risco_geral:['como esta o risco do mes','qual o nivel de risco atual','o velocimetro de risco'],
+  niveis_risco:['o que significa critico','o que e alerta e atencao','como e classificado o risco','quais sao os niveis de turnover','a partir de quanto e critico'],
+  projecao:['como vai fechar o ano','qual a previsao de turnover do ano','vamos terminar o ano pior que o anterior','projecao do ano'],
+  base_empresa:['como atualizo os dados','como subo a planilha','como carrego os dados do dashboard','de onde vem as informacoes de cargos'],
+  filtros:['como uso os filtros','o que faz o filtro de mes','como filtrar por area','como ver so um mes'],
+};
+
 /* ===== Chat do People Copilot: motor e tela ===== */
 const CH_STOP = new Set('o a os as um uma uns umas de da do das dos em no na nos nas por para pra com sem que e eh ou se me te nao sim isso esse essa este esta isto aquele aquela ele ela seu sua meu minha qual quais quanto quantos quantas como onde quando porque pq por favor poderia pode voce vc fala falar significa significado quer dizer explica explicar explique entender entendo indicador indicadores card cartao grafico numero sobre mais mim aqui aba'.split(' '));
 const chNk = s => String(s||'').normalize('NFD').replace(/[̀-ͯ]/g,'').toLowerCase().replace(/[^a-z0-9 ]/g,' ').replace(/\s+/g,' ').trim();
 const chEsc = s => String(s==null?'':s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
 const CH_BY = Object.fromEntries(CH_KB.map(e=>[e.id,e]));
-CH_KB.forEach(e=>{ e._k = e.k.map(chNk).filter(Boolean); e._n = chNk(e.nome).split(' ').filter(t=>t.length>2 && !CH_STOP.has(t)); });
 const chState = { tab:'geral', open:false, started:false };
 
-function chMatch(q){
-    const nq = ' '+chNk(q)+' ', toks = chNk(q).split(' ').filter(t=>t && !CH_STOP.has(t));
-    const sc = CH_KB.map(e=>{
-        let s = 0;
-        e._k.forEach(k=>{ if(nq.includes(' '+k+' ')) s += k.split(' ').length*2 + 2; });
-        e._n.forEach(t=>{ if(toks.includes(t)) s += 1; });
-        if(s>0 && e.abas.includes(chState.tab)) s += 1.5;
-        return {e, s};
-    }).filter(x=>x.s>0).sort((a,b)=>b.s-a.s);
-    if(!sc.length || sc[0].s < 3) return null;
-    const best = sc[0], other = sc.find(x=>x.e.id!==best.e.id && x.s >= best.s*0.8 && x.s>=3);
-    return { e:best.e, other: other?other.e:null };
-}
 function chTabNow(){ return chState.tab; }
 function chSuggest(tab){
     return CH_KB.filter(e=>!e.html && (e.abas[0]===tab || e.abas.includes(tab))).slice(0,4);
@@ -5427,6 +5596,8 @@ function chReply(userText, forcedId){
         const m = chMatch(userText);
         if(!m){
             chLogAdd(userText);
+            const cands = chCands(userText);
+            if(cands.length){ chAdd('bot','Não tenho certeza do que você quis perguntar. Você quis saber sobre um destes?'); chSetChips(cands.map(x=>({id:x.id,label:x.nome}))); return; }
             chAdd('bot','Ainda não sei responder isso. Eu explico os indicadores do dashboard e consulto os números: tente o nome do card, por exemplo <b>turnover</b>, <b>CAC</b> ou <b>360 Retidos</b>, ou peça um resumo do mês. Anotei a sua pergunta para a equipe me ensinar.');
             chSugTab(); return; }
         chAdd('bot', chAnswer(m.e, userText));
