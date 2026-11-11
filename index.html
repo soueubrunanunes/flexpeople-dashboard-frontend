@@ -1078,6 +1078,45 @@ td { padding:8px; border-top:1px solid var(--border); }
 .o3-dr .lk .cs{margin-left:auto;font:600 10px ui-monospace,Menlo,monospace;color:var(--text2);white-space:nowrap}
 .o3-dr .sec .n{color:#fff}
 
+/* ===== Chat do People Copilot (botão flutuante) ===== */
+.ch-fab{position:fixed;right:24px;bottom:24px;width:58px;height:58px;border-radius:50%;border:0;cursor:pointer;z-index:1300;display:flex;align-items:center;justify-content:center;background:linear-gradient(145deg,#7c3aed 0%,#a855f7 45%,#ec4899 100%);box-shadow:0 0 0 1px rgba(255,255,255,.12) inset,0 10px 30px -6px rgba(168,85,247,.75),0 0 28px -4px rgba(217,70,239,.55);transition:transform .15s}
+.ch-fab:hover{transform:scale(1.06)}
+.ch-fab.open{display:none}
+.ch-fab .ch-dot{position:absolute;top:3px;right:3px;width:12px;height:12px;border-radius:50%;background:#4ade80;border:2px solid #0a0118}
+.ch-pan{position:fixed;right:24px;bottom:24px;width:min(410px,calc(100vw - 24px));height:min(600px,calc(100vh - 48px));z-index:1301;display:none;flex-direction:column;background:linear-gradient(180deg,#1a1038 0%,#120a2b 100%);border:1px solid #3a2a6e;border-radius:22px;box-shadow:0 24px 70px -10px rgba(0,0,0,.75),0 0 40px -10px rgba(168,85,247,.5);overflow:hidden;color:#fff;font-family:inherit}
+.ch-pan.open{display:flex}
+.ch-hd{display:flex;align-items:center;gap:12px;padding:14px 16px;border-bottom:1px solid var(--border);background:rgba(168,85,247,.07)}
+.ch-hd .copilot-avatar{border-radius:12px;background:linear-gradient(135deg,#7c3aed,#d946ef);box-shadow:none}
+.ch-hd b{display:block;font-size:14.5px;font-weight:800}
+.ch-hd small{display:block;font-size:11.5px;color:var(--text2);margin-top:1px}
+.ch-x{margin-left:auto;width:30px;height:30px;border-radius:9px;border:1px solid var(--border);background:var(--card2);color:var(--text2);cursor:pointer;font-size:17px;line-height:1}
+.ch-x:hover{color:#fff;border-color:var(--magenta)}
+.ch-ctx{display:flex;gap:6px;flex-wrap:wrap;padding:10px 16px 8px}
+.ch-ctx i{font-style:normal;font-size:10.5px;letter-spacing:.04em;color:#c9b8ff;background:rgba(168,85,247,.14);border:1px solid rgba(168,85,247,.32);border-radius:10px;padding:3px 9px}
+.ch-body{flex:1;overflow-y:auto;padding:14px 16px;display:flex;flex-direction:column;gap:12px;scrollbar-width:thin;scrollbar-color:#3a2a6e transparent}
+.ch-m{max-width:88%;font-size:13px;line-height:1.55;border-radius:16px;padding:10px 13px;word-wrap:break-word}
+.ch-m.bot{align-self:flex-start;background:rgba(168,85,247,.12);border:1px solid rgba(168,85,247,.32);color:#e6e2f7;border-bottom-left-radius:5px}
+.ch-m.me{align-self:flex-end;background:linear-gradient(135deg,#7c3aed,#c026d3);color:#fff;border-bottom-right-radius:5px}
+.ch-m b{color:#fff}
+.ch-m .ch-t{display:block;font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:#c9b8ff;margin:9px 0 3px;font-weight:700}
+.ch-m .ch-t:first-child{margin-top:0}
+.ch-m .ch-now{display:block;margin-top:9px;padding:8px 10px;border-radius:10px;background:rgba(34,211,238,.08);border:1px solid rgba(34,211,238,.28);color:#d5f6fd;font-size:12.5px}
+.ch-m .ch-now em{font-style:normal;font-weight:800;color:#67e8f9}
+.ch-sg{display:flex;flex-wrap:wrap;gap:7px;padding:0 16px 10px}
+.ch-sg button{font:inherit;font-size:11.8px;color:#d9d6ea;background:rgba(255,255,255,.05);border:1px solid var(--border);border-radius:14px;padding:6px 11px;cursor:pointer}
+.ch-sg button:hover{border-color:var(--magenta);color:#fff}
+.ch-in{display:flex;gap:8px;padding:10px 12px 12px;border-top:1px solid var(--border)}
+.ch-in input{flex:1;min-width:0;font:inherit;font-size:13px;color:#fff;background:var(--card2);border:1px solid var(--border);border-radius:14px;padding:10px 13px;outline:none}
+.ch-in input:focus{border-color:var(--purple)}
+.ch-in button{width:42px;border-radius:13px;border:0;cursor:pointer;background:linear-gradient(135deg,#7c3aed,#d946ef);display:flex;align-items:center;justify-content:center}
+.ch-ft{font-size:10.5px;color:var(--text3);text-align:center;padding:0 14px 10px}
+.ch-ty{display:inline-flex;gap:4px;align-items:center;height:14px}
+.ch-ty i{width:6px;height:6px;border-radius:50%;background:#c9b8ff;animation:chty 1s infinite ease-in-out}
+.ch-ty i:nth-child(2){animation-delay:.15s}.ch-ty i:nth-child(3){animation-delay:.3s}
+@keyframes chty{0%,80%,100%{opacity:.25;transform:translateY(0)}40%{opacity:1;transform:translateY(-3px)}}
+.ch-open{margin-left:auto;align-self:flex-start;font:inherit;font-size:11.5px;font-weight:700;color:#fff;background:linear-gradient(135deg,#7c3aed,#d946ef);border:0;border-radius:14px;padding:6px 12px;cursor:pointer;white-space:nowrap}
+.ch-open:hover{filter:brightness(1.12)}
+
 </style>
 <script src="config.js"></script>
 </head>
@@ -1228,7 +1267,7 @@ td { padding:8px; border-top:1px solid var(--border); }
                     <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9.937 15.5A2 2 0 0 0 8.5 14.063l-6.135-1.582a.5.5 0 0 1 0-.962L8.5 9.936A2 2 0 0 0 9.937 8.5l1.582-6.135a.5.5 0 0 1 .963 0L14.063 8.5A2 2 0 0 0 15.5 9.937l6.135 1.581a.5.5 0 0 1 0 .964L15.5 14.063a2 2 0 0 0-1.437 1.437l-1.582 6.135a.5.5 0 0 1-.963 0z"/></svg>
                 </div>
                 <div><div class="card-title">People Copilot</div><div class="card-subtitle">Pergunte sobre a base carregada</div></div>
-            </div></div>
+            </div><button class="ch-open" type="button">Conversar</button></div>
             <div class="copilot-questions" id="copilotQuestions"></div>
             <div class="copilot-answer" id="copilotAnswer"></div>
         </div>
@@ -2679,7 +2718,7 @@ function o3Traj(n,by){
 }
 function o3Team(n,by){
     const e=by.get(ogNk(n.nome)), par=e&&e.par?by.get(e.par):null; let h='';
-    if(par) h+=`<div class="sec">Responde a</div>${o3Lk(par.n)}`; else h+=`<div class="sec">Posição</div><div class="sub" style="text-align:left;font-size:12.5px;color:#b8b5d0">Sócio — não responde a ninguém.</div>`;
+    if(par) h+=`<div class="sec">Responde a</div>${o3Lk(par.n)}`; else h+=`<div class="sec">Posição</div><div class="sub" style="text-align:left;font-size:12.5px;color:#b8b5d0">Sócio</div>`;
     if(n.kids.length) h+=`<div class="sec">Time de ${ogEsc(o3First(n.nome))} <span class="n">(${n.kids.length})</span></div>${n.kids.map(k=>o3Lk(k)).join('')}`;
     else if(par){ const col=par.n.kids.filter(x=>x!==n); h+=`<div class="sec">Colegas de equipe <span class="n">(${col.length})</span></div>${col.length?col.map(k=>o3Lk(k)).join(''):'<div class="sub" style="text-align:left;font-size:12.5px;color:#b8b5d0">Sem colegas diretos.</div>'}`; }
     return h;
@@ -2751,6 +2790,7 @@ function showView(name){
     const t=titles[name]||titles.geral;
     document.getElementById('pageTitle').textContent=t[0];
     document.getElementById('pageSubtitle').textContent=t[1];
+    try{ chOnView(name); }catch(_){}
 
     // Filtros de Mês/Ano/Área não se aplicam a Cargos e Performance; o botão da Base da empresa só aparece (pro master) nas abas Cargos, MDP e Organograma.
     const fr = document.querySelector('.filters-row'); if (fr) fr.style.display = (name==='cargos'||name==='performance'||name==='organograma') ? 'none' : '';
@@ -4042,6 +4082,7 @@ function showDashboard(){
     document.getElementById('loginOverlay').style.display='none';
     document.getElementById('appShell').style.display='flex';
     applyScaleLock();
+    try{ chRender(); }catch(_){}
 }
 /* ============ CARGOS (planilha da empresa toda) ============ */
 let cargosData = [];
@@ -4779,6 +4820,492 @@ document.getElementById('logoutBtn').addEventListener('click', function(){
         showLoginScreen();
     }
 })();
+</script>
+<script>
+/* ===== Base de conhecimento do chat: uma entrada por indicador ===== */
+/* id, abas (onde aparece), nome, k (palavras que ligam a pergunta ao indicador), o (o que é), c (como é calculado), l (como ler), r (relacionados), now (números de hoje) */
+const CH_TABS = { geral:'Visão Geral', equipes:'Equipes', metas:'Metas', diversidade:'Diversidade', cargos:'Cargos', mdp:'MDP', organograma:'Organograma', riscos:'Riscos' };
+const chS = () => ({ a:(typeof copilotAtivos!=='undefined'?copilotAtivos:[]), i:(typeof copilotInativos!=='undefined'?copilotInativos:[]), e:(typeof copilotEntradas!=='undefined'?copilotEntradas:[]) });
+const chPct = v => (Math.round(v*10)/10).toString().replace('.',',')+'%';
+const chMd = () => { try{ const c=mdBuild(); return c.people||[]; }catch(_){ return []; } };
+const chAvg = a => a.length ? a.reduce((x,y)=>x+y,0)/a.length : 0;
+const chRisk = p => (typeof classificaRisco==='function') ? classificaRisco(p).label : '';
+const CH_KB = [
+/* ---------------- VISÃO GERAL ---------------- */
+{ id:'headcount', abas:['geral'], nome:'Colaboradores ativos',
+  k:['colaboradores ativos','headcount','quantas pessoas','pessoas ativas','time hoje','tamanho do time'],
+  o:'Quantas pessoas do comercial estão ativas no fim do período escolhido nos filtros.',
+  c:'Conta quem já tinha entrado e ainda não tinha saído naquela data. A setinha compara com o mês anterior (ou com o dia antes do início do período, se você escolheu um período). A barra mostra o quanto falta para a meta de headcount, hoje 60 pessoas.',
+  l:'Se a seta está vermelha, o time encolheu. A meta de 60 vem de 4 supervisores com 15 pessoas cada.',
+  r:['turnover','evolucao_headcount','meta_headcount'],
+  now:()=>{ const s=chS(); return `<em>${s.a.length}</em> pessoas ativas no filtro atual`; } },
+{ id:'turnover', abas:['geral','riscos','metas'], nome:'Turnover',
+  k:['turnover','rotatividade','taxa de saida','taxa de desligamento','197','turn over'],
+  o:'Mostra quanto do time saiu no período. É o principal termômetro de rotatividade.',
+  c:'Desligados do período ÷ ativos do período × 100. Só entram na conta pessoas com supervisor cadastrado. Ele pode passar de 100% quando saem mais pessoas do que o tamanho do time ativo, o que acontece em operações com muita entrada e saída.',
+  l:'Escala da empresa: até 15% normal · 15 a 30% atenção · 30 a 100% alerta · acima de 100% crítico. Quanto menor, melhor.',
+  r:['onboarding_risco','tipo_motivo','risco_geral','retidos360'],
+  now:()=>{ const s=chS(); const t=calcTurnover(s.a,s.i).turnover; return `<em>${chPct(t)}</em> (${s.i.length} desligados ÷ ${s.a.length} ativos) · ${chRisk(t)}`; } },
+{ id:'evolucao_headcount', abas:['geral'], nome:'Evolução do Headcount',
+  k:['evolucao do headcount','evolucao headcount','crescimento do time','grafico de headcount','linha de headcount','ultimos 12 meses'],
+  o:'Gráfico de linha com o tamanho do time mês a mês.',
+  c:'Para cada mês, conta quem estava ativo no último dia dele. O seletor do canto troca entre os últimos 12 meses, 24 meses ou tudo.',
+  l:'Linha subindo é time crescendo. Queda mostra meses em que saiu mais gente do que entrou. O último ponto é o headcount de hoje.',
+  r:['headcount','tipo_motivo'] },
+{ id:'idade_tempo', abas:['geral'], nome:'Idade média e tempo de casa',
+  k:['idade media','tempo de casa','idade dos ativos','idade dos desligados','tempo de casa dos desligados','idade media das entradas'],
+  o:'Cards pequenos com o perfil do time: idade média e tempo de casa de quem está ativo, de quem saiu e de quem entrou.',
+  c:'Idade vem da data de nascimento. Tempo de casa é da admissão até hoje para os ativos, e da admissão até a saída para os desligados. Tudo respeita os filtros de mês, ano e área.',
+  l:'Compare ativos x desligados: se quem sai tem pouco tempo de casa (como 4 meses), o problema está no começo da jornada.',
+  r:['onboarding_risco','diversidade_idade'],
+  now:()=>{ const s=chS(); const id=s.a.map(r=>getAge(r.dtNasc)).filter(x=>x!=null); const tc=s.a.filter(r=>r.dtInicio).map(r=>monthsBetween(r.dtInicio)); const td=s.i.filter(r=>r.dtInicio&&r.dtSaida).map(r=>monthsBetween(r.dtInicio,r.dtSaida)); const f=m=>m>=12?`${Math.floor(m/12)} ano${Math.floor(m/12)>1?'s':''}${Math.round(m%12)?' e '+Math.round(m%12)+' meses':''}`:`${Math.round(m)} meses`; return `ativos: <em>${Math.round(chAvg(id))} anos</em> de idade, <em>${f(chAvg(tc))}</em> de casa · desligados: <em>${f(chAvg(td))}</em> de casa`; } },
+{ id:'entradas', abas:['geral'], nome:'Entradas',
+  k:['entradas','quantas entraram','contratacoes','novos colaboradores','admissoes'],
+  o:'Quantas pessoas entraram (foram admitidas) no período filtrado.',
+  c:'Conta quem tem data de início dentro do período. A etiqueta ao lado compara com o período anterior: estável, subindo ou caindo.',
+  l:'Compare com as saídas: se entram mais do que saem, o time cresce. O card Saldo líquido nos Indicadores Rápidos faz essa conta.',
+  r:['saldo_liquido','funil'],
+  now:()=>{ const s=chS(); return `<em>${s.e.length}</em> entradas no filtro atual`; } },
+{ id:'funil', abas:['geral','metas'], nome:'Funil de contratação (Candidaturas)',
+  k:['funil','candidaturas','candidaturas qualificadas','agendamento','entrevistas com o rh','shortlist','da candidatura a entrada','conversao do funil','pipeline'],
+  o:'Mostra o caminho dos candidatos, da candidatura até a entrada, e quantos ficam em cada etapa.',
+  c:'Vem da Base de Entrevistas: candidaturas → candidaturas qualificadas → agendamento de entrevistas → entrevistas com o RH → shortlist → entradas. A porcentagem de cada barra é a fração dos candidatos que chegou até aquela etapa.',
+  l:'Procure a etapa onde a barra cai mais: é onde você perde mais candidatos. Shortlist é a lista de finalistas que segue para a conversa com o gestor.',
+  r:['aderencia','noshow','canal_candidatura','cac'] },
+{ id:'aderencia', abas:['geral','metas'], nome:'Aderência do perfil',
+  k:['aderencia','aderencia do perfil','perfil aderente','aprovados pelo gestor','reprovado pelo gestor'],
+  o:'Mede se os candidatos que o RH encaminha são os que o gestor realmente aprova.',
+  c:'Aprovados ÷ (aprovados + reprovados) na conversa com o gestor. Só conta quem compareceu à conversa.',
+  l:'Perto de 100% quer dizer que a triagem do RH está alinhada com o que o gestor procura. Queda mostra que o perfil enviado está fora do esperado.',
+  r:['noshow','funil'] },
+{ id:'noshow', abas:['geral','metas'], nome:'No-show (gestor e treinamento)',
+  k:['no show','noshow','faltou','faltas','nao veio','nao compareceu','ninguem faltou'],
+  o:'No-show é quando a pessoa combinou algo e não apareceu. O dashboard separa duas faltas: na conversa com o gestor e no início do treinamento.',
+  c:'No-show do gestor: foi encaminhado ao gestor e não veio à conversa. No-show do treinamento: era para começar o treinamento e não veio. A porcentagem é sobre os encaminhados.',
+  l:'Muitos faltantes na conversa sugerem problema de agenda ou de interesse; faltas no treinamento sugerem que a pessoa aceitou outra oferta ou desistiu depois da proposta.',
+  r:['aderencia','funil'] },
+{ id:'canal_candidatura', abas:['geral'], nome:'Canal de candidatura',
+  k:['canal de candidatura','de onde vem os candidatos','plataformas','facebook','whatsapp','indicacoes','origem dos candidatos'],
+  o:'Mostra de onde vêm os candidatos: plataformas, Facebook, WhatsApp ou indicações.',
+  c:'Vem da coluna CANAL_CANDIDATURA da Base de Entrevistas. O número no centro é o total de candidaturas e cada canal mostra a sua fatia.',
+  l:'Use junto com o CAC por canal (aba Metas) para decidir onde vale investir mais.',
+  r:['cac','funil'] },
+{ id:'tipo_motivo', abas:['geral','riscos'], nome:'Tipo de saída x Motivo de saída',
+  k:['tipo de saida','motivo de saida','motivos','voluntario','involuntario','por que saem','principais motivos','pedido de demissao','demitido'],
+  o:'Separa as saídas entre voluntárias (a pessoa pediu para sair) e involuntárias (a empresa desligou) e lista os principais motivos.',
+  c:'Conta os desligamentos do período por tipo de saída e por motivo registrado no Turnover. O motivo "Não informado" aparece quando a planilha não tem o registro.',
+  l:'Voluntário alto aponta para clima, proposta melhor ou adaptação. Involuntário alto aponta para seleção ou desempenho. O ranking de motivos mostra onde agir primeiro.',
+  r:['turnover','onboarding_risco','involuntarias'],
+  now:()=>{ const s=chS(); const v=s.i.filter(r=>r.tipoSaida==='VOLUNTÁRIO').length, n=s.i.filter(r=>r.tipoSaida==='INVOLUNTÁRIO').length; const m={}; s.i.forEach(r=>{const x=r.motivo||'Sem registro'; m[x]=(m[x]||0)+1;}); const top=Object.entries(m).sort((a,b)=>b[1]-a[1])[0]; return `<em>${v}</em> voluntárias · <em>${n}</em> involuntárias · principal motivo: <em>${top?top[0]+' ('+top[1]+')':'—'}</em>`; } },
+{ id:'retidos360', abas:['geral'], nome:'360 Retidos',
+  k:['360 retidos','retidos','retencao','retencao de contratados','aneis','90 180 365','quantos continuam'],
+  o:'Das pessoas contratadas há 90, 180 ou 365 dias ou mais, quantas continuam ativas hoje.',
+  c:'Cada anel tem a sua própria base. 90 e 180 dias: só quem entrou neste ano. 365 dias: qualquer ano. Quem já saiu entra na base e não conta como retido. Ele ignora os filtros de mês e ano e segue só a Área.',
+  l:'Anel mais cheio é melhor. Se o de 90 dias cai, o problema está no início da jornada. A pessoa aparece no anel de 90 a partir do 91º dia e depois também no de 180 e no de 365.',
+  r:['retencao90','onboarding_risco'],
+  now:()=>{ const g=i=>{const e=document.getElementById(i);return e?e.textContent.replace(/\s+/g,' ').trim():'—';}; return `90 dias <em>${g('retQ90')}</em> · 180 dias <em>${g('retQ180')}</em> · 365 dias <em>${g('retQ365')}</em>`; } },
+{ id:'genero', abas:['geral','diversidade'], nome:'Distribuição de Gênero',
+  k:['distribuicao de genero','genero','feminino','masculino','mulheres','homens'],
+  o:'Quantas pessoas ativas são do gênero feminino e masculino.',
+  c:'Conta o gênero informado no Turnover entre os ativos do filtro atual.',
+  l:'Na aba Diversidade você vê os rostos de cada grupo e pode clicar para ver quem é.',
+  r:['diversidade_kpis'],
+  now:()=>{ const s=chS(); const f=s.a.filter(r=>/^F/i.test(r.genero||'')).length; return `<em>${f}</em> feminino · <em>${s.a.length-f}</em> masculino`; } },
+{ id:'copilot', abas:['geral'], nome:'People Copilot',
+  k:['people copilot','copilot','quem e voce','o que voce faz','ajuda','como funciona o chat','o que posso perguntar'],
+  o:'Sou o assistente do dashboard. Explico o que cada indicador significa, como é calculado e como ler, e trago os números de hoje.',
+  c:'Eu respondo com base nos textos que a equipe cadastrou para cada indicador e nos números que estão na sua tela agora, já respeitando os filtros de mês, ano e área.',
+  l:'Pergunte pelo nome do card, por exemplo "o que é o CAC?". Eu nunca uso salário nem CPF. Se eu não souber, digo que não sei.',
+  r:[] },
+{ id:'onboarding_risco', abas:['geral','riscos'], nome:'Onboarding de risco',
+  k:['onboarding de risco','onboarding','menos de 3 meses','saida precoce','saem cedo','desligamentos com menos de 3 meses'],
+  o:'Mostra quantos desligamentos aconteceram com menos de 3 meses de casa. Indica problema na seleção ou no começo da jornada.',
+  c:'Desligados com menos de 3 meses entre admissão e saída ÷ total de desligados do período.',
+  l:'Quanto maior a porcentagem, pior o começo da jornada: as pessoas saem antes de se adaptar. Veja junto com o card Custo de quem saiu cedo.',
+  r:['custo_cedo','retidos360','tipo_motivo'],
+  now:()=>{ const s=chS(); const e=s.i.filter(r=>r.dtInicio&&r.dtSaida&&monthsBetween(r.dtInicio,r.dtSaida)<3).length; return `<em>${e}</em> de ${s.i.length} desligamentos (<em>${s.i.length?Math.round(e/s.i.length*100):0}%</em>)`; } },
+{ id:'saldo_liquido', abas:['geral'], nome:'Saldo líquido do período',
+  k:['saldo liquido','saldo','entradas menos saidas','crescimento liquido'],
+  o:'A diferença entre quem entrou e quem saiu no período.',
+  c:'Entradas − saídas. Positivo significa que o time cresceu no período; negativo, que encolheu.',
+  l:'Um saldo positivo com turnover alto significa que você está contratando muito só para repor quem sai.',
+  r:['entradas','turnover'],
+  now:()=>{ const s=chS(); const d=s.e.length-s.i.length; return `<em>${d>0?'+':''}${d}</em> (${s.e.length} entradas − ${s.i.length} saídas)`; } },
+
+/* ---------------- EQUIPES ---------------- */
+{ id:'eq_areas', abas:['equipes'], nome:'Cards por área (Carteira, Aquisição…)',
+  k:['cards por area','cards das areas','carteira','aquisicao','areas do comercial','ativos entradas desligamentos'],
+  o:'Cada card resume uma área do comercial: turnover, ativos, entradas e desligamentos.',
+  c:'As áreas vêm da coluna de canal do Turnover. Os números seguem os filtros de mês e ano: Ativos, Entradas (seta verde) e Desligamentos (seta vermelha). O anel é o turnover da área e a barra é a fatia dela no headcount.',
+  l:'Compare as áreas: a que tem mais saídas do que ativos pede atenção primeiro.',
+  r:['eq_mapa','turnover'] },
+{ id:'eq_mapa', abas:['equipes','riscos'], nome:'Mapa de risco dos supervisores',
+  k:['mapa de risco','supervisores','supervisor','risco dos supervisores','nivel de risco','normal atencao alerta critico','ranking de supervisores','cards ranking'],
+  o:'Classifica cada supervisor pelo turnover da equipe dele no período, de Normal a Crítico.',
+  c:'Para cada supervisor: desligados ÷ ativos da equipe. Os níveis são: Normal até 15%, Atenção 15–30%, Alerta 30–100% e Crítico acima de 100%. A visão Cards mostra cada equipe; a visão Ranking ordena do maior para o menor risco.',
+  l:'Em cada card, a seta para cima é quem permanece e a seta para baixo é quem saiu no período. A frase embaixo diz quanto da equipe foi promovido nos últimos 12 meses.',
+  r:['eq_promovidos','turnover','ranking_risco'] },
+{ id:'eq_promovidos', abas:['equipes'], nome:'% da equipe promovida em 12 meses',
+  k:['equipe promovida','promovida em 12 meses','promocoes da equipe','promovidos por supervisor'],
+  o:'Quanto da equipe de cada supervisor teve promoção nos últimos 12 meses.',
+  c:'Vem da MDP: pessoas do time com movimentação de cargo nos últimos 12 meses ÷ tamanho do time. Precisa da Base da empresa carregada.',
+  l:'Equipes sem promoção e com turnover alto podem indicar falta de perspectiva de carreira.',
+  r:['eq_mapa','md_nunca'] },
+
+/* ---------------- METAS ---------------- */
+{ id:'metas_ilustrativas', abas:['metas'], nome:'Metas (turnover e retenção)',
+  k:['metas ilustrativas','metas','meta de turnover','meta ate 15','abaixo da meta','acima da meta','alvo'],
+  o:'Os três primeiros cards comparam o resultado atual com uma meta: Turnover, Headcount e Retenção 90 dias.',
+  c:'Metas atuais: turnover até 15%, headcount de 60 pessoas e retenção de 90% em 90 dias. O aviso amarelo lembra que são metas de exemplo, para serem trocadas pelos alvos reais da empresa.',
+  l:'"Abaixo da meta" ou "acima da meta" já considera o sentido certo: para turnover, menor é melhor; para headcount e retenção, maior é melhor.',
+  r:['retencao90','meta_headcount','turnover'] },
+{ id:'meta_headcount', abas:['metas'], nome:'Meta de headcount',
+  k:['meta de headcount','faltam pessoas','60 pessoas'],
+  o:'Compara o número de ativos com a meta de 60 pessoas.',
+  c:'Ativos do filtro atual contra 60. "Faltam X pessoas" é a diferença.',
+  l:'A meta de 60 vem de 4 supervisores com 15 pessoas cada.',
+  r:['headcount'],
+  now:()=>{ const s=chS(); return `<em>${s.a.length}</em> de 60 · faltam <em>${Math.max(0,60-s.a.length)}</em>`; } },
+{ id:'retencao90', abas:['metas'], nome:'Retenção 90 dias (Metas)',
+  k:['retencao 90 dias','retencao 90','meta de retencao','retencao de 90'],
+  o:'Das pessoas que já poderiam ter 90 dias de casa, quantas passaram dessa marca.',
+  c:'Base: todos que entraram há 90 dias ou mais, de qualquer ano. Conta como retido quem está ativo ou quem saiu depois de mais de 90 dias. A meta é 90%.',
+  l:'Atenção: é diferente do 360 Retidos da Visão Geral, que no anel de 90 dias só considera quem entrou neste ano e conta apenas quem ainda está ativo.',
+  r:['retidos360','onboarding_risco'],
+  now:()=>{ const t=new Date(); const c=globalData.filter(r=>r.dtInicio && r.dtInicio<=new Date(t.getTime()-90*86400000)); const ok=c.filter(r=>r.status==='ATIVO'||(r.dtSaida&&monthsBetween(r.dtInicio,r.dtSaida)*30>90)).length; return `<em>${c.length?chPct(ok/c.length*100):'—'}</em> (${ok} de ${c.length})`; } },
+{ id:'meta_contratacoes', abas:['metas'], nome:'Contratações do mês',
+  k:['contratacoes do mes','meta de contratacoes','contratacoes nov','preencha a meta'],
+  o:'Compara quantas contratações aconteceram no mês com a meta de contratação do mês.',
+  c:'A meta vem da aba "Metas" da planilha de entrevistas. Se não estiver preenchida, o card avisa.',
+  l:'Se ficar abaixo, olhe o Funil de contratação para ver em qual etapa os candidatos estão se perdendo.',
+  r:['funil'] },
+{ id:'cac', abas:['metas'], nome:'CAC (custo para trazer)',
+  k:['cac','custo para trazer','custo de aquisicao','custo de contratacao','custo por contratacao','quanto custa contratar'],
+  o:'CAC é o custo de aquisição: quanto custou trazer cada pessoa que entrou no período.',
+  c:'Soma, para quem entrou: o salário durante o treinamento, o monitor, o recrutamento, as plataformas e outros gastos, rateados por turma e por mês de entrada. Depois divide pelo número de pessoas contratadas. Vem da Base de Custos.',
+  l:'O gráfico mostra de que é feito o custo (salário de treinamento, monitor, recrutamento, plataformas e outros). Também aparece o CAC por canal de candidatura.',
+  r:['rescisao','custo_cedo','canal_candidatura'] },
+{ id:'rescisao', abas:['metas'], nome:'Custo para tirar (rescisão)',
+  k:['custo para tirar','rescisao','custo de rescisao','quanto custa demitir','custo de saida'],
+  o:'Quanto custaram as rescisões dos desligamentos do período.',
+  c:'Cada fatia é um desligamento, com o valor registrado na Base de Custos.',
+  l:'Compare com o CAC: se o custo de tirar é alto, vale revisar a seleção e o acompanhamento para evitar o desligamento.',
+  r:['cac','custo_cedo'] },
+{ id:'custo_cedo', abas:['metas'], nome:'Custo de quem saiu cedo',
+  k:['custo de quem saiu cedo','saiu cedo','saiu em ate 90 dias','custo da saida precoce'],
+  o:'Quanto custou, em dinheiro, quem foi contratado e saiu em até 90 dias.',
+  c:'Soma o custo de trazer (CAC) dessas pessoas, já que o investimento foi feito e não teve retorno.',
+  l:'É o argumento financeiro para melhorar a seleção e a integração: cada saída precoce é dinheiro perdido.',
+  r:['onboarding_risco','cac'] },
+
+/* ---------------- DIVERSIDADE ---------------- */
+{ id:'diversidade_kpis', abas:['diversidade'], nome:'Mulheres e pessoas negras e pardas',
+  k:['mulheres','pessoas negras','negras e pardas','raca','raca e cor','autodeclaracao','diversidade','com formacao registrada'],
+  o:'Cards de topo com a composição do time: mulheres, pessoas negras e pardas, idade média e quem tem formação registrada.',
+  c:'A aba considera só o comercial ativo. Raça e cor vêm da autodeclaração; formação vem das colunas de curso e situação do Turnover. "De 41 respondentes" significa que só essas pessoas têm o dado preenchido.',
+  l:'Clique em qualquer grupo (por exemplo Feminino ou Negra) para ver os rostos e a história de cada pessoa.',
+  r:['diversidade_idade','diversidade_formacao','genero'] },
+{ id:'diversidade_idade', abas:['diversidade'], nome:'Faixas etárias',
+  k:['faixas etarias','faixa etaria','idade','menores de 25','25 34','35 44'],
+  o:'Mostra o time por faixa de idade: menos de 25, 25 a 34 e 35 a 44.',
+  c:'Calculada pela data de nascimento. Cada rosto é uma pessoa e a cor da borda indica a faixa.',
+  l:'A média de idade aparece no topo. Um time muito concentrado em uma faixa pode indicar falta de variedade de perfis.',
+  r:['diversidade_kpis','idade_tempo'] },
+{ id:'diversidade_formacao', abas:['diversidade'], nome:'Formação e situação da formação',
+  k:['formacao','curso','situacao da formacao','cursando','concluido','trancado','nao iniciou','superior','faculdade'],
+  o:'Mostra o curso de cada pessoa e se a formação está em andamento, concluída, trancada ou não iniciada.',
+  c:'Vem das colunas de curso e da situação do ensino superior do Turnover. O quadro "Outros" agrupa os cursos menos comuns.',
+  l:'Ajuda a ver quem está estudando e que áreas de conhecimento o time tem, útil para planos de desenvolvimento.',
+  r:['diversidade_kpis'] },
+
+/* ---------------- CARGOS ---------------- */
+{ id:'cargos_kpis', abas:['cargos'], nome:'Pessoas, cargos distintos e tempo médio',
+  k:['pessoas na empresa','cargos distintos','tempo medio de empresa','maior cargo','cargos','quantos cargos'],
+  o:'Resumo da base de cargos: quantas pessoas, quantos cargos diferentes, tempo médio de empresa e idade média.',
+  c:'Usa a aba Pessoas da Base da empresa (só ativos). Tempo de empresa é da admissão até hoje; idade vem da data de nascimento.',
+  l:'O botão do topo filtra a visão: empresa toda, comercial, administrativo.',
+  r:['cargos_estacoes'],
+  now:()=>{ const n=(typeof cargosData!=='undefined')?cargosData.length:0; const c=new Set((typeof cargosData!=='undefined'?cargosData:[]).map(r=>normKey(r.cargo))).size; return `<em>${n}</em> pessoas · <em>${c}</em> cargos distintos`; } },
+{ id:'cargos_estacoes', abas:['cargos'], nome:'Estações e níveis de carreira',
+  k:['estacoes','estacao','niveis tracejados','nivel i ii iii','backoffice','degraus da carreira','sem ninguem','como ler os cargos'],
+  o:'Cada estação é um cargo, e os níveis I, II e III são os degraus da carreira dele. Os níveis tracejados são degraus que ainda não têm ninguém.',
+  c:'As áreas são agrupadas pelo nome do cargo. O tempo ao lado de cada estação é a média de casa de quem ocupa o cargo. "BackOffice" é como chamamos o Assistente Comercial I, II e III (área Administrativa).',
+  l:'Clique em uma estação para ver o cargo ou em um rosto para ver a trajetória da pessoa.',
+  r:['md_niveis'] },
+
+/* ---------------- MDP ---------------- */
+{ id:'md_12m', abas:['mdp'], nome:'Há 12+ meses na mesma função',
+  k:['12 meses na mesma funcao','mesma funcao','parados','sem movimentacao','12 meses'],
+  o:'Quantas pessoas estão há um ano ou mais sem mudar de cargo ou nível.',
+  c:'Meses desde a última movimentação (ou desde a admissão, se nunca teve) maior ou igual a 12, sobre o total de pessoas ativas no filtro.',
+  l:'Não é problema por si só, mas ajuda a ver quem pode estar estagnado. Veja também Risco de estagnação.',
+  r:['md_estag','md_nunca'],
+  now:()=>{ const P=chMd(); const k=P.filter(p=>p.ult>=12).length; return `<em>${k}</em> de ${P.length} (${P.length?Math.round(k/P.length*100):0}%)`; } },
+{ id:'md_nunca', abas:['mdp'], nome:'Nunca promovidos',
+  k:['nunca promovidos','nunca foi promovido','sem promocao','6 meses de casa','nunca promovido'],
+  o:'Pessoas com 6 meses ou mais de casa que nunca tiveram uma promoção.',
+  c:'Conta quem não tem nenhuma movimentação do tipo promoção (subida de nível ou troca de cargo). Ajustes internos sem troca de cargo não contam como promoção.',
+  l:'Veja os nomes na aba Trajetórias (filtro "nunca promovidos"). Muito tempo de casa sem promoção é um risco de saída.',
+  r:['md_12m','md_retencao'],
+  now:()=>{ const P=chMd(); const k=P.filter(p=>p.n===0&&p.casa>=6).length; return `<em>${k}</em> pessoas (${P.length?Math.round(k/P.length*100):0}% do time)`; } },
+{ id:'md_grade', abas:['mdp'], nome:'Entraram em grade acima',
+  k:['grade acima','entraram em grade','entrou no nivel ii','nivel de entrada','grade'],
+  o:'Pessoas que já começaram na empresa em um nível acima do inicial.',
+  c:'Olha o cargo na admissão: se for nível II ou superior, a pessoa entrou em grade acima.',
+  l:'Mostra contratações mais experientes. Ajuda a separar quem cresceu dentro de quem já veio em nível maior.',
+  r:['md_niveis'],
+  now:()=>{ const P=chMd(); const k=P.filter(p=>p.grade==='sim').length; return `<em>${k}</em> pessoas (${P.length?Math.round(k/P.length*100):0}%)`; } },
+{ id:'md_ult', abas:['mdp'], nome:'Tempo desde a última promoção',
+  k:['tempo desde a ultima promocao','ultima promocao','media geral','meses desde a promocao'],
+  o:'Quanto tempo, em média, as pessoas estão sem uma promoção.',
+  c:'Média dos meses desde a última movimentação (ou desde a admissão, se nunca teve). O texto menor mostra a média só de quem já foi promovido.',
+  l:'Quanto maior, mais devagar a carreira anda. Compare com o Tempo até a 1ª promoção.',
+  r:['md_primeira','md_12m'],
+  now:()=>{ const P=chMd(); const pro=P.filter(p=>p.n>0); return `média geral <em>${chAvg(P.map(p=>p.ult)).toFixed(1).replace('.',',')} meses</em> · entre promovidos <em>${chAvg(pro.map(p=>p.ult)).toFixed(1).replace('.',',')} meses</em>`; } },
+{ id:'md_ano', abas:['mdp'], nome:'Promoções no ano',
+  k:['promocoes em 2026','promocoes no ano','promocoes por ano','quantas promocoes'],
+  o:'Quantas pessoas diferentes tiveram uma movimentação de cargo no ano do filtro. O gráfico "Promoções por ano" mostra a história de todos os anos.',
+  c:'Conta pessoas distintas com movimentação no ano. A coluna do ano corrente é parcial e vem marcada com asterisco.',
+  l:'Compare ano a ano para ver se a empresa está promovendo mais ou menos.',
+  r:['md_primeira'] },
+{ id:'md_primeira', abas:['mdp'], nome:'Tempo até a 1ª promoção',
+  k:['tempo ate a primeira promocao','primeira promocao','1 promocao','quanto demora a promocao'],
+  o:'Quantos meses, em média, uma pessoa leva da admissão até a primeira promoção.',
+  c:'Para quem já foi promovido: meses entre a data de admissão e a primeira movimentação de cargo.',
+  l:'Serve de referência para planejar a carreira: se ninguém sobe antes de 12 meses, essa é a expectativa real.',
+  r:['md_ult','md_niveis'],
+  now:()=>{ const P=chMd().filter(p=>p.n>0); return `<em>${chAvg(P.map(p=>p.first)).toFixed(1).replace('.',',')} meses</em> em média`; } },
+{ id:'md_estag', abas:['mdp'], nome:'Risco de estagnação',
+  k:['risco de estagnacao','estagnacao','estagnado','18 meses','24 meses'],
+  o:'Pessoas há muito tempo sem nenhuma movimentação.',
+  c:'Conta quem está há 18 meses ou mais sem movimentação, e destaca quantos estão há 24 meses ou mais.',
+  l:'Esses são os candidatos naturais a conversar sobre carreira antes que peçam demissão.',
+  r:['md_12m','md_nunca'],
+  now:()=>{ const P=chMd(); return `<em>${P.filter(p=>p.ult>=18).length}</em> há 18+ meses · <em>${P.filter(p=>p.ult>=24).length}</em> há 24+`; } },
+{ id:'md_lideranca', abas:['mdp'], nome:'Promoção interna na liderança',
+  k:['promocao interna','lideranca','supervisores vieram de dentro','vieram de dentro','promocao interna na lideranca'],
+  o:'Quantos líderes (supervisores, coordenadores e gerentes) começaram em cargos de não liderança e foram promovidos dentro da empresa.',
+  c:'Entre as pessoas em cargos de liderança, conta as que tiveram promoção e não entraram já como líderes.',
+  l:'Quanto mais perto de "todos", mais a liderança é formada em casa.',
+  r:['md_primeira'],
+  now:()=>{ const P=chMd(); const L=P.filter(p=>mdIsLeader(p.cargo)); const int=L.filter(p=>p.n>0&&!mdIsLeader(p.cargoAdm)).length; return `<em>${int} de ${L.length}</em> líderes vieram de dentro`; } },
+{ id:'md_distribuicao', abas:['mdp'], nome:'Tempo na função atual e quem está há mais tempo parado',
+  k:['tempo na funcao atual','quem esta ha mais tempo sem movimentacao','ranking de estagnacao','faixas de meses','0 6 m'],
+  o:'O gráfico de barras mostra quantas pessoas estão em cada faixa de tempo desde a última movimentação (0–6, 6–12, 12–18, 18–24 e 24+ meses). A lista ao lado traz quem tem o maior intervalo.',
+  c:'Meses desde a última movimentação (ou desde a admissão). A lista ordena do maior para o menor intervalo.',
+  l:'Clique em um nome da lista para abrir a trajetória da pessoa.',
+  r:['md_estag','md_12m'] },
+{ id:'md_niveis', abas:['mdp'], nome:'Tempo médio em cada nível',
+  k:['tempo medio em cada nivel','nivel i ii','direto i iii','subida de nivel','tempo entre niveis'],
+  o:'Quantos meses as pessoas levam, em média, para subir de um nível para o seguinte.',
+  c:'Para cada tipo de subida (nível I para II, II para III, ou direto I para III), a média de meses desde a movimentação anterior e quantas pessoas entram na conta.',
+  l:'Mostra o ritmo real da carreira. Se a subida de I para II leva 6 meses, essa é a expectativa de quem entra.',
+  r:['md_primeira','cargos_estacoes'] },
+{ id:'md_mobilidade', abas:['mdp'], nome:'Mobilidade entre áreas',
+  k:['mobilidade entre areas','trocas de area','mudou de area','dentro do comercial','mobilidade'],
+  o:'Mostra quem trocou de área de verdade, por exemplo do Comercial para o Administrativo.',
+  c:'As áreas são Comercial, Administrativo (onde ficam os assistentes comerciais, o back-office), Qualidade, RH/DP e Dados/TI. Atendimento, Vendas e Comercial contam como a mesma área, então trocas entre eles não contam como mobilidade e aparecem no bloco "Dentro do Comercial".',
+  l:'O bloco da direita mostra as mudanças de nome de cargo dentro do Comercial, útil para ver o caminho típico de carreira.',
+  r:['md_niveis'] },
+{ id:'md_retencao', abas:['mdp','riscos'], nome:'Retenção pós-promoção',
+  k:['retencao pos promocao','promovidos ficaram','sem promocao','promovidos x nunca promovidos','pos promocao'],
+  o:'Compara quantos promovidos e quantos nunca promovidos deixaram a empresa.',
+  c:'Usa todas as pessoas da MDP, incluindo quem já saiu. Divide em dois grupos (já promovidos e nunca promovidos) e mostra a proporção de saídas em cada um.',
+  l:'Se quem foi promovido sai menos do que quem nunca foi, promover ajuda a reter. No Riscos aparece como "X de Y promovidos ficaram".',
+  r:['md_nunca','md_ult'],
+  now:()=>{ try{ const r=mdRetention(mdBuild()); if(!r.ok) return ''; const p=r.grp.prom, n=r.grp.nunca; return `promovidos: <em>${p.n-p.left} de ${p.n}</em> ficaram · nunca promovidos: <em>${n.n-n.left} de ${n.n}</em> ficaram`; }catch(_){ return ''; } } },
+{ id:'md_trajetorias', abas:['mdp'], nome:'Trajetórias e Análises',
+  k:['trajetorias','analises','visao geral da mdp','o que e mdp','mdp','movimentacao de pessoal'],
+  o:'MDP é a Movimentação de Pessoal: toda mudança de cargo, nível ou área de cada pessoa desde a admissão.',
+  c:'Vem das abas Pessoas e Movimentações da Base da empresa. Visão geral traz os indicadores, Trajetórias mostra a linha do tempo de cada pessoa e Análises traz retenção, mobilidade e níveis.',
+  l:'Quem teve só ajuste interno de cargo, sem troca, não conta como promoção.',
+  r:['md_12m','md_retencao'] },
+
+/* ---------------- ORGANOGRAMA ---------------- */
+{ id:'org_mapa', abas:['organograma'], nome:'Organograma',
+  k:['organograma','squad','no time','lideres','avatares','socios','estrutura do time','quem responde a quem'],
+  o:'A estrutura da empresa: sócios, liderança e os squads (equipes) de cada líder.',
+  c:'Vem da coluna Gestor imediato da Base da empresa. "No time" é o total de pessoas abaixo daquele líder. A cor da área vem da coluna Área. Dá para alternar entre Avatares e Lista e recolher ou expandir cada squad.',
+  l:'Clique em uma pessoa para ver os detalhes e a trajetória, ou passe o mouse para ver o caminho até o topo.',
+  r:['md_trajetorias'],
+  now:()=>{ const n=(typeof orgData!=='undefined')?orgData.length:0; return `<em>${n}</em> pessoas no organograma`; } },
+
+/* ---------------- RISCOS ---------------- */
+{ id:'risco_geral', abas:['riscos'], nome:'Risco geral',
+  k:['risco geral','velocimetro','turnover do mes','mes atual','risco do mes'],
+  o:'O velocímetro mostra o turnover do mês atual e em que nível de risco ele está.',
+  c:'Turnover do mês: desligados do mês ÷ ativos no fim do mês. A seta compara com o mês anterior, em pontos percentuais. Se você escolheu uma área, ele mostra só essa área.',
+  l:'Verde é normal e vermelho é crítico. Quanto mais à direita, pior.',
+  r:['turnover','ranking_risco'] },
+{ id:'ranking_risco', abas:['riscos'], nome:'Ranking de risco',
+  k:['ranking de risco','maior risco','areas e supervisores'],
+  o:'Lista áreas e supervisores do maior para o menor risco de turnover no mês.',
+  c:'Cada linha é o turnover do mês daquela área ou supervisor. A barra usa a mesma escala Normal, Atenção, Alerta e Crítico.',
+  l:'Os primeiros da lista são onde agir primeiro.',
+  r:['eq_mapa','risco_geral'] },
+{ id:'involuntarias', abas:['riscos'], nome:'Saídas involuntárias',
+  k:['saidas involuntarias','involuntarias','demissoes pela empresa'],
+  o:'Quantos desligamentos foram decisão da empresa, e qual a fatia do total.',
+  c:'Desligamentos com tipo de saída involuntário ÷ total de desligamentos do período.',
+  l:'Parte alta indica problemas de seleção ou de desempenho. Veja os motivos no card Tipo de saída x Motivo.',
+  r:['tipo_motivo','onboarding_risco'],
+  now:()=>{ const s=chS(); const n=s.i.filter(r=>r.tipoSaida==='INVOLUNTÁRIO').length; return `<em>${n}</em> de ${s.i.length} (${s.i.length?Math.round(n/s.i.length*100):0}%)`; } },
+{ id:'projecao', abas:['riscos'], nome:'Projeção de fechamento do ano',
+  k:['projecao','projecao de fechamento','ritmo atual','fechamento do ano','pior que 2025','melhor que 2025','projetado'],
+  o:'Estima como o turnover do ano vai fechar se o ritmo de saídas continuar igual, e compara com o ano anterior.',
+  c:'Desligados do ano até hoje × (12 ÷ meses decorridos) ÷ ativos. O resultado é comparado com o turnover do ano anterior fechado, por área.',
+  l:'"Pior que o ano anterior" significa que, no ritmo atual, o ano termina com mais rotatividade. É uma estimativa: no começo do ano ela varia muito.',
+  r:['turnover','risco_geral'] },
+
+/* ---------------- GERAIS ---------------- */
+{ id:'niveis_risco', abas:['geral','equipes','riscos','metas'], nome:'Níveis de risco (Normal, Atenção, Alerta, Crítico)',
+  k:['niveis de risco','nivel de risco','critico','alerta','atencao','normal','por que esta critico','o que significa critico','cores do risco','escala de risco'],
+  o:'É a escala da empresa para classificar o turnover: Normal, Atenção, Alerta e Crítico.',
+  c:'Normal até 15% · Atenção de 15 a 30% · Alerta de 30 a 100% · Crítico acima de 100%. Vale para a empresa, para cada área e para cada supervisor.',
+  l:'Crítico não quer dizer que o time vai acabar: significa que no período saíram mais pessoas do que o tamanho do time ativo. Veja os motivos de saída para entender o que está acontecendo.',
+  r:['turnover','tipo_motivo','eq_mapa'] },
+{ id:'filtros', abas:['geral','equipes','metas','diversidade','mdp','riscos'], nome:'Como funcionam os filtros',
+  k:['filtros','como funcionam os filtros','filtro de area','filtro de mes','filtro de ano','mes e ano','filtrar'],
+  o:'Os filtros do topo (Mês, Ano e Área) mudam os números da aba em que você está.',
+  c:'Eles recortam as pessoas e os eventos (entradas e saídas) do período escolhido. Cargos e Organograma não usam esses filtros. O 360 Retidos ignora mês e ano e segue só a área.',
+  l:'O topo do chat mostra quais filtros estão ativos. Se um número parece estranho, confira o filtro primeiro.',
+  r:['headcount','turnover'] },
+{ id:'base_empresa', abas:['cargos','mdp','organograma'], nome:'Base da empresa (a planilha)',
+  k:['base da empresa','atualizar os dados','carregar a planilha','subir a planilha','como atualizar','de onde vem os dados'],
+  o:'É a planilha única que alimenta Cargos, MDP e Organograma. Tem a aba Pessoas (todo mundo que já passou pela empresa) e a aba Movimentações (trocas de cargo).',
+  c:'Quando alguém entra, sai ou muda de cargo, ajuste a aba Pessoas, e a aba Movimentações se for troca de cargo. Depois suba a planilha pelo botão "Base da empresa" no topo (login master). Ela não tem salário nem CPF.',
+  l:'Preencha Canal e Supervisor de quem entra, igual ao Turnover, para o filtro de área da MDP funcionar.',
+  r:['md_trajetorias','org_mapa'] },
+];
+
+/* ===== Chat do People Copilot: motor e tela ===== */
+const CH_STOP = new Set('o a os as um uma uns umas de da do das dos em no na nos nas por para pra com sem que e eh ou se me te nao sim isso esse essa este esta isto aquele aquela ele ela seu sua meu minha qual quais quanto quantos quantas como onde quando porque pq por favor poderia pode voce vc fala falar significa significado quer dizer explica explicar explique entender entendo indicador indicadores card cartao grafico numero sobre mais mim aqui aba'.split(' '));
+const chNk = s => String(s||'').normalize('NFD').replace(/[̀-ͯ]/g,'').toLowerCase().replace(/[^a-z0-9 ]/g,' ').replace(/\s+/g,' ').trim();
+const chEsc = s => String(s==null?'':s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+const CH_BY = Object.fromEntries(CH_KB.map(e=>[e.id,e]));
+CH_KB.forEach(e=>{ e._k = e.k.map(chNk).filter(Boolean); e._n = chNk(e.nome).split(' ').filter(t=>t.length>2 && !CH_STOP.has(t)); });
+const chState = { tab:'geral', open:false, started:false };
+
+function chMatch(q){
+    const nq = ' '+chNk(q)+' ', toks = chNk(q).split(' ').filter(t=>t && !CH_STOP.has(t));
+    const sc = CH_KB.map(e=>{
+        let s = 0;
+        e._k.forEach(k=>{ if(nq.includes(' '+k+' ')) s += k.split(' ').length*2 + 2; });
+        e._n.forEach(t=>{ if(toks.includes(t)) s += 1; });
+        if(s>0 && e.abas.includes(chState.tab)) s += 1.5;
+        return {e, s};
+    }).filter(x=>x.s>0).sort((a,b)=>b.s-a.s);
+    if(!sc.length || sc[0].s < 3) return null;
+    const best = sc[0], other = sc.find(x=>x.e.id!==best.e.id && x.s >= best.s*0.8 && x.s>=3);
+    return { e:best.e, other: other?other.e:null };
+}
+function chTabNow(){ return chState.tab; }
+function chSuggest(tab){
+    const own = CH_KB.filter(e=>e.abas[0]===tab || e.abas.includes(tab));
+    return own.slice(0,4);
+}
+function chFilters(){
+    const t = chState.tab;
+    if(t==='cargos'||t==='organograma'||t==='performance') return ['Esta aba não usa filtros'];
+    const g = id => { const el=document.getElementById(id); if(!el) return ''; const o=el.options[el.selectedIndex]; return o?o.text:''; };
+    const m=g('filterMonth')||'Todos os meses', y=g('filterYear')||'Todos os anos', a=g('filterArea');
+    return [m, y, (!a || /^Total/i.test(a)) ? 'Todas as áreas' : a];
+}
+function chAnswer(e){
+    let h = `<b style="display:block;margin-bottom:6px">${chEsc(e.nome)}</b>`;
+    if(!e.abas.includes(chState.tab)) h += `<span style="display:block;margin-bottom:8px;color:#c9b8ff;font-size:12px">Esse indicador fica na aba ${chEsc(CH_TABS[e.abas[0]])}.</span>`;
+    h += `<span class="ch-t">O que é</span>${chEsc(e.o)}<span class="ch-t">Como é calculado</span>${chEsc(e.c)}<span class="ch-t">Como ler</span>${chEsc(e.l)}`;
+    let now=''; try{ now = e.now ? e.now() : ''; }catch(_){ now=''; }
+    if(now) h += `<span class="ch-now">Hoje: ${now}</span>`;
+    return h;
+}
+function chAdd(who, html, asText){
+    const body = document.getElementById('chBody'); if(!body) return null;
+    const d = document.createElement('div'); d.className = 'ch-m '+who;
+    if(asText) d.textContent = html; else d.innerHTML = html;
+    body.appendChild(d);
+    if(who==='bot' && d.offsetHeight > body.clientHeight*0.55) body.scrollTop = d.offsetTop - 12; else body.scrollTop = body.scrollHeight;   // resposta longa: começa pelo título
+    return d;
+}
+function chSetChips(items){
+    const sg = document.getElementById('chSg'); if(!sg) return;
+    sg.innerHTML = items.map(x=>`<button type="button" data-chid="${chEsc(x.id)}">${chEsc(x.label||x.nome)}</button>`).join('');
+}
+function chSugTab(){
+    chSetChips(chSuggest(chState.tab).map(e=>({id:e.id, label:e.nome})));
+}
+function chReply(userText, forcedId){
+    const body = document.getElementById('chBody');
+    const typing = chAdd('bot','<span class="ch-ty"><i></i><i></i><i></i></span>');
+    setTimeout(()=>{
+        if(typing) typing.remove();
+        const nq = chNk(userText);
+        if(forcedId){ const e=CH_BY[forcedId]; chAdd('bot', chAnswer(e)); chSetChips(chRelated(e)); return; }
+        if(/^(oi|ola|bom dia|boa tarde|boa noite|e ai|opa|hey|hello)( .*)?$/.test(nq)){ chAdd('bot','Oi! Pergunte sobre qualquer indicador da aba em que você está. Eu explico o que é, como é calculado e como ler.'); chSugTab(); return; }
+        if(/^(obrigad|valeu|muito bom|perfeito|show|legal|beleza|ok)/.test(nq)){ chAdd('bot','Por nada! Se quiser entender outro indicador, é só perguntar.'); chSugTab(); return; }
+        if(/(o que tem|quais indicadores|o que posso perguntar|o que voce explica|o que eu posso|indicadores d(esta|essa|a) aba|o que (tem|ha) (aqui|nessa aba|nesta aba))/.test(nq)){
+            chAdd('bot',`Nesta aba (${chEsc(CH_TABS[chState.tab]||'')}) eu explico estes indicadores. Toque em um deles:`);
+            chSetChips(CH_KB.filter(e=>e.abas.includes(chState.tab)).slice(0,8).map(e=>({id:e.id,label:e.nome}))); return; }
+        const m = chMatch(userText);
+        if(!m){
+            chAdd('bot','Ainda não sei explicar isso. Eu entendo os indicadores do dashboard: tente o nome do card, por exemplo <b>turnover</b>, <b>CAC</b> ou <b>360 Retidos</b>. Veja alguns desta aba:');
+            chSugTab(); return; }
+        chAdd('bot', chAnswer(m.e));
+        const chips = chRelated(m.e);
+        if(m.other){ chAdd('bot',`Pode ser que você queira saber sobre <b>${chEsc(m.other.nome)}</b>. Toque abaixo se for esse.`); chips.unshift({id:m.other.id,label:m.other.nome}); }
+        chSetChips(chips.slice(0,4));
+    }, 450);
+}
+function chRelated(e){
+    const rel = (e.r||[]).map(id=>CH_BY[id]).filter(Boolean).map(x=>({id:x.id,label:x.nome}));
+    if(rel.length<2) chSuggest(chState.tab).forEach(x=>{ if(x.id!==e.id && !rel.find(r=>r.id===x.id) && rel.length<4) rel.push({id:x.id,label:x.nome}); });
+    return rel.slice(0,4);
+}
+function chAsk(text, forcedId){
+    text = String(text||'').trim(); if(!text) return;
+    chAdd('me', text, true); chReply(text, forcedId);
+}
+function chRender(){
+    const pan = document.getElementById('chPan'), fab = document.getElementById('chFab'); if(!pan||!fab) return;
+    const shell = document.getElementById('appShell');
+    const logged = shell && shell.style.display!=='none' && getComputedStyle(shell).display!=='none';
+    fab.style.display = (logged && !chState.open && chState.tab!=='geral') ? 'flex' : 'none';
+    pan.classList.toggle('open', !!(logged && chState.open));
+    const sub = document.getElementById('chSub'); if(sub) sub.textContent = 'Você está em '+(CH_TABS[chState.tab]||chState.tab);
+    const ctx = document.getElementById('chCtx'); if(ctx) ctx.innerHTML = chFilters().map(x=>`<i>${chEsc(x)}</i>`).join('');
+}
+function chOpen(){
+    chState.open = true;
+    if(!chState.started){ chState.started = true; chAdd('bot','Oi! Eu explico os indicadores do dashboard e como ler cada um. Pergunte sobre qualquer card da aba em que você está.'); chSugTab(); }
+    chRender(); const i=document.getElementById('chIn'); if(i) setTimeout(()=>i.focus(),50);
+}
+function chClose(){ chState.open=false; chRender(); }
+function chOnView(name){
+    chState.tab = name; chRender();
+    if(chState.started) { const last=document.getElementById('chSg'); chSugTab(); }
+}
+function chInit(){
+    if(document.getElementById('chPan')) return;
+    const SPARK='<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9.937 15.5A2 2 0 0 0 8.5 14.063l-6.135-1.582a.5.5 0 0 1 0-.962L8.5 9.936A2 2 0 0 0 9.937 8.5l1.582-6.135a.5.5 0 0 1 .963 0L14.063 8.5A2 2 0 0 0 15.5 9.937l6.135 1.582a.5.5 0 0 1 0 .962L15.5 14.063a2 2 0 0 0-1.437 1.437l-1.582 6.135a.5.5 0 0 1-.963 0z"/></svg>';
+    const SEND='<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 2 11 13"/><path d="M22 2 15 22l-4-9-9-4z"/></svg>';
+    const wrap = document.createElement('div');
+    wrap.innerHTML = `<button class="ch-fab" id="chFab" type="button" title="People Copilot" aria-label="Abrir o People Copilot" style="display:none">${SPARK}<span class="ch-dot"></span></button>
+    <div class="ch-pan" id="chPan" role="dialog" aria-label="People Copilot"><div class="ch-hd"><div class="copilot-avatar">${SPARK}</div><div><b>People Copilot</b><small id="chSub"></small></div><button class="ch-x" id="chX" type="button" aria-label="Fechar">×</button></div>
+    <div class="ch-ctx" id="chCtx"></div><div class="ch-body" id="chBody"></div><div class="ch-sg" id="chSg"></div>
+    <div class="ch-in"><input id="chIn" type="text" autocomplete="off" placeholder="Pergunte sobre um indicador…" /><button id="chGo" type="button" aria-label="Enviar">${SEND}</button></div>
+    <div class="ch-ft">Explica indicadores e números do dashboard. Nunca usa CPF nem salário.</div></div>`;
+    while(wrap.firstChild) document.body.appendChild(wrap.firstChild);   // fixed precisa estar no body (o palco da página é escalado)
+    document.getElementById('chFab').addEventListener('click', chOpen);
+    document.getElementById('chX').addEventListener('click', chClose);
+    document.getElementById('chGo').addEventListener('click', ()=>{ const i=document.getElementById('chIn'); const v=i.value; i.value=''; chAsk(v); });
+    document.getElementById('chIn').addEventListener('keydown', e=>{ if(e.key==='Enter'){ e.preventDefault(); const i=e.target; const v=i.value; i.value=''; chAsk(v); } if(e.key==='Escape') chClose(); });
+    document.getElementById('chSg').addEventListener('click', e=>{ const b=e.target.closest('button[data-chid]'); if(!b) return; const en=CH_BY[b.dataset.chid]; if(en) chAsk(en.nome, en.id); });
+    document.addEventListener('click', e=>{ if(e.target.closest('.ch-open')) chOpen(); });
+    ['filterMonth','filterYear','filterArea'].forEach(id=>{ const el=document.getElementById(id); if(el) el.addEventListener('change', ()=>setTimeout(chRender,0)); });
+    chRender();
+}
+chInit();
+
 </script>
 </body>
 </html>
