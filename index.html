@@ -5178,6 +5178,169 @@ const CH_KB = [
   r:['md_trajetorias','org_mapa'] },
 ];
 
+/* ===== Perguntas que consultam os números (abertas para todos os logins) + explicações extras ===== */
+const CH_ALL = Object.keys(CH_TABS);
+const chPop = () => { const a=document.getElementById('filterArea'); const v=a?a.value:''; return globalData.filter(r=>!v||r.canal===v); };
+const chAt  = (d,pop) => pop.filter(r=>r.dtInicio && r.dtInicio<=d && !(r.status==='INATIVO' && r.dtSaida && r.dtSaida<=d));
+const chIn  = (a,b,pop) => pop.filter(r=>r.dtInicio && r.dtInicio>=a && r.dtInicio<=b);
+const chOut = (a,b,pop) => pop.filter(r=>r.status==='INATIVO' && r.dtSaida && r.dtSaida>=a && r.dtSaida<=b);
+const chMonName = m => ['janeiro','fevereiro','março','abril','maio','junho','julho','agosto','setembro','outubro','novembro','dezembro'][m];
+const chTit = s => (typeof mdTitle==='function'?mdTitle(s):s).replace(/ (E|De|Da|Do) /g,m=>m.toLowerCase());
+const chMes = () => { const t=new Date(); return { t, s:new Date(t.getFullYear(),t.getMonth(),1), ps:new Date(t.getFullYear(),t.getMonth()-1,1), pe:new Date(t.getFullYear(),t.getMonth(),0,23,59,59), lab:chMonName(t.getMonth()), plab:chMonName((t.getMonth()+11)%12) }; };
+const chB = s => `<b>${chEsc(s)}</b>`;
+const chN = n => `<em>${n}</em>`;
+const chP1 = v => (Math.round(v*10)/10).toString().replace('.',',')+'%';
+const chNm = n => (typeof mdShort==='function') ? mdShort(n) : n;
+const chRows = arr => arr.map(x=>`• ${x}`).join('<br>');
+const chSign = v => (v>0?'+':v<0?'−':'')+Math.abs(v);
+function chSupStats(){
+    const s=chS(), names=[...new Set(s.a.concat(s.i).map(r=>r.supervisor).filter(Boolean))];
+    return names.map(n=>{ const a=s.a.filter(r=>r.supervisor===n), i=s.i.filter(r=>r.supervisor===n); const t=calcTurnover(a,i).turnover; return {n, a:a.length, i:i.length, t, lv:classificaRisco(t).label}; }).filter(x=>x.a+x.i>0).sort((x,y)=>y.t-x.t);
+}
+function chNoMdp(){ return `Para responder isso eu preciso da <b>Base da empresa</b> carregada (botão no topo, login master).`; }
+function chLeaders(){
+    if(typeof orgData==='undefined' || !orgData.length) return null;
+    const by=new Map(); orgData.forEach(p=>{ const k=ogNk(p.gestor); if(!k) return; if(!by.has(k)) by.set(k,[]); by.get(k).push(p); });
+    const tot=p=>{ const kids=by.get(ogNk(p.nome))||[]; return kids.length+kids.reduce((a,k)=>a+tot(k),0); };
+    return { by, tot, leaders: orgData.filter(p=>by.has(ogNk(p.nome))) };
+}
+const CH_GEN = new Set('responde respondem gestor gestora chefe equipe time quem lider lideres pessoas tem trabalha trabalham reporta liderados subordinados quantas quantos cada temos subordinada diretos diretas'.split(' '));
+function chPerson(q){
+    if(typeof orgData==='undefined' || !orgData.length) return {none:true};
+    const qt=chNk(q).split(' ').filter(t=>t.length>2 && !CH_STOP.has(t) && !CH_GEN.has(t)); if(!qt.length) return {none:true};
+    const L=chLeaders(); const isL=p=>L&&L.by.has(ogNk(p.nome));
+    const sc=orgData.map(p=>{ const nt=chNk(p.nome).split(' '); return {p, s:qt.filter(t=>nt.includes(t)).length}; }).filter(x=>x.s>0).sort((a,b)=>b.s-a.s);
+    if(!sc.length) return {none:true};
+    const top=sc.filter(x=>x.s===sc[0].s);
+    if(top.length===1) return {p:top[0].p};
+    const lead=top.filter(x=>isL(x.p)); if(lead.length===1) return {p:lead[0].p, others:top.filter(x=>x.p!==lead[0].p).map(x=>x.p).slice(0,4)};
+    return {amb:top.slice(0,5).map(x=>x.p)};
+}
+const CH_NEW = [
+{ id:'resumo_mes', abas:CH_ALL, nome:'Resumo do mês',
+  k:['resumo do mes','resumo do periodo','me da um resumo','faz um resumo','resumo geral','como estamos','como esta o time','panorama'],
+  html:()=>{ try{ return COPILOT_QUESTIONS[0].fn(); }catch(_){ return 'Ainda não há dados carregados para resumir.'; } }, r:['olhar_primeiro','mudou_mes'] },
+{ id:'mudou_mes', abas:CH_ALL, nome:'O que mudou desde o mês passado',
+  k:['o que mudou','mudou desde o mes passado','comparado ao mes passado','comparar com o mes passado','vs mes anterior','evolucao do mes','melhorou ou piorou'],
+  html:()=>{ const pop=chPop(), M=chMes(); if(!pop.length) return 'Ainda não há dados carregados.';
+      const h1=chAt(M.t,pop), h0=chAt(M.pe,pop), s1=chOut(M.s,M.t,pop), s0=chOut(M.ps,M.pe,pop), e1=chIn(M.s,M.t,pop).length, e0=chIn(M.ps,M.pe,pop).length;
+      const t1=calcTurnover(h1,s1).turnover, t0=calcTurnover(h0,s0).turnover, d=t1-t0;
+      return `<b style="display:block;margin-bottom:6px">${M.lab[0].toUpperCase()+M.lab.slice(1)} contra ${M.plab}</b>`+chRows([
+        `Headcount: ${chN(h1.length)} (era ${h0.length}, ${chSign(h1.length-h0.length)})`,
+        `Entradas: ${chN(e1)} (mês passado ${e0})`,
+        `Saídas: ${chN(s1.length)} (mês passado ${s0.length})`,
+        `Turnover do mês: ${chN(chP1(t1))} (mês passado ${chP1(t0)}, ${d<0?'melhorou':d>0?'piorou':'igual'} ${chP1(Math.abs(d)).replace('%',' pts')})`])+`<span class="ch-t">Como ler</span>${M.lab[0].toUpperCase()+M.lab.slice(1)} ainda está em andamento, então os números do mês atual são parciais.`; }, r:['resumo_mes','olhar_primeiro'] },
+{ id:'olhar_primeiro', abas:CH_ALL, nome:'O que eu preciso olhar primeiro?',
+  k:['o que eu preciso olhar primeiro','olhar primeiro','por onde comecar','o que esta pior','pontos de atencao','o que esta critico','o que merece atencao','prioridades','alertas'],
+  html:()=>{ const s=chS(); if(!s.a.length && !s.i.length) return 'Ainda não há dados carregados.';
+      const it=[]; const t=calcTurnover(s.a,s.i).turnover, lv=classificaRisco(t);
+      if(t>30) it.push({sc:80+Math.min(t/10,15), tx:`O turnover geral está em ${chN(chP1(t))}, nível ${chB(lv.label)}: ${s.i.length} saídas para ${s.a.length} ativos.`, tab:'Riscos'});
+      chSupStats().filter(x=>x.t>30 && x.a>0).slice(0,2).forEach(x=>it.push({sc:70+Math.min(x.t/10,15), tx:`A equipe de ${chB(chTit(x.n))} está em nível ${chB(x.lv)}: ${x.i} saídas para ${x.a} ativos (${chP1(x.t)}).`, tab:'Equipes'}));
+      const early=s.i.filter(r=>r.dtInicio&&r.dtSaida&&monthsBetween(r.dtInicio,r.dtSaida)<3).length, ep=s.i.length?early/s.i.length*100:0;
+      if(ep>=40) it.push({sc:60+ep/10, tx:`${chN(Math.round(ep)+'%')} dos desligamentos foram de quem tinha menos de 3 meses de casa (${early} de ${s.i.length}). O começo da jornada está falhando.`, tab:'Visão Geral'});
+      const inv=s.i.filter(r=>r.tipoSaida==='INVOLUNTÁRIO').length, ip=s.i.length?inv/s.i.length*100:0;
+      if(ip>=50) it.push({sc:50, tx:`${chN(Math.round(ip)+'%')} das saídas foram involuntárias (${inv} de ${s.i.length}): vale revisar a seleção e o desempenho.`, tab:'Riscos'});
+      const P=chMd(); if(P.length){ const e24=P.filter(p=>p.ult>=24).length, nv=P.filter(p=>p.n===0&&p.casa>=6).length;
+          if(e24>0) it.push({sc:55, tx:`${chN(e24)} pessoas estão há 24 meses ou mais sem nenhuma movimentação de cargo.`, tab:'MDP'});
+          if(nv/P.length>=0.2) it.push({sc:45, tx:`${chN(nv)} pessoas (${Math.round(nv/P.length*100)}% do time) têm 6+ meses de casa e nunca foram promovidas.`, tab:'MDP'}); }
+      const gap=HEADCOUNT_META-s.a.length; if(gap>0) it.push({sc:35+Math.min(gap,20), tx:`Faltam ${chN(gap)} pessoas para a meta de headcount (${s.a.length} de ${HEADCOUNT_META}).`, tab:'Metas'});
+      if(!it.length) return 'Nada crítico no filtro atual: turnover, equipes e onboarding estão dentro do esperado.';
+      it.sort((a,b)=>b.sc-a.sc);
+      return `<b style="display:block;margin-bottom:6px">Os pontos que eu olharia primeiro</b>`+it.slice(0,3).map((x,i)=>`${i+1}. ${x.tx} <span style="color:#c9b8ff">(aba ${x.tab})</span>`).join('<br><br>'); }, r:['resumo_mes','sup_pior'] },
+{ id:'porque_turnover_alto', abas:CH_ALL, nome:'Por que o turnover está alto?',
+  k:['por que o turnover esta alto','turnover alto','por que o turnover','turnover acima de 100','turnover maior que 100','turnover de 197','e possivel turnover acima','por que esta tao alto','turnover tao alto'],
+  html:()=>{ const s=chS(); const t=calcTurnover(s.a,s.i).turnover, lv=classificaRisco(t);
+      let h=`<b style="display:block;margin-bottom:6px">Turnover em ${chP1(t)} (${lv.label})</b>`;
+      if(t>100) h+=`Sim, passa de 100%: a conta é saídas ÷ ativos, e no período saíram ${chN(s.i.length)} pessoas para ${chN(s.a.length)} ativos. Isso acontece em operações com muita entrada e saída.`;
+      const m={}; s.i.forEach(r=>{const x=r.motivo||'Sem registro'; m[x]=(m[x]||0)+1;}); const top=Object.entries(m).sort((a,b)=>b[1]-a[1]).slice(0,2);
+      const early=s.i.filter(r=>r.dtInicio&&r.dtSaida&&monthsBetween(r.dtInicio,r.dtSaida)<3).length;
+      const ar={}; s.a.forEach(r=>{ar[r.canal||'N/D']=ar[r.canal||'N/D']||{a:0,i:0}; ar[r.canal||'N/D'].a++;}); s.i.forEach(r=>{ar[r.canal||'N/D']=ar[r.canal||'N/D']||{a:0,i:0}; ar[r.canal||'N/D'].i++;});
+      const worst=Object.entries(ar).filter(x=>x[1].a>0).map(x=>[x[0],x[1].i/x[1].a*100]).sort((a,b)=>b[1]-a[1])[0];
+      h+=`<span class="ch-t">O que mais pesa agora</span>`+chRows([
+        top.length?`Motivos mais comuns: ${top.map(x=>chB(x[0])+' ('+x[1]+')').join(' e ')}`:'Sem motivos registrados',
+        `${chN(s.i.length?Math.round(early/s.i.length*100)+'%':'0%')} das saídas foram de quem tinha menos de 3 meses de casa`,
+        worst?`Área com maior turnover: ${chB(worst[0])} (${chP1(worst[1])})`:'']);
+      return h+`<span class="ch-t">Como ler</span>Comece pelo motivo principal e pelas saídas precoces: são onde dá para agir mais rápido.`; }, r:['olhar_primeiro','onboarding_risco','tipo_motivo'] },
+{ id:'sup_pior', abas:CH_ALL, nome:'Qual supervisor tem o pior turnover?',
+  k:['qual supervisor tem o pior turnover','supervisor com pior turnover','pior supervisor','supervisor com maior turnover','qual equipe tem mais saidas','qual equipe perde mais gente','equipe com maior turnover','qual equipe esta pior'],
+  html:()=>{ const L=chSupStats(); if(!L.length) return 'Ainda não há dados de supervisores carregados.';
+      return `<b style="display:block;margin-bottom:6px">Turnover por supervisor (filtro atual)</b>`+chRows(L.slice(0,4).map(x=>`${chB(chTit(x.n))}: ${chN(chP1(x.t))} · ${x.lv} (${x.i} saídas, ${x.a} ativos)`))+`<span class="ch-t">Como ler</span>Calculado como saídas ÷ ativos da equipe no período. Veja o mapa completo na aba Equipes.`; }, r:['eq_mapa','olhar_primeiro'] },
+{ id:'meta_status', abas:CH_ALL, nome:'Estamos dentro das metas?',
+  k:['estamos dentro das metas','quanto falta para a meta','dentro da meta','estamos dentro da meta','falta para a meta de headcount','bateu a meta','meta de turnover','como estamos nas metas','status das metas'],
+  html:()=>{ const s=chS(); const t=calcTurnover(s.a,s.i).turnover, gap=HEADCOUNT_META-s.a.length;
+      const tt=new Date(); const c=globalData.filter(r=>r.dtInicio&&r.dtInicio<=new Date(tt.getTime()-90*86400000)); const ok=c.filter(r=>r.status==='ATIVO'||(r.dtSaida&&monthsBetween(r.dtInicio,r.dtSaida)*30>90)).length; const rr=c.length?ok/c.length*100:0;
+      return `<b style="display:block;margin-bottom:6px">Situação das metas</b>`+chRows([
+        `Headcount: ${chN(s.a.length)} de ${HEADCOUNT_META} · ${gap>0?'faltam '+chN(gap):'meta batida'}`,
+        `Turnover: ${chN(chP1(t))} para meta de até 15% · ${t<=15?'dentro da meta':'acima da meta em '+chP1(t-15).replace('%',' pts')}`,
+        `Retenção 90 dias: ${chN(chP1(rr))} para meta de 90% · ${rr>=90?'dentro da meta':'abaixo da meta em '+chP1(90-rr).replace('%',' pts')}`])+`<span class="ch-t">Como ler</span>As metas atuais são de exemplo. Quando a empresa definir as reais, os números mudam aqui também.`; }, r:['metas_ilustrativas','meta_headcount'] },
+{ id:'area_cedo', abas:CH_ALL, nome:'Qual área perde mais gente com menos de 3 meses?',
+  k:['qual area perde mais gente','area perde mais gente','area com mais saidas precoces','saidas precoces por area','menos de 3 meses por area','onde saem mais cedo','qual area tem mais desligamentos cedo'],
+  html:()=>{ const s=chS(); if(!s.i.length) return 'Não há desligamentos no filtro atual.';
+      const m={}; s.i.forEach(r=>{ const a=r.canal||'N/D'; m[a]=m[a]||{t:0,e:0}; m[a].t++; if(r.dtInicio&&r.dtSaida&&monthsBetween(r.dtInicio,r.dtSaida)<3) m[a].e++; });
+      const L=Object.entries(m).sort((a,b)=>b[1].e-a[1].e);
+      return `<b style="display:block;margin-bottom:6px">Saídas com menos de 3 meses de casa, por área</b>`+chRows(L.map(x=>`${chB(x[0])}: ${chN(x[1].e)} de ${x[1].t} saídas (${x[1].t?Math.round(x[1].e/x[1].t*100):0}%)`))+`<span class="ch-t">Como ler</span>Onde a porcentagem é maior, o começo da jornada está falhando mais. Veja também o card Onboarding de risco.`; }, r:['onboarding_risco','custo_cedo'] },
+{ id:'sem_promocao', abas:CH_ALL, nome:'Quem está há mais tempo sem promoção?',
+  k:['quem esta ha mais tempo sem promocao','mais tempo sem promocao','quem nunca foi promovido','sem promocao ha mais tempo','quem esta parado','quem esta estagnado','quem precisa de promocao'],
+  html:()=>{ const P=chMd(); if(!P.length) return chNoMdp();
+      const L=P.slice().sort((a,b)=>b.ult-a.ult).slice(0,6);
+      return `<b style="display:block;margin-bottom:6px">Maior tempo sem movimentação de cargo</b>`+chRows(L.map(p=>`${chB(chNm(p.nome))} · ${chEsc(chTit(p.cargo))} · ${chN(Math.round(p.ult)+' meses')} (${p.n?p.n+(p.n>1?' promoções':' promoção'):'nunca promovido(a)'})`))+`<span class="ch-t">Como ler</span>É o tempo desde a última movimentação (ou desde a admissão, se nunca teve). A lista completa está na aba MDP.`; }, r:['md_estag','md_nunca'] },
+{ id:'entrou_saiu_mes', abas:CH_ALL, nome:'Quem entrou e quem saiu neste mês?',
+  k:['quem entrou neste mes','quem saiu neste mes','quem entrou e quem saiu','quem entrou no mes','quem saiu no mes','quem foi desligado neste mes','quem foi contratado neste mes','entradas e saidas do mes','por que saiu'],
+  html:()=>{ const pop=chPop(), M=chMes(); if(!pop.length) return 'Ainda não há dados carregados.';
+      const e=chIn(M.s,M.t,pop), s=chOut(M.s,M.t,pop);
+      const lst=(a,f)=>a.length?chRows(a.slice(0,8).map(f))+(a.length>8?`<br>… e mais ${a.length-8}`:''):'Ninguém até agora.';
+      return `<b style="display:block;margin-bottom:6px">${M.lab[0].toUpperCase()+M.lab.slice(1)}: entradas e saídas</b><span class="ch-t">Entraram (${e.length})</span>${lst(e,r=>`${chB(chNm(r.nome))}${r.canal?' · '+chEsc(r.canal):''}`)}<span class="ch-t">Saíram (${s.length})</span>${lst(s,r=>`${chB(chNm(r.nome))} · ${chEsc((r.tipoSaida||'').toLowerCase()||'tipo não informado')}${r.motivo?' · '+chEsc(r.motivo):''}`)}`; }, r:['mudou_mes','tipo_motivo'] },
+{ id:'lideres_times', abas:CH_ALL, nome:'Quem responde a quem? Quantas pessoas tem cada líder?',
+  k:['quem responde ao','quem responde a','quem e o gestor','quem e o chefe','quem e a gestora','equipe do','time do','quem trabalha com','quantas pessoas tem cada lider','quantas pessoas tem cada gestor','tamanho de cada equipe','quem sao os lideres','quem sao os supervisores','gestor do','gestor da'],
+  html:(q)=>{ const L=chLeaders(); if(!L) return chNoMdp();
+      const nq=chNk(q); const asks=/(responde|gestor|gestora|chefe|equipe d|time d|trabalha com|reporta)/.test(nq);
+      if(asks){ const f=chPerson(q);
+          if(f.amb) return `Encontrei mais de uma pessoa com esse nome: ${f.amb.map(p=>chB(chNm(p.nome))).join(', ')}. Escreva o nome completo para eu achar.`;
+          if(f.p){ const p=f.p, kids=L.by.get(ogNk(p.nome))||[];
+              let h=(f.others&&f.others.length?`<span style="display:block;margin-bottom:8px;color:#c9b8ff;font-size:12px">Há mais de uma pessoa com esse nome (${f.others.map(o=>chEsc(chNm(o.nome))).join(', ')}). Mostrei a líder. Escreva o nome completo para ver outra.</span>`:'')+`<b style="display:block;margin-bottom:6px">${chEsc(chNm(p.nome))}</b>${chEsc(chTit(p.cargo))}`;
+              h+=`<span class="ch-t">Responde a</span>${p.gestor?chEsc(chNm(p.gestor)):'Ninguém (sócio)'}`;
+              if(kids.length) h+=`<span class="ch-t">Equipe (${L.tot(p)===kids.length?kids.length+' pessoa'+(kids.length>1?'s':''):kids.length+' direto'+(kids.length>1?'s':'')+', '+L.tot(p)+' no total'})</span>`+chRows(kids.slice(0,12).map(k=>chEsc(chNm(k.nome))+' · '+chEsc(chTit(k.cargo))))+(kids.length>12?`<br>… e mais ${kids.length-12}`:'');
+              return h; } }
+      const rows=L.leaders.map(p=>({p, d:(L.by.get(ogNk(p.nome))||[]).length, t:L.tot(p)})).sort((a,b)=>b.t-a.t);
+      return `<b style="display:block;margin-bottom:6px">Líderes e tamanho das equipes</b>`+chRows(rows.map(x=>`${chB(chNm(x.p.nome))} · ${chEsc(chTit(x.p.cargo))}: ${chN(x.d)} direto${x.d>1?'s':''}${x.t!==x.d?` (${x.t} no total)`:''}`))+`<span class="ch-t">Dica</span>Pergunte "quem responde ao Bruno?" ou "quem é o gestor da Jessica?" para ver uma pessoa.`; }, r:['org_mapa'] },
+{ id:'pessoas_por_cargo', abas:CH_ALL, nome:'Quantas pessoas tem em cada cargo?',
+  k:['quantas pessoas tem em cada cargo','pessoas por cargo','em cada cargo','quantos consultores','quantos assistentes','quantos supervisores','quantos analistas','quantos monitores','quantas pessoas no cargo','quantos backoffice','quantos operadores','distribuicao por cargo'],
+  html:(q)=>{ if(typeof cargosData==='undefined' || !cargosData.length) return chNoMdp();
+      const sing=t=>t.replace(/([rz])es$/,'$1').replace(/s$/,''), qt=chNk(q).split(' ').filter(t=>t.length>1 && !CH_STOP.has(t)).map(sing);
+      const grp=new Map(); cargosData.forEach(r=>{ const k=normKey(r.cargo); if(!grp.has(k)) grp.set(k,{nome:prettyCargo(r.cargo), n:0, tok:chNk(r.cargo).split(' ').filter(t=>t.length>1 && !CH_STOP.has(t)).map(sing)}); grp.get(k).n++; });
+      const all=[...grp.values()], vocab=new Set(all.flatMap(g=>g.tok)), qv=qt.filter(t=>vocab.has(t));
+      let hit=all.filter(g=>g.tok.length && g.tok.every(t=>qt.includes(t)));
+      if(hit.length){ const mx=Math.max(...hit.map(g=>g.tok.length)); hit=hit.filter(g=>g.tok.length===mx); }
+      else if(qv.length>=1 && qv.some(t=>!['de','da','do','a'].includes(t))){ hit=all.filter(g=>qv.every(t=>g.tok.includes(t))); if(hit.length===all.length) hit=[]; }
+      if(hit.length){ const tot=hit.reduce((a,g)=>a+g.n,0);
+          return `<b style="display:block;margin-bottom:6px">${tot} pessoa${tot>1?'s':''}</b>`+chRows(hit.sort((a,b)=>b.n-a.n).map(g=>`${chB(g.nome)}: ${chN(g.n)}`)); }
+      const L=all.sort((a,b)=>b.n-a.n);
+      return `<b style="display:block;margin-bottom:6px">Pessoas por cargo (${cargosData.length} no total, ${L.length} cargos)</b>`+chRows(L.slice(0,12).map(g=>`${chB(g.nome)}: ${chN(g.n)}`))+(L.length>12?`<br>… e mais ${L.length-12} cargos (veja na aba Cargos)`:''); }, r:['cargos_kpis','cargos_estacoes'] },
+/* ---- explicações extras ---- */
+{ id:'dif_retencao', abas:['geral','metas'], nome:'360 Retidos x Retenção 90 dias',
+  k:['360 retidos x retencao 90 dias','diferenca entre 360 retidos e retencao','360 retidos e retencao 90','360 retidos x retencao','qual a diferenca entre retencao','por que a retencao e diferente','retencao diferente'],
+  o:'São dois jeitos de medir retenção que parecem iguais e não são.',
+  c:'360 Retidos (Visão Geral): três anéis, de 90, 180 e 365 dias. Nos de 90 e 180 só entra quem foi contratado neste ano, e "retido" é quem está ativo hoje. Retenção 90 dias (Metas): considera todos que entraram há 90 dias ou mais, de qualquer ano, e conta como retido quem está ativo ou quem saiu depois de mais de 90 dias.',
+  l:'Por isso o 360 costuma dar um número menor: ele não perdoa quem ficou 4 meses e saiu. Use o 360 para acompanhar a turma deste ano e o das Metas para comparar com a meta de 90%.', r:['retidos360','retencao90'] },
+{ id:'dif_bases', abas:CH_ALL, nome:'Por que os números variam entre as abas?',
+  k:['por que a diversidade so mostra','43 pessoas','64 pessoas','headcount diferente','por que os numeros sao diferentes','numeros diferentes entre abas','diferenca entre abas','por que cargos tem mais pessoas','por que nao bate'],
+  o:'As abas usam duas fontes de dados diferentes.',
+  c:'Visão Geral, Equipes, Metas, Diversidade e Riscos usam o Turnover comercial (só o comercial) mais a Base de Entrevistas. Cargos, MDP e Organograma usam a Base da empresa, com a empresa inteira (comercial, administrativo, RH, qualidade e os sócios no organograma).',
+  l:'Por isso o comercial tem menos pessoas do que a empresa toda. Os dois números estão certos: respondem a perguntas diferentes.',
+  now:()=>{ const s=chS(); const n=(typeof cargosData!=='undefined')?cargosData.length:0; return `comercial no filtro atual: <em>${s.a.length}</em> ativos · empresa toda (Base da empresa): <em>${n}</em> ativos`; }, r:['headcount','cargos_kpis'] },
+{ id:'md_promocao_def', abas:['mdp','equipes','riscos'], nome:'O que conta como promoção?',
+  k:['o que conta como promocao','o que e promocao','o que e considerado promocao','ajuste interno','conta como promocao','o que e uma promocao'],
+  o:'Para o dashboard, promoção é uma mudança de cargo registrada na aba Movimentações da Base da empresa.',
+  c:'Contam como promoção os tipos "Subida de nível" (por exemplo de Assistente I para II) e "Troca de cargo/função". O tipo "Sem troca de cargo (ajuste interno)" não conta.',
+  l:'Se uma movimentação não está aparecendo como promoção, confira o campo Tipo dela na planilha.', r:['md_nunca','md_ano'] },
+{ id:'como_promovido', abas:['mdp','cargos','organograma'], nome:'Como o dashboard sabe quem foi promovido ou recontratado?',
+  k:['como o dashboard sabe','como sabe quem foi promovido','recontratado','recontratada','voltou para a empresa','readmitido','contratado duas vezes','historico da pessoa','de onde vem as promocoes'],
+  o:'Tudo vem da Base da empresa, que o RH mantém.',
+  c:'Cada troca de cargo é uma linha na aba Movimentações (data, cargo anterior, cargo novo e tipo). A aba Pessoas tem uma linha por pessoa. Quem foi contratado duas vezes aparece hoje com a primeira passagem, por decisão do RH.',
+  l:'Se uma pessoa está com a trajetória errada, o ajuste é feito na planilha e carregado de novo pelo botão "Base da empresa".', r:['base_empresa','md_promocao_def'] }
+];
+CH_NEW.forEach(e=>CH_KB.push(e));
+
 /* ===== Chat do People Copilot: motor e tela ===== */
 const CH_STOP = new Set('o a os as um uma uns umas de da do das dos em no na nos nas por para pra com sem que e eh ou se me te nao sim isso esse essa este esta isto aquele aquela ele ela seu sua meu minha qual quais quanto quantos quantas como onde quando porque pq por favor poderia pode voce vc fala falar significa significado quer dizer explica explicar explique entender entendo indicador indicadores card cartao grafico numero sobre mais mim aqui aba'.split(' '));
 const chNk = s => String(s||'').normalize('NFD').replace(/[̀-ͯ]/g,'').toLowerCase().replace(/[^a-z0-9 ]/g,' ').replace(/\s+/g,' ').trim();
@@ -5201,8 +5364,7 @@ function chMatch(q){
 }
 function chTabNow(){ return chState.tab; }
 function chSuggest(tab){
-    const own = CH_KB.filter(e=>e.abas[0]===tab || e.abas.includes(tab));
-    return own.slice(0,4);
+    return CH_KB.filter(e=>!e.html && (e.abas[0]===tab || e.abas.includes(tab))).slice(0,4);
 }
 function chFilters(){
     const t = chState.tab;
@@ -5211,7 +5373,8 @@ function chFilters(){
     const m=g('filterMonth')||'Todos os meses', y=g('filterYear')||'Todos os anos', a=g('filterArea');
     return [m, y, (!a || /^Total/i.test(a)) ? 'Todas as áreas' : a];
 }
-function chAnswer(e){
+function chAnswer(e,q){
+    if(e.html){ let h=''; try{ h=e.html(q||e.nome); }catch(x){ console.error(x); h='Não consegui calcular isso agora. Confira se os dados estão carregados.'; } let now=''; try{ now=e.now?e.now():''; }catch(_){} return h + (now?`<span class="ch-now">Hoje: ${now}</span>`:''); }
     let h = `<b style="display:block;margin-bottom:6px">${chEsc(e.nome)}</b>`;
     if(!e.abas.includes(chState.tab)) h += `<span style="display:block;margin-bottom:8px;color:#c9b8ff;font-size:12px">Esse indicador fica na aba ${chEsc(CH_TABS[e.abas[0]])}.</span>`;
     h += `<span class="ch-t">O que é</span>${chEsc(e.o)}<span class="ch-t">Como é calculado</span>${chEsc(e.c)}<span class="ch-t">Como ler</span>${chEsc(e.l)}`;
@@ -5231,8 +5394,20 @@ function chSetChips(items){
     const sg = document.getElementById('chSg'); if(!sg) return;
     sg.innerHTML = items.map(x=>`<button type="button" data-chid="${chEsc(x.id)}">${chEsc(x.label||x.nome)}</button>`).join('');
 }
+function chLogGet(){ try{ return JSON.parse(localStorage.getItem('fp_chat_sem_resposta')||'[]'); }catch(_){ return []; } }
+function chLogAdd(q){ try{ const L=chLogGet(); const k=chNk(q); const f=L.find(x=>chNk(x.q)===k); if(f){ f.n=(f.n||1)+1; f.t=Date.now(); } else L.push({q:String(q).slice(0,200), tab:chState.tab, n:1, t:Date.now()}); localStorage.setItem('fp_chat_sem_resposta', JSON.stringify(L.slice(-200))); }catch(_){} }
+function chIsMaster(){ try{ return getAuthRole()==='master'; }catch(_){ return false; } }
 function chSugTab(){
-    chSetChips(chSuggest(chState.tab).map(e=>({id:e.id, label:e.nome})));
+    const items=[{id:'resumo_mes',label:CH_BY.resumo_mes.nome},{id:'olhar_primeiro',label:CH_BY.olhar_primeiro.nome}];
+    chSuggest(chState.tab).slice(0,2).forEach(e=>items.push({id:e.id,label:e.nome}));
+    if(chIsMaster() && chLogGet().length) items.push({id:'__log', label:'Perguntas sem resposta ('+chLogGet().length+')'});
+    chSetChips(items);
+}
+function chShowLog(){
+    const L=chLogGet().sort((a,b)=>(b.n||1)-(a.n||1)||b.t-a.t);
+    if(!L.length){ chAdd('bot','Nenhuma pergunta ficou sem resposta neste navegador até agora.'); return; }
+    chAdd('bot','<b style="display:block;margin-bottom:6px">Perguntas que eu não soube responder (neste navegador)</b>'+L.slice(0,25).map(x=>`• ${chEsc(x.q)} <span style="color:#c9b8ff">(${x.n||1}x · aba ${chEsc(CH_TABS[x.tab]||x.tab)})</span>`).join('<br>')+'<span class="ch-t">O que fazer</span>Me mande essa lista que eu cadastro as respostas. Depois toque em "Limpar lista".');
+    chSetChips([{id:'__clear',label:'Limpar lista'}]);
 }
 function chReply(userText, forcedId){
     const body = document.getElementById('chBody');
@@ -5240,7 +5415,10 @@ function chReply(userText, forcedId){
     setTimeout(()=>{
         if(typing) typing.remove();
         const nq = chNk(userText);
-        if(forcedId){ const e=CH_BY[forcedId]; chAdd('bot', chAnswer(e)); chSetChips(chRelated(e)); return; }
+        if(forcedId==='__log'){ chShowLog(); return; }
+        if(forcedId==='__clear'){ try{ localStorage.removeItem('fp_chat_sem_resposta'); }catch(_){} chAdd('bot','Lista limpa.'); chSugTab(); return; }
+        if(forcedId){ const e=CH_BY[forcedId]; chAdd('bot', chAnswer(e, e.nome)); chSetChips(chRelated(e)); return; }
+        if(chIsMaster() && /perguntas sem resposta/.test(nq)){ chShowLog(); return; }
         if(/^(oi|ola|bom dia|boa tarde|boa noite|e ai|opa|hey|hello)( .*)?$/.test(nq)){ chAdd('bot','Oi! Pergunte sobre qualquer indicador da aba em que você está. Eu explico o que é, como é calculado e como ler.'); chSugTab(); return; }
         if(/^(obrigad|valeu|muito bom|perfeito|show|legal|beleza|ok)/.test(nq)){ chAdd('bot','Por nada! Se quiser entender outro indicador, é só perguntar.'); chSugTab(); return; }
         if(/(o que tem|quais indicadores|o que posso perguntar|o que voce explica|o que eu posso|indicadores d(esta|essa|a) aba|o que (tem|ha) (aqui|nessa aba|nesta aba))/.test(nq)){
@@ -5248,9 +5426,10 @@ function chReply(userText, forcedId){
             chSetChips(CH_KB.filter(e=>e.abas.includes(chState.tab)).slice(0,8).map(e=>({id:e.id,label:e.nome}))); return; }
         const m = chMatch(userText);
         if(!m){
-            chAdd('bot','Ainda não sei explicar isso. Eu entendo os indicadores do dashboard: tente o nome do card, por exemplo <b>turnover</b>, <b>CAC</b> ou <b>360 Retidos</b>. Veja alguns desta aba:');
+            chLogAdd(userText);
+            chAdd('bot','Ainda não sei responder isso. Eu explico os indicadores do dashboard e consulto os números: tente o nome do card, por exemplo <b>turnover</b>, <b>CAC</b> ou <b>360 Retidos</b>, ou peça um resumo do mês. Anotei a sua pergunta para a equipe me ensinar.');
             chSugTab(); return; }
-        chAdd('bot', chAnswer(m.e));
+        chAdd('bot', chAnswer(m.e, userText));
         const chips = chRelated(m.e);
         if(m.other){ chAdd('bot',`Pode ser que você queira saber sobre <b>${chEsc(m.other.nome)}</b>. Toque abaixo se for esse.`); chips.unshift({id:m.other.id,label:m.other.nome}); }
         chSetChips(chips.slice(0,4));
@@ -5282,7 +5461,7 @@ function chOpen(){
 function chClose(){ chState.open=false; chRender(); }
 function chOnView(name){
     chState.tab = name; chRender();
-    if(chState.started) { const last=document.getElementById('chSg'); chSugTab(); }
+    if(chState.started) chSugTab();
 }
 function chInit(){
     if(document.getElementById('chPan')) return;
@@ -5299,7 +5478,7 @@ function chInit(){
     document.getElementById('chX').addEventListener('click', chClose);
     document.getElementById('chGo').addEventListener('click', ()=>{ const i=document.getElementById('chIn'); const v=i.value; i.value=''; chAsk(v); });
     document.getElementById('chIn').addEventListener('keydown', e=>{ if(e.key==='Enter'){ e.preventDefault(); const i=e.target; const v=i.value; i.value=''; chAsk(v); } if(e.key==='Escape') chClose(); });
-    document.getElementById('chSg').addEventListener('click', e=>{ const b=e.target.closest('button[data-chid]'); if(!b) return; const en=CH_BY[b.dataset.chid]; if(en) chAsk(en.nome, en.id); });
+    document.getElementById('chSg').addEventListener('click', e=>{ const b=e.target.closest('button[data-chid]'); if(!b) return; const id=b.dataset.chid; if(id==='__log'||id==='__clear'){ chAsk(b.textContent, id); return; } const en=CH_BY[id]; if(en) chAsk(en.nome, en.id); });
     document.addEventListener('click', e=>{ if(e.target.closest('.ch-open')) chOpen(); });
     ['filterMonth','filterYear','filterArea'].forEach(id=>{ const el=document.getElementById(id); if(el) el.addEventListener('change', ()=>setTimeout(chRender,0)); });
     chRender();
